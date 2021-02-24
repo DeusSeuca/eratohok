@@ -1,0 +1,365 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@EVENT_DAILY_GAIRAI_EXPERIMENT_RATE()
+RETURN 40
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@EVENT_DAILY_GAIRAI_EXPERIMENT_DECISION()
+#DIM 外来人
+
+外来人 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_外来人))
+SIF 外来人 == -1 || 外来人 == CFLAG:MASTER:所属
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@EVENT_DAILY_GAIRAI_EXPERIMENT_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@EVENT_DAILY_GAIRAI_EXPERIMENT()
+#DIM 対象
+#DIM 外来人
+#DIM 勢力番号
+
+外来人 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_外来人))
+
+PRINTFORML 找到了一个外来人的实验设施
+PRINTFORML 看了附近的村民们，好像进行了非人道的实验
+PRINTFORMW 怎麼辦？
+CALL ASK_YN("潜入调查", "算了吧")
+IF RESULT == 1
+	PRINTFORMW 作罷
+ELSE
+	PRINTFORML 不能置之不理
+	PRINTFORML 决定潜入后破坏这个设施
+	PRINTFORMW 让谁潜入呢？
+	CALL SINGLE_DRAWLINE
+	CALL SELECT_CHARA_LIST_ONLY_LOGIC_SEX("GAIRAI_EXPERIMENT", "GAIRAI_EXPERIMENT")
+	対象 = RESULT
+	IF 対象 == -1
+		PRINTFORML ……哦，还是太危险了
+		PRINTFORMW 决定还是不去了
+		RETURN -1
+	ELSE
+		IF 対象 == MASTER
+			PRINTFORMW %ANAME(対象)%决定自己潜入进去
+		ELSE
+			PRINTFORMW %ANAME(対象)%决定潜入
+		ENDIF
+		PRINTFORML ・
+		PRINTFORML ・
+		PRINTFORMW ・
+		IF (ABL:対象:武闘 + ABL:対象:知略) / 10 > RAND:10 + 11
+			PRINTFORML 完成！
+			PRINTFORMW 成功潜入后 %ANAME(対象)%我成功地破坏了那个设施
+			FOR LOCAL, 1, MAX_COUNTRY
+				SIF LOCAL != 外来人 && IS_COUNTRY(LOCAL)
+					CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:1, 100, -100)
+			NEXT
+			CALL COLOR_PRINT("这个成果得到了其他势力的好评", カラー_注意)
+			PRINTFORMW 
+			CALL CHANGE_RELATION_C_TO_C(外来人, CFLAG:MASTER:1, -500, 500)
+			CALL COLOR_PRINT("但是却成了外来人们的眼中钉", カラー_警告)
+			PRINTFORMW 
+		ELSE
+			PRINTFORML 糟糕！
+			PRINTFORML 潜入作战失败了%ANAME(対象)%被抓住了
+			PRINTFORMW 外来人决定把这个侵袭者做为新发明的实验台
+			IF IS_FEMALE(対象)
+				CALL GAIRAI_SPY_RAPE(対象)
+				PRINTFORML 
+				PRINTFORMW 被侵犯了之后、%ANAME(対象)%总算逃出来了
+			ELSE 
+				PRINTFORML
+				PRINTFORMW 被弄得一塌糊涂的%ANAME(対象)%，总算逃了出来
+			ENDIF
+			FOR LOCAL, 0, CHARANUM
+				IF CFLAG:(LOCAL):所属 == 外来人 && !IS_ANIMAL(LOCAL) && TALENT:LOCAL:特殊勢力素質 == 特殊勢力_外来人
+					ABL:LOCAL:武闘 += (RAND:3 + 1)
+					ABL:LOCAL:知略 += (RAND:3 + 1)
+					ABL:LOCAL:政治 += (RAND:3 + 1)
+				ENDIF
+			NEXT
+			CALL COLOR_PRINT("但是实验数据强化了他们的力量", カラー_ピンク)
+			PRINTFORMW 
+		ENDIF
+	ENDIF
+ENDIF
+
+RETURN 1
+
+;-----------------------------------------------
+;実験調教
+;-----------------------------------------------
+@GAIRAI_SPY_RAPE(ARG:0)
+#DIM 外来人
+#DIM 勢力番号
+
+外来人 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_外来人))
+
+PRINTFORML 
+SELECTCASE RAND:28
+	CASE 0
+		PRINTFORML %ANAME(ARG:0)%在被外来人包围的同时、一边露出狼狈的脸、一边表演自慰
+		PRINTFORML %ANAME(ARG:0)%的手指疯狂又激烈的在蜜壶中来回搅拌、咕嗤咕嗤的可爱声音和爱液一同飞散
+		PRINTFORML 他们一边在观察其姿态%ANAME(ARG:0)%就新开发药物的效果进行了平淡的讨论
+		PRINTFORML 脑袋都快飞起来了%ANAME(ARG:0)%即使是实验动物也没关系、一直在充满肉欲的状态下持续自慰直到数次绝顶
+		PRINTFORMW 最后手指变得不够用了、%ANAME(ARG:0)%开始寻求男根、他们才聚集起来一起侵犯了她
+		CALL FUCK_SP(ARG:0, "自慰, 自慰, 自慰, 性技, 性交, 奉仕, 欲望, 輪姦, 口淫, Ｃ, Ｃ, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+	CASE 1
+		PRINTFORML %ANAME(ARG:0)%被一只体形巨大的狗压在地上激烈的侵犯、激烈的交合让她喘得快透不过气来了
+		PRINTFORML 外来人对%ANAME(ARG:0)%使用了特制的排卵药物、为了让另一种生物-也就是说狗-的小孩也能顺利怀上的实验
+		PRINTFORML %ANAME(ARG:0)%虽然拼命挣扎，但在凶恶的肉棒下，每当子宫被冲撞的时候，就会情不自禁地颤抖着发出高昂的娇喘
+		PRINTFORML 狗为了让这只雌性怀孕而激烈地挥动着腰、在这野性的交尾下%ANAME(ARG:0)%的身体被不可否认的教育着
+		PRINTFORMW 两只动物的交配一直持续到外来人满意为止、最后%ANAME(ARG:0)%的秘所被灌注了多到从阴道中大量溢出的种子
+		CALL FUCK_SP(ARG:0, "性技, 性交, 精愛, 欲望, 獣姦, Ｖ, Ｖ, Ｖ, Ｍ, Ｖ性交", "処女喪失, 接吻喪失 膣内射精", 勢力番号, GET_SPERM_ID("犬"), @"犬の\@ RAND:2 ? 唇 # 肉棒 \@", "犬", "", "強姦")
+	CASE 2
+		PRINTFORML 被剥光衣服赤裸裸的%ANAME(ARG:0)%在台座上被拘束着摆成一个大字、扭捏着身体喘着气
+		PRINTFORML 的胸部被安上了搾乳机、然后胸前的机器运作了起来，开始以振动的低鸣和剧烈的挤压一起榨取母乳
+		PRINTFORML 被改造成了奶牛、%ANAME(ARG:0)%从胸前喷出了大量的鲜美乳汁、不远处的储存罐中已经积存了一升牛奶
+		PRINTFORML %ANAME(ARG:0)%在机器不断给予的刺激下、完全无法从绝顶中恢复过来、在接连的高潮里喘不过气来、下半身毫无节制的顺应着绝顶不停潮吹
+		PRINTFORMW 在被榨取到极限并终于从机械上解放下来后、%ANAME(ARG:0)%那已经高潮到乱七八糟的身体也继续被外来人们责弄着
+		CALL FUCK_SP(ARG:0, "噴乳, 噴乳, 噴乳, 性技, 性交, 欲望, 精愛, 輪姦, 口淫, Ｃ, Ｖ, Ｂ, Ｂ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+		CALL SET_BUSTSIZE(ARG:0, 2)
+		TALENT:(ARG:0):母乳体質 = 1
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%变成了爆乳", カラー_ピンク)
+		PRINTFORML 
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%变成了母乳体質", カラー_ピンク)
+		PRINTFORMW 
+	CASE 3
+		PRINTFORML 在实验室冰冷的灯光下、被巨大的机器所包围并捕获%ANAME(ARG:0)%被粗暴的侵犯着
+		PRINTFORML 手脚被拘束着无法动弹、粗长的假阳具顶入了雌穴、每一次突刺都会将阴道挖成一个难以复原的孔洞%ANAME(ARG:0)%哭着发出娇喘声
+		PRINTFORML 作为健康的女性被选中并送上了新发明的雌调教机器试验台%ANAME(ARG:0)%一直在连绵不断地进行着高强度的实验
+		PRINTFORML 被毫不留情的挖开阴道、雌穴被摧毁着、反复进行压迫%ANAME(ARG:0)%已经如同坏掉的人偶一样、正因为肉体被重复的蹂躏而痉挛
+		PRINTFORMW 外来人在实验之后、%ANAME(ARG:0)%身体的调教状态还需要检查、为了确认调教的效果、外来人对新的性玩具开始随意侵犯
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 口淫, 輪姦, Ｃ, Ｖ, Ｖ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "機械", "", "強姦")
+	CASE 4
+		PRINTFORML 在实验室冰冷的灯光下、被以大字型固定在台座上%ANAME(ARG:0)%的悲痛的娇声回响着
+		PRINTFORML %ANAME(ARG:0)%的乳头和阴核上被安装上了文胸状的机械手臂、冷硬的机器运作着，毫不留情的将剧烈的振动传递到弱点上
+		PRINTFORML 向着被涂上药剂后突起的弱点发起了毫无慈悲的猛烈刺激、%ANAME(ARG:0)%的脑袋被快感冲刷得一片空白、娇躯颤抖不已
+		PRINTFORML 住手！原谅我！一边潮吹一边大声哀鸣着%ANAME(ARG:0)%的惨状被外来人们忽视了、他们只是平静的记录下了她的姿态
+		PRINTFORMW 不久就因为连续的高潮冲击而晕了过去%ANAME(ARG:0)%因为外来人们突然没了兴趣、而作为慰安妇提供给下层的士兵们享用
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 欲望, 精愛, 口淫, 輪姦, Ｃ, Ｃ, Ｖ, Ｂ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+		TALENT:(ARG:0):Ｃ敏感 = 1
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%はＣ敏感になった", カラー_ピンク)
+		PRINTFORMW 
+	CASE 5
+		PRINTFORML %ANAME(ARG:0)%被一个男人侵犯着、一边荒谬地发出越来越响亮的咕嗤咕嗤声绝顶了
+		PRINTFORML 现在整个身体比以前都敏感了数百倍%ANAME(ARG:0)%这样、即使只是轻轻的触摸皮肤也会很快高潮绝顶
+		PRINTFORML 肉棒每一次出入都会让颅内感觉到炸裂般的快乐%ANAME(ARG:0)%在快感的袭击中、身体不由自主的弹跳起来
+		PRINTFORML 拼命的忍耐着、因为不想失败坚持着%ANAME(ARG:0)%但是、不断承受着雌穴中传来的暴动、终于在无法忍受后露出了放荡的阿嘿颜
+		PRINTFORMW 最后失去了理智、只剩肉体随着快感弹跳着%ANAME(ARG:0)%对此、男人只是平淡的对她的弱点继续进攻并观察
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 欲望, 精愛, 奉仕, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+	CASE 6
+		PRINTFORML %ANAME(ARG:0)%她抱着如同满月一样膨胀的腹部爬在地板上、发出难以忍受的痛苦呻吟
+		PRINTFORML 两个穴中都被插入了管子、从中涌出了大量的精液%ANAME(ARG:0)%即使已经装满了，也依然无休止的继续灌输着、装填到躯体中
+		PRINTFORML 在腹部即将破裂的苦痛里面%ANAME(ARG:0)%一边流着汗、一边向外来人们请求、自己已经抵达极限了
+		PRINTFORML 但是实验依然毫不留情的继续下去、没多久%ANAME(ARG:0)%的口中开始涌出白浊的精液、身体也开始痛苦的痉挛起来
+		PRINTFORMW 艰难的拔出了深入雌穴的管道、但在拔出的一瞬间、极具气势的精液涌溢而出、受到这突如其来的冲击%ANAME(ARG:0)%忍不住连续数次绝顶
+		CALL FUCK_SP(ARG:0, "欲望, 排泄, Ｖ拡張, Ａ拡張, Ｖ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 膣内射精, 腸内射精", 勢力番号, GET_SPERM_ID("外来人"), "", "機械姦", "", "強姦")
+	CASE 7
+		PRINTFORML 被抓住的%ANAME(ARG:0)%与人形机器合为一体、作为他们的奴隶而开始了生活
+		PRINTFORML 被像穿西服一样被机器取走、在蜜穴里插入了机械的阳具、拧入到阴道深处的肉棒让人完全无法逃脱
+		PRINTFORML %ANAME(ARG:0)%每次反抗的时候人形机器都会搂紧她的娇躯并开始激烈的活塞运动、直到顺从才会停下来
+		PRINTFORML 就这样过了几天之后%ANAME(ARG:0)%被调教得彻底顺从了、沦落在无时不刻的快感中、自觉的将自己当作机器的一部分
+		PRINTFORMW 之后终于从机械中被解放出来的%ANAME(ARG:0)%对阴道里没有任何东西感到很不适应、于是主动向外来人索求
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 奉仕, 輪姦, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "機械", "", "強姦")
+	CASE 8
+		PRINTFORML %ANAME(ARG:0)%被戴上了一个奇怪的项圈从而作为性奴隶而饲养着
+		PRINTFORML 拒绝奉仕就会从项圈中涌出惩罚的电流、%ANAME(ARG:0)%在反省以及道歉之前、都被给予了强烈的痛楚
+		PRINTFORML 另一方面、如果顺从的奉仕则会被注射媚药、%ANAME(ARG:0)%在不知不觉中渐渐被溶化了坚持的心
+		PRINTFORML 在被这样度过的日子里%ANAME(ARG:0)%从喜悦中完全追随他们、并且彻底顺从了
+		PRINTFORMW 即使是取下了项圈%ANAME(ARG:0)%也依然保持着顺从、因为子宫的淫疼而感到喜悦、高兴的打开了身体
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 奉仕, 奉仕, 奉仕, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交", "処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+	CASE 9
+		PRINTFORML %ANAME(ARG:0)%被外来人包围着、躺在地上发出难以忍受的娇喘
+		PRINTFORML 雄壮的阳根伫立在股间、%ANAME(ARG:0)%一边垂落着口水一边入迷的捋动着股间的巨物
+		PRINTFORML 像猴子一样持续自慰的%ANAME(ARG:0)%的样子看来、外来人们确信实验确实成功了、相互点了点头
+		PRINTFORML 身体被不合理改造的愤怒和屈辱都被快乐冲刷的一干二净%ANAME(ARG:0)%之后也在持续的喷撒精液和潮吹
+		PRINTFORMW 那副淫靡的模样令外来人也难以忍受、称为实验%ANAME(ARG:0)%集群出来了
+		TALENT:(ARG:0):性別 = 2
+		SETBIT TALENT:(ARG:0):淫乱系, 素質_淫乱_射精狂い
+		CALL FUCK_SP(ARG:0, "自慰, 自慰, 性技, 性交, 射精, 射精, 欲望, 輪姦, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%はふたなりになった", カラー_ピンク)
+		PRINTFORML 
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%は射精狂いになった", カラー_ピンク)
+		PRINTFORMW 
+	CASE 10
+		PRINTFORML 在椅子上拘束着的%ANAME(ARG:0)%被装上头部机械、一边垂着粉嫩的舌头一边喘息着
+		PRINTFORML 头部装置里发出具有催眠效果的音效和光影、将被试验者的意识重新涂刷成方便外来人使用的样子
+		PRINTFORML 一直在抵抗的%ANAME(ARG:0)%也立刻被支配了意识、配合着发出的刺激、身体无意识的随着起伏的刺激发生痉挛
+		PRINTFORML 在洗脑结束的时候%ANAME(ARG:0)%立刻被派送到非常优秀的雌奴隶处进行调教、学会了像发情的母狗那样向外来人索求肉棒
+		PRINTFORMW 他们对这个情况非常满意%ANAME(ARG:0)%把身体推倒了在一起、并将肉棒拧入了身体深处
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 奉仕, 輪姦, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+	CASE 11
+		PRINTFORML 耳朵被插入了一条细管%ANAME(ARG:0)%在外来人的肉棒上跨坐着、激烈的扭动着腰部
+		PRINTFORML 虽然那个表情充满了屈辱的死盯着他、但身体%ANAME(ARG:0)%の违背了自己的意愿正在奉仕着肉棒
+		PRINTFORML %ANAME(ARG:0)%钻进耳朵深处的电线给大脑传递了来自敌人的刺激、她的身体一直被控制在他们的想象中
+		PRINTFORML 外来人发出了绝顶的命令、%ANAME(ARG:0)%的全身如同被微弱的电流爬过一样、令全身麻痹的快乐在身上奔跑、令她一下子突然绝顶了
+		PRINTFORMW 他们看着她一边绝顶、一边拼命抵抗%ANAME(ARG:0)%被产生了兴趣、在这之后也充分而持续的责弄着那个被操控的身体
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 欲望, 精愛, 奉仕, Ｃ, Ｖ, Ｖ, Ｂ, Ｍ, Ｖ性交", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+	CASE 12
+		PRINTFORML %ANAME(ARG:0)%的头上佩戴了一个头盔状的机械装置、身体被拘束在实验台上、正被外来人侵犯着
+		PRINTFORML 头盔里能看到自己子宫的横截面、%ANAME(ARG:0)%因为眼前的影像过分羞耻和屈辱而满脸潮红、娇躯轻颤着
+		PRINTFORML 可是%ANAME(ARG:0)%被面前的影像深深的吸引了、紧盯着自己被强奸的样子、在兴奋中下意识的紧勒着膣道
+		PRINTFORML 外来人突然在膣道内射出了精液、%ANAME(ARG:0)%因为在眼前的影像和子宫中毫不留情的冲击感而绝顶了
+		PRINTFORMW 之后在被轮流侵犯的时候%ANAME(ARG:0)%的厌恶感逐渐被冲刷干净、自觉的晃动着腰身迎合了起来
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 奉仕, 露出, Ｃ, Ｖ, Ｖ, Ｂ, Ｖ性交", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+	CASE 13
+		PRINTFORML %ANAME(ARG:0)%被以一种赤裸裸的状态拘束着、并且被苦闷的激烈拍打着臀部
+		PRINTFORML 屁股虽然被打得又红又肿了、但在痛苦的同时、从秘所处流淌下来的爱液积成了一处小水洼
+		PRINTFORML %ANAME(ARG:0)%之前已经被迫服下了能将疼痛转化为快乐的药物、现在正作为被虐待的母猪进行着痛苦调教
+		PRINTFORML %ANAME(ARG:0)%虽然对身体感觉的逐渐变化感到疑惑、但在痛苦的喘气声中却慢慢混合了欢愉的呻吟、并使得腰部也开始随着拍打扭动起来
+		PRINTFORMW 最后等到他们掏出肉棒时、%ANAME(ARG:0)%的忍耐已经抵达了极限、开始自暴自弃的索求着他人的侵犯
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 緊縛, 奉仕, 輪姦, 口淫, 苦痛快楽, 被虐, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+		SETBIT TALENT:(ARG:0):淫乱系, 素質_淫乱_マゾ
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%はマゾになった", カラー_ピンク)
+		PRINTFORMW 
+	CASE 14
+		PRINTFORML 被他们抓住之后开始了不眠不休的机械调教%ANAME(ARG:0)%的身体在地面上匍匐着、娇躯随着刺激不断颤抖
+		PRINTFORML 被注入了大量的媚药%ANAME(ARG:0)%的身体偶尔也会被刺激责弄得突然抬起腰身并开始痉挛、被印刻上快乐的高潮记忆
+		PRINTFORML 蜜壷的爱液随着一张一合的阴道口不断往下滴落、旁人能从张合蠕动的雌穴中清楚的看见子宫口
+		PRINTFORML 但是外来人对这样的%ANAME(ARG:0)%仅有淡淡的兴趣、因此着手调整了一番机器、然后重新开始新的一轮调教
+		PRINTFORMW %ANAME(ARG:0)%的眼中已经再也看不到恐惧和痛苦了、只剩下心中溢出的快乐♥和满脸的期待
+		CALL FUCK_SP(ARG:0, "欲望, 欲望, 欲望, 緊縛, 苦痛快楽, 被虐, Ｃ, Ｃ, Ｖ, Ｖ, Ｂ, Ｂ, Ａ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 膣内射精, 腸内射精", 勢力番号, GET_SPERM_ID("外来人"), @"", "機械", "", "強姦")
+	CASE 15
+		PRINTFORML 以一种方便进行尻穴调教的、四肢着地爬行的姿态被拘束、%ANAME(ARG:0)%发着不成声的苦闷呻吟
+		PRINTFORML %ANAME(ARG:0)%的尻穴被用皮带固定住、内部正在被猛烈的冲击不断挤压着
+		PRINTFORML 被进行了对肠道内感觉的敏感化改造%ANAME(ARG:0)%面对着一种强烈到能直冲天灵盖的挤压冲击所形成的袭击
+		PRINTFORML %ANAME(ARG:0)%即使已经绝顶潮吹调教也依然在继续、%ANAME(ARG:0)%由于过度的刺激而精神恍惚、即使昏迷也会在强烈的冲击刺激下醒来、循环往复
+		PRINTFORMW 实验结束后、一边露出阿嘿颜一边翻滚到地上的%ANAME(ARG:0)%的尻穴已经很难再度闭合了、张开的菊花轻微的颤抖着
+		CALL FUCK_SP(ARG:0, "欲望, 欲望, 精愛, 苦痛快楽, 被虐, Ａ, Ａ, Ａ, Ａ性交", "Ａ処女喪失", 勢力番号, , @"", "機械", "", "強姦")
+	CASE 16
+		PRINTFORML 被栓在锁链上的%ANAME(ARG:0)%正在被长出巨大肉棒的村娘按住并且侵犯着
+		PRINTFORML 在反复的残酷实验中失去理智的村娘、乱七八糟的身体上还依稀能看到实验的痕迹、一边滴落着口水一边粗暴的侵犯%ANAME(ARG:0)%被巨大肉棒不断挖开的膣肉
+		PRINTFORML 村娘的身体倒向%ANAME(ARG:0)%两具肉体贴合在一起、如果咬紧牙关阻止村娘索取的吻、那么村娘的腰部就会开始贪婪的大力晃动起来、啪啪的撞击着腰腹
+		PRINTFORML 外来人一边观察着他们淫乱地缠绕在一起的身躯、一边交谈着女同士也能怀孕的话题
+		PRINTFORMW 为了确认实验的结果、%ANAME(ARG:0)%后来也经常被分配给的不同futa村娘、被重复进行着性交播种
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 口淫, 百合, 百合, 百合, 輪姦, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"村娘の\@ RAND:2 ? 唇 # 肉棒 \@", "村娘", "", "強姦")
+	CASE 17
+		PRINTFORML 被换上了卑猥下流的服装、栓在床上%ANAME(ARG:0)%被一个中年男性抱住了身体
+		PRINTFORML 被外来人们的赞助商所喜爱的%ANAME(ARG:0)%由于他的意愿、胸部被改造成如奶牛一样的胸
+		PRINTFORML %ANAME(ARG:0)%虽然对自己现在的身体感到惊讶、但依然想拼命躲开粗暴逼近的他而扭动着身体
+		PRINTFORML 然而、这种软弱无力的抵抗却令他更加兴奋起来、很快就被抓住两边胸部、开始激烈的挤压蹂躏起来、很快就变得乱七八糟了
+		PRINTFORMW 已经非常敏感的胸部在搓揉中迎来了绝顶、%ANAME(ARG:0)%被一直反复责弄、直到赞助商厌恶为止
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 輪姦, 口淫, Ｃ, Ｖ, Ｂ, Ｂ, Ｂ, Ｍ, Ｖ性交", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+		CALL SET_BUSTSIZE(ARG:0, 2)
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%は爆乳になった", カラー_ピンク)
+		PRINTFORMW 
+	CASE 18
+		PRINTFORML 穿上了如同娼婦一样卑猥下流的衣服%ANAME(ARG:0)%站立在歓楽街一个角落之中
+		PRINTFORML %ANAME(ARG:0)%把自己淫靡的媚笑抛送给每一个路过的男性、淫乱地扭动腰肢臀股、邀请他们买下饥渴的自己
+		PRINTFORML 因为外来人的洗脑装置%ANAME(ARG:0)%已经认为自己是一个喜爱肉棒的淫乱娼婦了
+		PRINTFORML 被一个男人买下的%ANAME(ARG:0)%愉快的笑着、刚把他带至路地裏就急忙的将他的肉棒含在湿到一塌糊涂的秘所深处
+		PRINTFORMW %ANAME(ARG:0)%此后也被远处的外来人操纵着诱惑着男人、一直到早上、身体里已经被注入了几十发精液
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 奉仕, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交, 売春", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@ RAND:2 ? 唇 # 肉棒 \@", "偶遇的男人", "", "売春")
+	CASE 19
+		PRINTFORML 在阴暗的地下牢中、%ANAME(ARG:0)%被有着可怕外型的怪物侵犯着
+		PRINTFORML 这是以流浪妖怪为素体改造而成的生物、不过因为费用是个难以避开的难点、%ANAME(ARG:0)%的子宫已经被计划用于批量生产这种生物
+		PRINTFORML %ANAME(ARG:0)%已经被凶恶的肉棒充分的支配着蜜壶、只能在怪物的压迫感下默默的颤抖
+		PRINTFORML 怪物在本能的支配下激烈的耸动着腰、这一次%ANAME(ARG:0)%喉咙中的呻吟开始泄漏出来、随之而来的是身体开始控制不住的痉挛
+		PRINTFORMW 不幸的是身体上的匹配度很好、%ANAME(ARG:0)%在不想得到的快乐中、因反复的播种交合持续绝顶
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 精愛, 精愛, Ｖ拡張, Ｖ, Ｖ, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("流浪妖怪"), @"化け物の\@ RAND:2 ? 唇 # 肉棒 \@", "化け物", "", "強姦")
+	CASE 20
+		PRINTFORML %ANAME(ARG:0)%躺在床上被以一种被双腿张开然后固定住的姿势进行着身体检查
+		PRINTFORML 激烈痉挛着的%ANAME(ARG:0)%双腿之间、被机器强制拖抽出来的子宫垂落在阴道口外
+		PRINTFORML 外来人对逐渐高声呜咽的%ANAME(ARG:0)%彻底忽视了、只是仔细的观察着子宫、将刺激传导到子宫上以调查接下来的反应
+		PRINTFORML 然后为了详细调查与外界女人的不同，抓住了裸露在外的子宫，强行把肉棒塞入了胎内
+		PRINTFORMW 由于过分刺激而失去了意识的%ANAME(ARG:0)%并没有被理睬、他们只是没完没了的持续责弄着那个子宫
+		CALL FUCK_SP(ARG:0, "性交, 欲望, 精愛, 苦痛快楽, 被虐, Ｖ, Ｖ, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("外来人"), @"", "外来人", "", "強姦")
+		TALENT:(ARG:0):Ｖ敏感 = 1
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%はＶ敏感になった", カラー_ピンク)
+		PRINTFORMW 
+	CASE 21
+		PRINTFORML 在实验室的冷光灯下、被固定在实验床上的%ANAME(ARG:0)%荒谬的声音回响在实验室中
+		PRINTFORML 围着实验床的外来人们手上拿着毛笔、在%ANAME(ARG:0)%的肌肤上持续抚弄着、她扭动着腰身不断娇喘
+		PRINTFORML 将肉体改造成平时几百倍那么敏感%ANAME(ARG:0)%只是被毛笔抚弄、仅仅只是这样、大脑也已经被快感冲刷得雪白
+		PRINTFORML 因为太快乐了%ANAME(ARG:0)%盛大地潮吹着的同时、她也在不断的向周围索求着肉棒、但他们无视了、只是继续拨弄着手上的毛笔、持续的抚弄着肌肤
+		PRINTFORMW 不断地重复绝顶让%ANAME(ARG:0)%失去了理智、他们随之失去了兴趣、只是将她作为下层士兵的奖励发放了出去
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 奉仕, 輪姦, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "機械", "", "強姦")
+	CASE 22
+		PRINTFORML %ANAME(ARG:0)%被以万岁的姿势拘束了起来、一边颤抖着一边发出娇媚的颤喘
+		PRINTFORML 一根雄壮的肉棒长在了她的胯下、榨精机被安装在肉棒上、毫不留情的持续运作着、不断榨取着肉棒里的精液
+		PRINTFORML 在从来没有体验过的奇特快感中%ANAME(ARG:0)%的理性崩坏了、张开口却发不出声音来、只能随着机器的运作挥动腰肢、逐渐被推上从未抵达的射精绝顶
+		PRINTFORML 外来人对实验的确切成功感到高兴、而对以颤抖的娇声请求着原谅的%ANAME(ARG:0)%并不理睬、只是继续加强了功率、进行了更加激烈的榨精
+		PRINTFORMW 被大量榨取出来的精液与他们的精液被混合在一起、重新注入到%ANAME(ARG:0)%的胎内
+		TALENT:(ARG:0):性別 = 2
+		SETBIT TALENT:(ARG:0):淫乱系, 素質_淫乱_射精狂い
+		CALL FUCK_SP(ARG:0, "射精, 射精, 射精, 欲望, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("外来人"), @"", "機械", "", "強姦")
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%变成了扶她", カラー_ピンク)
+		PRINTFORML 
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%变成了射精狂", カラー_ピンク)
+		PRINTFORMW 
+	CASE 23
+		PRINTFORML %ANAME(ARG:0)%被戴上了眼罩和口球、身体被按压、跨坐在像三角木马一样的机器上面
+		PRINTFORML 那个雌穴中被推入了粗大的振动棒、轰咚！轰咚！对准膣内进行循环往复的强力冲顶
+		PRINTFORML 每一次冲顶、剧烈的冲击都直冲脑门、%ANAME(ARG:0)%发出苦闷的呻吟、连指尖都在痉挛
+		PRINTFORML 偶尔振动棒激烈的旋转突入的话、连内脏都会遭受到难以承受的冲击%ANAME(ARG:0)%把脊背后仰着弯曲的同时绝顶了
+		PRINTFORMW 在这之后%ANAME(ARG:0)%的身体被作为雌性教育、在调教之后为外来人带来更多的快乐
+		CALL FUCK_SP(ARG:0, "性技, 性交, 精愛, 欲望, 輪姦, 苦痛快楽, 被虐, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "機械", "", "強姦")
+	CASE 24
+		PRINTFORML 在阴暗的地牢中、%ANAME(ARG:0)%被强迫与新型生物进行着交配实验
+		PRINTFORML 那是一个有着溃烂碎肉一样丑陋外貌的怪物、全身都长出许多触手%ANAME(ARG:0)%被侵犯着
+		PRINTFORML 身上的穴都被怪物的触手塞入、被侵蚀着%ANAME(ARG:0)%一边哭着一边呻吟
+		PRINTFORML 像污泥一样的精液倾倒在体内%ANAME(ARG:0)%快要发狂的大声呼救、但没有任何人回应
+		PRINTFORMW 被怪物所喜爱的%ANAME(ARG:0)%彻夜地被播种、最后一边露出阿嘿颜一边扭动着自己的腰肢迎合着怪物
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 緊縛, 被虐, Ｖ拡張, Ａ拡張, Ｃ, Ｖ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), @"化け物の\@ RAND:2 ? 唇 # 肉棒 \@", "化け物", "", "強姦")
+	CASE 25
+		PRINTFORML %ANAME(ARG:0)%在手脚被固定的姿态下、因为被肉棒插入了乳头而娇媚地喘息着
+		PRINTFORML 那对乳房被进行了肥大化改造、乳头也大幅的扩展开来、把外来人的肉棒深深的含咥在了夹层当中
+		PRINTFORML %ANAME(ARG:0)%虽然对自己身体的变化感到恐惧，但却无法抵抗从心中蔓延过来的无上的喜悦，发出娇媚的喘息
+		PRINTFORML 极致的乳头紧含着肉棒、他们很快面临界限、毫无顾忌地在%ANAME(ARG:0)%乳头深处射精了
+		PRINTFORMW 对胸部被射精冲击得浑身颤抖的%ANAME(ARG:0)%毫不关心、外来人们这次全身都开始兴奋起来了
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 輪姦, 口淫, Ｃ, Ｖ, Ｂ, Ｂ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+		CALL SET_BUSTSIZE(ARG:0, 2)
+		TALENT:(ARG:0):母乳体質 = 1
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%は爆乳になった", カラー_ピンク)
+		PRINTFORML 
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%は母乳体質になった", カラー_ピンク)
+		PRINTFORMW 
+	CASE 26
+		PRINTFORML %ANAME(ARG:0)%被外来人们包围着、她坐在地板上、在身体传来的苦闷中像入了迷一样不断进行着自慰
+		PRINTFORML 被注射了快乐诱导纳米机器%ANAME(ARG:0)%的脑中已经被彻底染上了快乐的颜色无法思考了、不断责弄着秘所的手指完全停不下来
+		PRINTFORML 无论如何都想重新取回理智、但却完全无法抵抗身体深处传来的强烈快乐、%ANAME(ARG:0)%流着眼泪、只能继续任凭自己的双手发狂一样不断责弄自己、不断地疯狂高潮
+		PRINTFORML 但是纳米机器的调整好像出错了、很快%ANAME(ARG:0)%的绝顶和潮吹都完全停不下来了
+		PRINTFORMW 头发散乱着痉挛的%ANAME(ARG:0)%对研究已经是一种阻碍了、外来人随意地把她提供给流浪妖怪处理
+		CALL FUCK_SP(ARG:0, "自慰, 自慰, 自慰, 性技, 性交, 奉仕, 欲望, 精愛, 輪姦, 口淫, Ｃ, Ｃ, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("流浪妖怪"), @"流浪妖怪的\@ RAND:2 ? 唇 # 肉棒 \@", "流浪妖怪", "", "強姦")
+		TALENT:(ARG:0):Ｃ敏感 = 1
+		CALL COLOR_PRINT(@"%ANAME(ARG:0)%はＣ敏感になった", カラー_ピンク)
+		PRINTFORMW 
+	CASE 27
+		PRINTFORML 被擒抱在怀中侵犯%ANAME(ARG:0)%那乱七八糟的身姿被拍摄成了录像
+		PRINTFORML 受到特製媚薬的影响で%ANAME(ARG:0)%被强烈的快感支配了、哪怕只是轻轻的触击到子宫也会轻易的绝顶
+		PRINTFORML 因为仅剩的一点羞耻心她想隐藏自己的脸，但也没能得到满足，只是被把放荡的表情送进视频里。
+		PRINTFORML 被激烈地摇晃着身体%ANAME(ARG:0)%的脊背在晃动中颤抖了起来、没有意识到自己已经面向了摄影机、她绝顶时的阿嘿颜被清晰的记录了下来
+		PRINTFORMW 渐渐的%ANAME(ARG:0)%的记忆中被铭刻了快感、在被催促中让自己朝向了照相机、两人在照相机面前排列成对、在之后又继续干了好多次
+		CALL FUCK_SP(ARG:0, "性技, 性交, 欲望, 精愛, 奉仕, 露出, 露出, 口淫, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+ENDSELECT
+
+RETURN
+
+
+@SELECT_CHARA_LIST_SHOW_LOGIC_GAIRAI_EXPERIMENT(対象)
+#DIM 対象
+RETURN CFLAG:対象:行動不能状態 != 行動不能_子供 && CFLAG:対象:所属 == CFLAG:MASTER:所属 && !IS_ANIMAL(対象) && !IS_MALE(対象)
+
+@SELECT_CHARA_LIST_SELECT_LOGIC_GAIRAI_EXPERIMENT(対象)
+#DIM 対象
+RETURN CFLAG:対象:捕虜先 == 0
+

@@ -1,0 +1,208 @@
+﻿;---------------------
+;発生確率(1000分率 100で10%)
+;---------------------
+@EVENT_DAILY_SUCCUBUS_BATTLE_RATE()
+RETURN 45
+
+;---------------------
+;確率以外の発生判定
+;---------------------
+@EVENT_DAILY_SUCCUBUS_BATTLE_DECISION()
+#DIM 夢魔
+夢魔 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_サキュバス))
+SIF 夢魔 == -1
+	RETURN 0
+SIF CFLAG:MASTER:所属 == 夢魔
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;---------------------
+@EVENT_DAILY_SUCCUBUS_BATTLE_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;---------------------
+@EVENT_DAILY_SUCCUBUS_BATTLE
+#DIM 兵数
+#DIM 夢魔
+
+夢魔 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_サキュバス))
+
+PRINTFORML 有一天，与他相遇，并向梦魔挑战了胜负
+PRINTFORMW 她一边舔着舌头一边看着%ANAME(MASTER)%
+PRINTFORML 怎麼辦？
+CALL ASK_MULTI(@"挑战弹幕游戏" ,"硬要接受邀请" ,"逃走")
+IF RESULT == 2
+	PRINTFORML 对的视线察觉到了危险的%ANAME(MASTER)%决定逃跑
+	PRINTFORMW 暂且她从背后一边骂一边追赶,不过，想办法甩开了…
+	RETURN 1
+ELSEIF RESULT == 1
+	PRINTFORMW %ANAME(MASTER)%受到她的邀请
+	PRINTFORMW %ANAME(MASTER)%凝视的她的眼睛发出了奇怪的光芒……
+	PRINTFORML 
+	CALL SUCCUBUS_BATTLE_SEX()
+	PRINTFORML 
+	PRINTFORMW 满足的她，放置%ANAME(MASTER)%离开了
+	RETURN 1
+ENDIF
+
+PRINTFORML 虽然察觉到其视线有危险，但逃跑的话其他人可能会牺牲
+PRINTFORMW 这样想的%ANAME(MASTER)%下定决心在这里打倒她
+PRINTFORML ・
+PRINTFORML ・
+PRINTFORMW ・
+IF (ABL:MASTER:武闘 + ABL:MASTER:知略) * (RAND:10 + 1) >= (100 + DAY / 5) * (RAND:10 + 1)
+	PRINTFORMW 勝利了！
+	IF !HAS_PENIS(MASTER)
+		PRINTFORMW 梦魔流着泪逃走了
+		CALL PRINT_ADD_EXP(MASTER, "武闘経験値", RAND:5 + 6, 1)
+		CALL PRINT_ADD_EXP(MASTER, "知略経験値", RAND:5 + 6, 1)
+		CALL TRAIN_AUTO_ABLUP(MASTER)
+	ELSE
+		PRINTFORML 破烂烂的梦魔横躺着，用眼泪仰视%ANAME(MASTER)%
+		PRINTFORMW 无心的视线似乎包含着期待的颜色……
+		PRINTFORML 怎麼辦？
+		CALL ASK_MULTI("侵犯" ,"交给手下的士兵" ,"置之不理")
+		IF RESULT == 2
+			PRINTFORML 不凑巧，我不喜欢
+			PRINTFORMW %ANAME(MASTER)%丢下她走了
+		ELSEIF RESULT == 1
+			PRINTFORML 按照她的期待来对待吧
+			PRINTFORMW %ANAME(MASTER)%带回了她
+			PRINTFORML …把她作为肉便器安置在兵营里
+			兵数 = MIN(1000 * (DAY / 10), 10000)
+			SIF 兵数 == 0
+				兵数 = 1000
+			COUNTRY_SOLDIER:(CFLAG:MASTER:所属) += 兵数
+			CALL COLOR_PRINTW(@"士兵们大受好评，根据传闻志愿兵的人数增加了{兵数}", カラー_注意)
+			PRINTFORMW 她自己也每天高兴的样子
+			CALL CHANGE_RELATION_C_TO_C(夢魔, CFLAG:MASTER:所属, 30, -30)
+			CALL COLOR_PRINTW("…なぜかサキュバス勢力の評価が上がったようだ", カラー_注意)
+		ELSEIF RESULT == 0
+			PRINTFORML …仔细一看,不愧是梦魔,身体非常好
+			PRINTFORML %ANAME(MASTER)%
+			PRINTFORML 她没有抵抗，在混杂着期待的声音中发出了黄色的悲鸣
+			PRINTFORML 
+			PRINTFORML %ANAME(MASTER)%在背地里侵犯着她
+			PRINTFORML 正如所看到的那样，他的身体极好，肌肤、胸部、雌穴，全部都让%ANAME(MASTER)%着迷
+			PRINTFORML 她就像被%ANAME(MASTER)%一样弯曲着身体，向大脑发出像回响一样的娇声一样
+			PRINTFORML 每当腰部撞击时，就被连肉棒都快要被拔出来的感觉不由得呻吟起来
+			PRINTFORML 她用全身缠绕，寻求打倒了自己的%ANAME(MASTER)%的健壮的子种
+			PRINTFORMW 完全沉浸在她的步调中，也充分享受了那个极好的女体
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "夢魔の唇", "", "夢魔的膣穴", "和姦")
+			PRINTFORML 
+			PRINTFORMW 散々彼女を犯した後、満足そうな彼女を放置して立ち去った
+		ENDIF
+		CALL PRINT_ADD_EXP(MASTER, "武闘経験値", RAND:5 + 6, 1)
+		CALL PRINT_ADD_EXP(MASTER, "知略経験値", RAND:5 + 6, 1)
+		CALL TRAIN_AUTO_ABLUP(MASTER)
+	ENDIF
+ELSE
+	PRINTFORMW 输了…
+	PRINTFORMW 横躺%ANAME(MASTER)%凝视她的瞳孔可疑地闪亮了…
+	PRINTFORML 
+	CALL SUCCUBUS_BATTLE_SEX()
+	PRINTFORML 
+	PRINTFORMW 满足的她，放置%ANAME(MASTER)%离开了
+ENDIF
+RETURN 1
+
+;-----------------------------------------------------------
+;サキュバスのセックス
+;-----------------------------------------------------------
+@SUCCUBUS_BATTLE_SEX()
+
+IF IS_MALE(MASTER) || (HAS_PENIS(MASTER) && RAND:2)
+	PRINTFORMW %ANAME(MASTER)%反被梦魇强奸……
+	PRINTFORML 
+	SELECTCASE RAND:5
+		CASE 0
+			PRINTFORML 她跨越%ANAME(MASTER)%深深地叼住肉棒激烈地挥动腰
+			PRINTFORML 那个蜜罐正以象拧男人取一样的极好的触觉与竿全体缠绕
+			PRINTFORML 穿过气体便会射精般的快乐%ANAME(MASTER)%让人无法忍受地呻吟着抬起腰来
+			PRINTFORML 为了享受这样的%ANAME(MASTER)%的样子，她巧妙地弯腰催促射精
+			PRINTFORMW 结果是%ANAME(MASTER)%被她榨取到了极限……
+		CASE 1
+			PRINTFORML 她压抑%ANAME(MASTER)%让舌头一边缠绕一边巧妙地让腰上下来
+			PRINTFORML 梦魔雌穴是天然的肉onaho给予难以抗拒的快乐
+			PRINTFORML %ANAME(MASTER)%拼命想逃跑，但是因为太过快乐而无意识地坐了起来
+			PRINTFORML 她为了催促射精而跑出了冲刺，但已经无法逃脱了
+			PRINTFORMW %ANAME(MASTER)%无法忍受，好几次被她放出了精力……
+		CASE 2
+			PRINTFORML 横跨%ANAME(MASTER)%的她，发出不该有的娇声扭动身体
+			PRINTFORML 在那个极好的身体和技能面前，应该破烂不堪的身体也不能抗拒本能反应了
+			PRINTFORML 阴道口紧紧地拧上竿全体，里面的肉壁柔软地缠绕龟头
+			PRINTFORML %ANAME(MASTER)%无法忍受射精，她发出喜悦的声音战兢兢地痉挛了
+			PRINTFORMW 已经无法抵抗%ANAME(MASTER)%了，只顾为了她反复射精…
+		CASE 3
+			PRINTFORML %ANAME(MASTER)%的肉体被操纵，自己向四肢爬行的她猛冲
+			PRINTFORML 不知道是不是因为被犯下的情形而兴奋，她每次被撞的时候都会不自觉地疯狂瑜伽
+			PRINTFORML 每当腰部撞到时，龟头就会摩擦到天花板，这样的触感让%ANAME(MASTER)%和她都颤抖不已
+			PRINTFORML 当%ANAME(MASTER)%的界限逼近时，她紧紧地勒紧阴道勒紧阴道，要求取出阴道
+			PRINTFORMW 好像为了她而像迪尔德一样被榨取了……
+		CASE 4
+			PRINTFORML %ANAME(MASTER)%被她榨取得气喘吁吁
+			PRINTFORML 说她以满足的表情被%ANAME(MASTER)%的手臂一边抱一边贴近胸口
+			PRINTFORML 确实%ANAME(MASTER)%们的身体的相性好象出众行为中入迷了
+			PRINTFORML 她红着脸颊，低声私语道：如果露出这么深的东西，会不会孕育出来呢？
+			PRINTFORMW 对中意的%ANAME(MASTER)%没有马上解放，整天都在交往……
+	ENDSELECT
+	CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "夢魔の唇", "", "夢魔的膣穴", "強姦")
+	CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "夢魔の唇", "", "夢魔的膣穴", "強姦")
+ELSE
+	PRINTFORMW %ANAME(MASTER)%はサキュバスの淫気に操られている…
+	PRINTFORML 
+	SELECTCASE RAND:5
+		CASE 0
+			PRINTFORML %ANAME(MASTER)%穿上她制作的服装，一起朝着捕男人的方向去了
+			PRINTFORML 男人们作为极好的女人的%ANAME(MASTER)%们的邀请也不应该拒绝，hoihoi附有了
+			PRINTFORMW %ANAME(MASTER)%们各自一边被男人抱一边面向宾馆，立刻做爱
+			PRINTFORML 梦魔的手%ANAME(MASTER)%被比通常的几倍敏感，马上变得干燥无
+			PRINTFORML %ANAME(MASTER)%一如既往地淫乱地扭动着身体，毫无顾忌地疯狂地sex
+			PRINTFORMW 此后，在她满意之前，被迫与两手数不清的男人们交往……
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", "偶遇的男人", "", "和姦")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", "偶遇的男人", "", "和姦")
+		CASE 1
+			PRINTFORML 访问了流浪汉的积蓄场的%ANAME(MASTER)%们为他们服务
+			PRINTFORML 最初感到困惑的他们也马上被淫气猜中本能的那样碰撞了那个性欲
+			PRINTFORMW 青花鱼沾满全身的臭的肉棒插入了的%ANAME(MASTER)%发情了的那样瞳孔浮起♥的
+			PRINTFORML 被大量的肉棒包围了的%ANAME(MASTER)%们手和嘴两边的孔全部使用为那些服务
+			PRINTFORML 干旱的他们马上射精，用黄色的精液把全身都弄脏了。
+			PRINTFORMW %ANAME(MASTER)%被无数流浪汉的精液侵犯，直到子宫膨胀成面包为止……
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("流浪漢"), @"流浪漢的\@RAND:2 ? 肉棒 # 唇\@", "流浪漢", "", "輪姦")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("流浪漢"), @"流浪漢的\@RAND:2 ? 肉棒 # 唇\@", "流浪漢", "", "輪姦")
+		CASE 2
+			PRINTFORML 她凭借%ANAME(MASTER)%向着欢乐街，站了起来
+			PRINTFORML 她不顾抗议的%ANAME(MASTER)%邀请路上的男人们到小巷子里做爱
+			PRINTFORMW 以1次金100这个舍弃值抱%ANAME(MASTER)%的话客人不停地被侵犯被玷污了
+			PRINTFORML 不听身体的自由也共有感觉%ANAME(MASTER)%被无需问答的快感搞乱
+			PRINTFORML 已经不知道是被操纵着还是自己挥动着腰
+			PRINTFORMW 面对几十个男人之后梦魔终于满足的%ANAME(MASTER)%的身体……
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫, 売春", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", "偶遇的男人", "", "売春")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫, 売春", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", "偶遇的男人", "", "売春")
+		CASE 3
+			PRINTFORML %ANAME(MASTER)%的头脑中充满了性爱与沉迷，和她一起朝着逆南前进
+			PRINTFORML 各自找到喜欢的对象的话色气全开靠近，象索求一样地邀请宾馆
+			PRINTFORMW 他们脱下衣服躺在床上%ANAME(MASTER)%他们喝下生唾液后像野兽一样袭击过来
+			PRINTFORML 用超乎想象的顽强男人根粗暴地被贯穿，%ANAME(MASTER)%快乐之余露出白眼瑜伽
+			PRINTFORML 子宫也被一拳打倒，为了寻求不认识的子种子宫口一口咬住
+			PRINTFORMW 完全变成淫乱母的%ANAME(MASTER)%，享受了与偶然的男人的认真性爱…
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", "偶遇的男人", "", "和姦")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", "偶遇的男人", "", "和姦")
+		CASE 4
+			PRINTFORML 二人诱惑在附近玩的男孩子们，带进了合适的空房子
+			PRINTFORML 当%ANAME(MASTER)%们一裸体时，他们就被初次近距离看到的女性身体所吸引
+			PRINTFORMW 看了那个胯股之间一律膨胀的%ANAME(MASTER)%子宫一边疼一边引诱他们躺下
+			PRINTFORML 男孩子们争先恐后地聚集到%ANAME(MASTER)%们身上
+			PRINTFORML 每当挥动腰部时，他们就变成雄性，而%ANAME(MASTER)%则吓得脊梁发抖
+			PRINTFORMW %ANAME(MASTER)%们简直就像盛开的猴子一样不停地胡闹，好几次都达到了顶峰…
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("子供"), @"子どもの\@RAND:2 ? 肉棒 # 唇\@", "子ども", "", "輪姦")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("子供"), @"子どもの\@RAND:2 ? 肉棒 # 唇\@", "子ども", "", "輪姦")
+	ENDSELECT
+ENDIF
+
+RETURN 1

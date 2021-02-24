@@ -1,0 +1,119 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@KOJO_DAILY_K30_KAWAYA_HIME_RATE(対象)
+#DIM 対象
+RETURN 45
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@KOJO_DAILY_K30_KAWAYA_HIME_DECISION(対象)
+#DIM 対象
+
+SIF !GETBIT(TALENT:対象:淫乱系, 素質_淫乱_精液便女)
+	RETURN 0
+
+SIF !IS_FEMALE(対象)
+	RETURN 0
+
+SIF KDVAR:対象:輝夜_かわや姫
+	RETURN 0
+
+RETURN CHECK_KOJO_DAILY_HAPPEN(対象, -1, 0)
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@KOJO_DAILY_K30_KAWAYA_HIME_GENRE(対象)
+#DIM 対象
+RETURN デイリー_ジャンル_エロ
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@KOJO_DAILY_K30_KAWAYA_HIME(対象)
+#DIM 対象
+
+PRINTFORMW 深夜……
+PRINTFORMW %ANAME(対象)%走到了据点附近的贫民窟
+PRINTFORMW 治安并不好，%ANAME(対象)%一个人出去会不会太危险了呢？
+PRINTFORMW 果然，%ANAME(対象)%被流浪汉包围了
+PRINTFORMW 金钱、身体，或者是两个都要。在他们的要求下，%ANAME(対象)%行动了
+PRINTFORMW 但是却并不是进行攻击，而仅仅是把衣服脱了下来——在他们的面前
+PRINTFORMW 之前贵族们苦苦追求但却得不到的肉体，就这么暴露在了流浪汉的面前
+PRINTFORMW 她脸上浮现了害羞的神色，但很快就回复了正常
+PRINTFORMW %ANAME(対象)%被当做了卖淫女，流浪汉露出了下流的笑容问一夜多少钱
+PRINTFORMW %ANAME(対象)%摇了摇头，流浪汉似乎认为自己被欺骗了，头上冒出了青筋，好像是生气了
+PRINTFORMW 「怎么？难道你是想给我们钱吗？没有那个必要」
+PRINTFORMW 「我们只是想粗暴的侵犯你而已」
+PRINTFORMW %PRONOUN(対象)%这么说着
+PRINTFORMW 在经历了多次轮奸，变成了肉便器之后
+PRINTFORMW 就和妓女不一样，只不过是谁都可以使用的东西罢了
+PRINTFORMW 所以，为了性交而花钱，是没必要的
+PRINTFORMW %PRONOUN(対象)%这么考虑着
+PRINTFORMW 另一个人脸上露出了茫然的神色
+PRINTFORMW 像%ANAME(対象)%这样的人上之人，贵族们用钱或许都没有办法得到
+PRINTFORMW 但现在却能免费让我们使用，所以难以相信也是理所当然的
+PRINTFORMW 「你们在担心什么？这是妾身最希望的结果」
+PRINTFORMW 看着迟疑的流浪汉们，%ANAME(対象)%抓住了他们的手
+PRINTFORMW 然后，慢慢引导着来到了自己的下体处
+PRINTFORMW 「你看，已经这样了？希望你能快点把东西放进来」
+PRINTFORMW 「或者如果这样也不打算继续的话，那妾身就要离开……啊！」
+PRINTFORMW 最后的发言，已经完全没有了必要
+PRINTFORMW 他们似乎明白了，眼前的女性是认真的
+PRINTFORMW 她的眼睛里浮现了认真的神色
+PRINTFORMW 一个流浪汉把手搭上了她的腰，开始揉捏臀部
+PRINTFORMW %ANAME(対象)%完全没有抵抗
+PRINTFORMW 还不仅仅是这样，她一只手伸进了流浪汉的衣服里，开始责弄勃起的肉棒
+PRINTFORMW 「啊……真脏♥」
+PRINTFORMW 这是没有经过清洗的流浪汉的肉棒。从上到下都很脏
+PRINTFORMW %ANAME(対象)%把肉棒掏了出来，用手捧着它，很认真的闻着它的味道
+PRINTFORMW 「啊……黏黏糊糊的♥　不过也不错呢♥」
+PRINTFORMW 让正常人感到恶心的气味，%ANAME(対象)%反而感到兴奋
+PRINTFORMW 紧接着，张开嘴把%PRONOUN(対象)%的肉棒全部含了进去
+PRINTFORMW 「滋滋♥　啧啧♥」
+PRINTFORMW 用从外表上难以想象的熟练技术，不断地进行着口交
+PRINTFORMW 在口交的同时，还品尝着肉棒上的污垢
+PRINTFORMW ……但是，还没有持续很长时间。流浪汉把肉棒抽了出去
+PRINTFORMW 「等、等一下？」
+PRINTFORMW 疑惑的%ANAME(対象)%很快便察觉了他的意图
+PRINTFORMW %PRONOUN(対象)%把辉夜带到了附近的小巷子里
+PRINTFORMW 这里不会有任何人来打扰他们来享受这个女人
+PRINTFORMW 「啊，好啊，开始吧，从谁……啊♥」
+PRINTFORMW 一只手撑着墙，把下面对准了他们
+PRINTFORMW 另一只手打开自己的小穴，诱惑着他们
+PRINTFORMW 如其说是谁把肉棒插了进去，不如说是直接从张开的小穴中撞了进去
+PRINTFORMW 流浪汉激烈的抽送，蹂躏着%ANAME(対象)%的阴道
+PRINTFORMW %ANAME(対象)%一边呻吟，一边顺着抽送淫荡的动起了腰
+PRINTFORMW 同时周围还环绕着其他流浪汉，%ANAME(対象)%同时用手合嘴侍奉着
+PRINTFORMW 嘴里、手上、阴道内、肛门内一直被注入着白浊，%ANAME(対象)%在天亮之前都在进行着肉便器的工作……
+PRINTFORML 
+PRINTFORML 
+PRINTFORML 
+FOR LOCAL, 0, 5
+	CALL FUCK_GANGBANG(対象, GET_SPERM_ID("流浪漢"), "流浪漢的肉棒", "流浪漢")
+NEXT
+PRINTFORML 
+PRINTFORML 
+PRINTFORML 
+PRINTFORMW 凌晨，%ANAME(対象)%回到了据点
+PRINTFORMW 那个样子已经不只是用狼狈能形容了
+PRINTFORMW 虽然衣服已经穿上了，但是浑身都是精液和其他的什么液体
+PRINTFORMW 在人群中被夺走了内衣，里面的种子也在一直往下滴
+PRINTFORMW 脸上沾满了粘糊糊的精液，嘴角也都是流浪汉的阴毛
+PRINTFORMW 脸颊上有一大堆「妓女」的涂鸦
+PRINTFORMW 因为是凌晨，所以没有人起床，但是万一让某个人看到这幅样子，那可就有好戏看了
+PRINTFORMW 更何况是在女人稀少的兵营里――会被怎么对待呢？
+PRINTFORMW 想象着这样的场面，%ANAME(対象)%缓步走向了浴场……
+
+KDVAR:対象:輝夜_かわや姫 = 1
+
+RETURN 1

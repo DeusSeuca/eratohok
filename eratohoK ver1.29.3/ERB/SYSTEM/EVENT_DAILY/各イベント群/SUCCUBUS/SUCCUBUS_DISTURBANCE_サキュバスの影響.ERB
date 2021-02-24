@@ -1,0 +1,193 @@
+﻿;---------------------
+;発生確率(1000分率 100で10%)
+;---------------------
+@EVENT_DAILY_SUCCUBUS_DISTURBANCE_RATE()
+RETURN 55
+
+;---------------------
+;確率以外の発生判定
+;---------------------
+@EVENT_DAILY_SUCCUBUS_DISTURBANCE_DECISION()
+#DIM 夢魔
+夢魔 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_サキュバス))
+SIF 夢魔 == -1
+	RETURN 0
+SIF CFLAG:MASTER:所属 == 夢魔
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;---------------------
+@EVENT_DAILY_SUCCUBUS_DISTURBANCE_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;---------------------
+@EVENT_DAILY_SUCCUBUS_DISTURBANCE
+#DIM 対象都市
+#DIM 夢魔
+夢魔 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_サキュバス))
+
+CALL DAILY_EVENT_RAND_CITYSELECT(0)
+対象都市 = RESULT
+SIF 対象都市 < 0
+	RETURN
+PRINTFORML 也许是受到梦魔们的影响，最近幻想乡的风纪混乱……
+PRINTFORML 在即使街上也看不到有人气的地方
+PRINTFORMW 目前，并无太大危害，而且似乎对经济产生了良好的影响。
+PRINTFORML 怎麼辦？
+CALL ASK_MULTI(@"严加取缔" ,"观察情况" ,"自己也卸下烦恼" ,"寻找梦魔")
+
+IF RESULT == 1
+	PRINTFORMW 决定暂时观察一下情况……
+	$SUCCUBUS_KEKKA
+	CALL MODIFY_CITY_ECONOMY(対象都市, RAND(10000, 30000))
+	FOR LOCAL, 1, MAX_COUNTRY
+		IF IS_COUNTRY(LOCAL) && LOCAL != 夢魔
+			CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, -30, 30)
+		ELSE
+			CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, 100, -100)
+		ENDIF
+	NEXT
+	CALL COLOR_PRINTL("此后一段时间风纪持续混乱，其他国家的评价下降了。", カラー_注意)
+	CALL COLOR_PRINTW("但是好像被梦魔们善意地接受了", カラー_注意)
+ELSEIF RESULT == 0
+	PRINTFORMW 严加取缔
+	CALL MODIFY_CITY_ECONOMY(対象都市, RAND(10000, 30000) * -1)
+	FOR LOCAL, 1, MAX_COUNTRY
+		IF IS_COUNTRY(LOCAL) && LOCAL != 夢魔
+			CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, 30, -30)
+		ELSE
+			CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, -100, 100)
+		ENDIF
+	NEXT
+	CALL COLOR_PRINTL("严肃纪律的姿态影响到了别国的评价", カラー_注意)
+	CALL COLOR_PRINTW("但是梦魔们似乎不受欢迎。", カラー_注意)
+ELSEIF RESULT == 3
+	PRINTFORMW %ANAME(MASTER)%寻觅着可能是元凶的梦魔
+	PRINTFORML ・
+	PRINTFORML ・
+	PRINTFORMW ・
+	PRINTFORML 但是找不到
+	PRINTFORMW 如果再深入下去的话自己也会受到梦魔的影响……
+	PRINTFORMW 怎麼辦？
+	CALL ASK_YN("仍在寻找" ,"搁置，作罢")
+	IF RESULT == 1
+		PRINTFORML 已经停止了
+		PRINTFORMW 没办法，只好暂时看看情况……
+		GOTO SUCCUBUS_KEKKA
+	ELSEIF RESULT == 0
+		PRINTFORMW 不死心还决定寻找
+		PRINTFORML 
+		PRINTFORMW …注意到的话%ANAME(MASTER)%也受到梦魔的影响，头脑中充满了追求快乐
+		PRINTFORMW %ANAME(MASTER)%她带着发情的表情来到街上。
+		GOTO SUCCUBUS_SEX
+	ENDIF
+ELSEIF RESULT == 2
+	PRINTFORML 看来自己也受到了梦魔的影响
+	PRINTFORMW %ANAME(MASTER)%是我们所喜欢的状况
+	$SUCCUBUS_SEX
+	PRINTFORML 
+	IF IS_MALE(MASTER) || (HAS_PENIS(MASTER) && RAND:2) || (HAS_PENIS(MASTER) && TALENT:MASTER:討厭男人)
+		SELECTCASE RAND:5
+			CASE 0
+				PRINTFORML %ANAME(MASTER)%招引了当地姑娘
+				PRINTFORML 的确是一位像生女一样的少女，但她仿佛又被热情所吸引般，接受了%ANAME(MASTER)%的邀请
+				PRINTFORML 无法忍受那炽热的视线%ANAME(MASTER)%便将手伸向了她的腰部，立刻带入了宾馆
+				PRINTFORMW 尽情地品味着从未被任何人污染过的她那纯洁的身体，花费一夜时间培养%ANAME(MASTER)%的爱好
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "行きずりの女の唇", "", "行きずりの女の膣", "和姦")
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "行きずりの女の唇", "", "行きずりの女の膣", "和姦")
+			CASE 1
+				PRINTFORML %ANAME(MASTER)%在某个姑娘的夜里爬行
+				PRINTFORML 白天在街上看到的时候就被夺去了眼睛，无论如何都想亲自动手的少女
+				PRINTFORML 虽然女儿极力抵抗，但%ANAME(MASTER)%的表情比兴奋更激动，让一物气喘吁吁地侵犯了她
+				PRINTFORMW 在侵犯的过程中，她是否也遭遇了淫气呢？最后她亲自紧紧地抱住%ANAME(MASTER)%来索求
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "行きずりの女の唇", "", "行きずりの女の膣", "強姦")
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "行きずりの女の唇", "", "行きずりの女の膣", "強姦")
+			CASE 2
+				PRINTFORML %ANAME(MASTER)%和逆搭讪来的女儿在宾馆
+				PRINTFORML 她曾试图做出疯狂的侵犯行为，就像一只有主人的母狗，它们侵犯了%ANAME(MASTER)%。
+				PRINTFORML 当然是%ANAME(MASTER)%，他们把她推倒在床上，并很快地把这两样东西塞进了她的房间。
+				PRINTFORMW 结果那天一夜之间，两个人忘记了时间，只是一味地互相追求着肉欲
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "行きずりの女の唇", "", "行きずりの女の膣", "和姦")
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "行きずりの女の唇", "", "行きずりの女の膣", "和姦")
+			CASE 3
+				PRINTFORML 神%ANAME(MASTER)%正在侵犯消失妖怪的少女
+				PRINTFORML 与人相比，容纳的身体是%ANAME(MASTER)%，每个回合都能发出可爱的喘息声。
+				PRINTFORML 在口抵抗的她，好像也受到淫荡的影响似的，轻轻一击便让身体剧烈地颤抖
+				PRINTFORMW %ANAME(MASTER)%在她发自内心“回头”到顺从为止花费时间慢慢地教育她
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "妖怪の少女の唇", "", "妖怪の少女の膣", "強姦")
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "妖怪の少女の唇", "", "妖怪の少女の膣", "強姦")
+			CASE 4
+				PRINTFORML %ANAME(MASTER)%正在“审问”俘虏的女士兵
+				PRINTFORML 她第一次抵抗拼命闭着嘴,不过，本人也不注意的内用雌性的脸喘息了
+				PRINTFORML 发现女人的弱点的%ANAME(MASTER)%攻击那里的话，那样地一边使之响起强制一边很大地仰面反抗了
+				PRINTFORMW %ANAME(MASTER)%用肉棒教导她，不管她怎么锻炼，反正女人就是女人
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "女士兵の唇", "", "女士兵の膣", "強姦")
+				CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "女士兵の唇", "", "女士兵の膣", "強姦")
+		ENDSELECT
+	ELSE
+		SELECTCASE RAND:5
+			CASE 0
+				PRINTFORML %ANAME(MASTER)%在宿舍做士兵的对手
+				PRINTFORML 作为慰安日常的辛劳，为了让身体变得更强壮，真心话
+				PRINTFORMW 对于积蓄着郁愤的士兵来说，抱着%ANAME(MASTER)%是肉体上精神上极好的奖励
+				PRINTFORML %ANAME(MASTER)%被扭进替代的小鸡鸡，尽管被随心所欲地侵犯，但还是毫无顾忌地做着瑜伽
+				PRINTFORML 当然不会想到他们会避孕，积攒下来的浓郁的雄汁全部注入子宫中
+				PRINTFORMW 到天亮为止与无数的士兵持续胡闹的%ANAME(MASTER)%，快乐和疲劳的过分暂且不能动…
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("兵士"), @"兵士の\@RAND:2 ? 肉棒 # 唇\@", @"兵士", "", "輪姦")
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("兵士"), @"兵士の\@RAND:2 ? 肉棒 # 唇\@", @"兵士", "", "輪姦")
+			CASE 1
+				PRINTFORML %ANAME(MASTER)%在欢乐街与貌似黑社会的男人在一起
+				PRINTFORML 穿着平时不怎么穿的衣服，用一副谄媚的雌性视线缠住他
+				PRINTFORMW 没有认识，刚刚被说服过的男人，仅仅凭着雄臭就足以让%ANAME(MASTER)%充满期待
+				PRINTFORML 将%ANAME(MASTER)%当做自己的女人看待，脸上浮现出不掩饰欲望的卑鄙笑容带入了宾馆
+				PRINTFORML 一进入房间就立刻被推倒，用超出期待的坚强和巧妙，多次刻入了女人的喜悦
+				PRINTFORMW 从酒店出来的时候，完全被他迷住了%ANAME(MASTER)%自己和他交换了联系方式…
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("黑社會"), @"黑社會の\@RAND:2 ? 肉棒 # 唇\@", @"黑社會", "", "和姦")
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("黑社會"), @"黑社會の\@RAND:2 ? 肉棒 # 唇\@", @"黑社會", "", "和姦")
+			CASE 2
+				PRINTFORML %ANAME(MASTER)%在安宿对男人跨过腰挥舞着
+				PRINTFORML 看着，混血男一边骂着%ANAME(MASTER)%一边顶上来，像是为了更好地服务
+				PRINTFORMW 被小混杂风情傲慢命令的屈辱感兴奋了的%ANAME(MASTER)%，服从他拼命挥动腰
+				PRINTFORML 被他搭讪的%ANAME(MASTER)%不打算隐藏那个轻浮和性欲的语调让子宫疼痛
+				PRINTFORML 正如所期待的那样，%ANAME(MASTER)%被当做肉食女郎一样对待，非常开心，就像母狗一样向他献媚
+				PRINTFORMW 事后，他很快就不在了，%ANAME(MASTER)%在床上余韵抽筋，露出了头发……
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("小混混"), @"小混混的\@RAND:2 ? 肉棒 # 唇\@", @"小混混", "", "和姦")
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("小混混"), @"小混混的\@RAND:2 ? 肉棒 # 唇\@", @"小混混", "", "和姦")
+			CASE 3
+				PRINTFORML %ANAME(MASTER)%来到贫民窟
+				PRINTFORML 那里梦魔的影响也出来，马上眼血奔跑使之鼓起了胯股间的流浪汉被包围了
+				PRINTFORMW 在平常的情况下，这是一个尖叫着逃跑的地方，但是%ANAME(MASTER)%的人边走边脱衣并引诱了他们。
+				PRINTFORML 渴望成为女主人的他们毫不犹豫的入侵了%ANAME(MASTER)%，毫不留情的向它最上面的身体发泄肉欲。
+				PRINTFORML 被无数肮脏的肉棒包围的%ANAME(MASTER)%一边浮现在瞳孔里♥一边使用全身为它们服务
+				PRINTFORMW 用发黄的精液把一切都弄脏后，约好了再来服务，终于解放了……
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("流浪漢"), @"流浪漢的\@RAND:2 ? 肉棒 # 唇\@", @"流浪漢", "", "輪姦")
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫, 輪姦", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("流浪漢"), @"流浪漢的\@RAND:2 ? 肉棒 # 唇\@", @"流浪漢", "", "輪姦")
+			CASE 4
+				PRINTFORML 穿着外套的%ANAME(MASTER)%喘着气走在夜路上
+				PRINTFORML %ANAME(MASTER)%，外套下没有一件衣物，每当与别人擦肩而过的时候裸露裸体与性感。
+				PRINTFORMW 虽然大多数的对手只是死硬或逃跑，但他们的视线和反应仍然存在%ANAME(MASTER)%，兴奋。
+				PRINTFORML 又偶尔出现一个搭讪的男人，他们就喜欢到附近阴暗处尽情地做爱
+				PRINTFORML 在由于野外曝光做爱的不道德感和曝光感，%ANAME(MASTER)%总是以上兴奋瑜伽利疯狂
+				PRINTFORMW 就这样一夜之间多次被侵犯而感到满足%ANAME(MASTER)%一脸若无其事地回家，回到了平时的工作…
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", @"偶遇的男人", "", "和姦")
+				CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, Ｖ性交, Ａ性交, 接吻, 口淫", "接吻喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 唇\@", @"偶遇的男人", "", "和姦")
+		ENDSELECT
+	ENDIF
+	PRINTFORMW 
+	FOR LOCAL, 1, MAX_COUNTRY
+		IF IS_COUNTRY(LOCAL) && LOCAL != 夢魔
+			CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, -45, 45)
+		ELSE
+			CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, 150, -150)
+		ENDIF
+	NEXT
+	CALL COLOR_PRINTL("此后一段时间风纪持续混乱，其他国家的评价下降了。", カラー_注意)
+	CALL COLOR_PRINTW("但是好像被梦魔们善意地接受了", カラー_注意)
+ENDIF
+
+RETURN 1

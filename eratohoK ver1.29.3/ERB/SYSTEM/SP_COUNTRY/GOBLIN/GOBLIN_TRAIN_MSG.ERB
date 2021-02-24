@@ -1,0 +1,472 @@
+﻿@GOBLIN_TRAIN_MSG(対象, 士官フラグ)
+#DIM 対象
+#DIM プレイ番号
+#DIM 勢力番号
+#DIM 士官フラグ
+
+
+勢力番号 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_ホフゴブリン)
+
+IF HAS_VAGINA(対象) && HAS_PENIS(対象)
+	SELECTCASE RAND:100
+		CASE IS < 10
+			プレイ番号 = 0
+		CASEELSE
+			プレイ番号 = 2
+	ENDSELECT
+ELSEIF HAS_VAGINA(対象)
+	プレイ番号 = 2
+ELSEIF HAS_PENIS(対象)
+	プレイ番号 = 3
+ELSE
+	プレイ番号 = 3
+ENDIF
+
+SELECTCASE プレイ番号
+	;-------------------------ここからふたなり専用-------------------------
+	CASE 0
+		SELECTCASE RAND:2
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML 牢房里的%ANAME(対象)%被哥布林们包围着、%STR_BODY("膣：処女確認：時間経過", 対象)%被侵犯了
+					PRINTFORML 哥布林又粗又硬的肉棒来回抽插、对%PRONOUN(対象)%而言是无法承受的刺激
+					PRINTFORML %ANAME(対象)%快乐的垂下头、配合着抽送扭着腰
+					PRINTFORML %PRONOUN(対象)%自己的肉棒因为极上的刺激而射精了、自己的精液涂满了%PRONOUN(対象)%的全身……
+				ELSE
+					PRINTFORML 牢房里的%ANAME(対象)%被哥布林们包围着、%STR_BODY("膣：処女確認：時間経過", 対象)%被侵犯了
+					PRINTFORML 哥布林又粗又硬的肉棒来回抽插、%ANAME(対象)%的脸都疼歪了
+					PRINTFORML 虽然非常厌恶、%PRONOUN(対象)%的肉棒却因为刺激而勃起、一次次的射精了
+					PRINTFORML 哥布林们看着被侵犯到数次决定的%ANAME(対象)%、发出了淫乱变态的嗤笑声……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, 射精, Ｖ, Ｃ, Ｖ性交", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被要求在哥布林们面前自慰
+					PRINTFORML %ANAME(対象)%为了让他们更容易看到自己、一边说着下流的话一边摆出淫荡的姿势、在%STR_BODY("膣", 対象)%上抚摸着
+					PRINTFORML 同时撸动着自己的肉棒、粘稠的白浊液飞散而出……
+				ELSE
+					PRINTFORML %ANAME(対象)%被要求在哥布林们面前自慰
+					PRINTFORML 害羞的%ANAME(対象)%、在哥布林们的一片骂声中
+					PRINTFORML 害羞的撸动着自己的阴茎、射出白浊的精液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 自慰, 射精, 露出, Ｂ, Ｃ", "", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "強姦")
+		ENDSELECT
+	;-------------------------ここから要ペニス-------------------------
+	CASE 1
+	;-------------------------ここから要Ｖ-------------------------
+	CASE 2
+		SELECTCASE RAND:28
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML 牢房中的%ANAME(対象)%被哥布林们包围着、%STR_BODY("膣：処女確認：時間経過", 対象)%不停地被侵犯
+					PRINTFORML 哥布林又粗又硬的肉棒、对%PRONOUN(対象)%来说是完全抵挡不了的诱惑
+					PRINTFORML %ANAME(対象)%快乐的垂下头、配合着抽送挺着腰
+					PRINTFORML %PRONOUN(対象)%被激烈的抽插俘虏了、不知道高潮了多少次……
+				ELSE
+					PRINTFORML 牢房中的%ANAME(対象)%被哥布林们包围着、%STR_BODY("膣：処女確認：時間経過", 対象)%不停地被侵犯
+					PRINTFORML 哥布林又粗又硬的肉棒、让%ANAME(対象)%地脸都扭曲起来
+					PRINTFORML 虽然确实感到非常厌恶、%PRONOUN(対象)%被侵犯着传来的快感、让她心里产生了微妙的变化
+					PRINTFORML 看着被侵犯地不知道高潮了几次的%ANAME(対象)%、哥布林们发出了淫荡的变态的嘲笑声……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%四肢着地、以野兽一般的姿势被侵犯着
+					PRINTFORML 因为像个牲畜一样而幸奋无比、她的腰部激烈地扭动着
+					PRINTFORML 反复抽插的肉棒不停地刺激着敏感的部位、她披散着头发疯狂的扭动着头绝顶了……
+				ELSE
+					PRINTFORML %ANAME(対象)%四肢着地、以野兽一般的姿势被侵犯着
+					PRINTFORML %ANAME(対象)%虽然想要抵抗、却被哥布林狠狠拉着头发控制着
+					PRINTFORML 反复抽插的肉棒不停地刺激着敏感的部位、虽然十分厌恶、但是她的呻吟声却渐渐提高了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "強姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%骑跨在哥布林身上、用%STR_BODY("膣：感度", 対象)%侍奉着
+					PRINTFORML %ANAME(対象)%眼睛里要冒出桃心一样、边说着淫荡的污言秽语边激烈的扭着腰
+					PRINTFORML 一边嘴巴里不停地说着、哥布林作为男人是多么优秀
+					PRINTFORML 一边自己不停地责弄着%STR_BODY("胸：短", 対象)%和%STR_BODY("クリ：短", 対象)%、贪求着更多的快乐
+				ELSE
+					PRINTFORML %ANAME(対象)%骑跨在哥布林身上、被迫用%STR_BODY("膣：感度", 対象)%侍奉着……
+					PRINTFORML 因为害怕惹被服务的哥布林生气、%ANAME(対象)%不敢进行反抗
+					PRINTFORML 粗大的肉棒直接顶到了子宫口、%ANAME(対象)%却从痛苦的性交中感受到了一丝快乐
+					PRINTFORML 不一会%ANAME(対象)%就以这种姿势被哥布林们中出了不知道多少次……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｃ, Ｂ, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "強姦")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML 数不清的哥布林围着%ANAME(対象)%轮流侵犯
+					PRINTFORML 每当有一个哥布林射精之后拔出肉棒、马上就有另一个哥布林顶了上来
+					PRINTFORML 被无数雄心中出的快感、让她流着口水快乐到要疯了
+					PRINTFORML 已经被射进了几十发白浊液的%STR_BODY("膣", 対象)%里、流出来黏糊糊的白浊精液……
+				ELSE
+					PRINTFORML 数不清的哥布林围着%ANAME(対象)%轮流侵犯
+					PRINTFORML 每当有一个哥布林射精之后拔出肉棒、马上就有另一个哥布林顶了上来
+					PRINTFORML %PRONOUN(対象)%虽然进行了顽强的反抗、却很快就被无数的哥布林压制住了
+					PRINTFORML 轮奸终于结束后、%STR_BODY("膣：処女確認：時間経過", 対象)%逆流出了黏糊糊的白浊精液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｃ, Ｂ, Ｖ, 輪姦, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 4
+				IF 士官フラグ
+					PRINTFORML 两头哥布林同时噗滋噗滋地侵犯者%ANAME(対象)%的两穴
+					PRINTFORML 已经不知道被内射了几次的两穴中、随着抽插翻出白浊的泡沫
+					PRINTFORML 阴道和肛门、两处同时传来的快感、让苦闷的%ANAME(対象)%疯狂的绝顶了好几次
+					PRINTFORML 被哥布林们粗长的肉棒抽插、如今已经成为了她必不可少的幸福……
+				ELSE
+					PRINTFORML 两头哥布林同时噗滋噗滋地侵犯者%ANAME(対象)%的两穴
+					PRINTFORML 已经不知道被内射了几次的两穴中、随着抽插翻出白浊的泡沫
+					PRINTFORML 看着一边反抗一边有些享受的%ANAME(対象)%、哥布林们发出了嘲讽的嗤笑
+					PRINTFORML 像是要好好教育她一样、哥布林们更加凶猛地侵犯着%ANAME(対象)%……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｃ, Ｂ, Ｖ, Ａ, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 膣内射精, 腸内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "")
+			CASE 5
+				IF 士官フラグ
+					PRINTFORML 两头哥布林同时侵犯着%ANAME(対象)%嘴巴和小穴
+					PRINTFORML 她的脸上涂满了精液、%STR_BODY("膣：処女確認：時間経過", 対象)%里也随着抽插喷出黏糊糊的白浊液
+					PRINTFORML 她高兴地吞着粗大的快要让下巴脱臼的肉棒、不停地用舌头和嘴唇取悦着
+					PRINTFORML 而且积极扭动着腰、自己最重要的部位和雄性的象征紧紧贴合在一起……
+				ELSE
+					PRINTFORML 两头哥布林同时侵犯着%ANAME(対象)%嘴巴和小穴……
+					PRINTFORML 两家是留着被殴打过的红肿。这是对她反抗时用牙齿咬痛了肉棒的惩罚
+					PRINTFORML 抵抗抑制应为殴打而消退的%ANAME(対象)%像个人偶一样、任由%STR_BODY("身体", 対象)%被啪啪啪啪地侵犯……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 奉仕, 性交, 性技, 精愛, Ｃ, Ｂ, Ｖ, Ｍ, 輪姦, 口淫, Ｖ性交", "処女喪失, 接吻喪失, 口内射精, 膣内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 6
+				IF 士官フラグ
+					PRINTFORML 哥布林们包围着%ANAME(対象)%、用肉棒塞满了她浑身上下所有的肉洞
+					PRINTFORML 不知道被射精了几次的身体上、几乎找不到没有被涂上白浊的位置
+					PRINTFORML 嘴巴里、两手里、%STR_BODY("胸", 対象)%、%STR_BODY("膣", 対象)%、%STR_BODY("アナル", 対象)%都是被坚硬的肉棒、%ANAME(対象)%感觉自己得到了作为一个雌性最高的快感
+					PRINTFORML %ANAME(対象)%毫无保留地用自己的身体、侍奉着哥布林们
+				ELSE
+					PRINTFORML 哥布林们包围着%ANAME(対象)%、用肉棒塞满了她浑身上下所有的肉洞
+					PRINTFORML 不知道被射精了几次的身体上、几乎找不到没有被涂上白浊的位置
+					PRINTFORML 她的经验人数以两手两脚都数不过来的数字增加着
+					PRINTFORML 她像个提线木偶一样、失神地被侵犯着
+				ENDIF
+				PRINTFORML 哥布林们一次又一次的弄醒因为绝顶而昏迷的%ANAME(対象)%
+				PRINTFORML 陵辱整整持续了一个晚上、%ANAME(対象)%全身上下的洞都被狠狠的使用了……
+				CALL FUCK_SP(対象, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｂ, Ｖ, Ｍ, Ａ, 輪姦, 輪姦, 口淫, Ｖ性交, Ａ性交", "処女喪失, 接吻喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 7
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被一个长着超级粗大巨根的哥布林侵犯了……
+					PRINTFORML 阴道被强行撑开、她疼的发出了尖叫
+					PRINTFORML 尽管被撕裂般的痛苦袭击着、%ANAME(対象)%却一边娇吟着扭着腰
+					PRINTFORML 反复的调教让她变得无比顺从、哥布林褒美得在她的小穴里射出精液……
+				ELSE
+					PRINTFORML %ANAME(対象)%被一个长着超级粗大巨根的哥布林侵犯了……
+					PRINTFORML 阴道被强行撑开、她疼的发出了尖叫
+					PRINTFORML %ANAME(対象)%眼睛挣得大大的、身体被撕裂般的痛苦折磨地扭曲
+					PRINTFORML 哥布林一边嗤笑着满头大汗的%ANAME(対象)%、一边在不堪重负的肉穴里射出了浓厚的精液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ拡張, Ｖ, 苦痛快楽, 被虐, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "強姦")
+			CASE 8
+				IF 士官フラグ
+					PRINTFORML 哥布林们包围着%ANAME(対象)%、把无数肉棒顶到她的眼前、命令她侍奉
+					PRINTFORML 在几次「性处理」之后、她的头发和脸上都染满了白浊的污秽……
+					PRINTFORML 面对翻起包皮后露出满满包皮垢的肉棒、%ANAME(対象)%像是在享受款待一样飞快的舔着
+					PRINTFORML 每当像被「褒奖」一样在嘴里、脸上射精时、她都一副非常幸福的表情接受着
+					PRINTFORML 一只手还不停的责弄着自己的阴部……
+				ELSE
+					PRINTFORML 哥布林们包围着%ANAME(対象)%、把无数肉棒顶到她的眼前、命令她侍奉
+					PRINTFORML 在几次「性处理」之后、她的头发和脸上都染满了白浊的污秽……
+					PRINTFORML 面对翻起包皮后露出满满包皮垢的肉棒、%ANAME(対象)%含着眼泪「処理」着
+					PRINTFORML 每当被哥布林们「褒奖」地在嘴巴里射出白浊液时、就涌出一股恶心的想吐的感觉
+					PRINTFORML 虽然完全忍受不了要吐的感觉、却被哥布林们强逼着吞了下去……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 奉仕, 精愛, 性技, Ｍ, 口淫, 口淫, 輪姦", "接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 9
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自愿的成为、哥布林们的简易「便器」
+					PRINTFORML 戴着眼睛的她，吞吐着着不知道谁的肉棒、喝下射出的白浊液
+					PRINTFORML 因为能够服务着他们坚挺的肉棒而感到幸福、她完全停不下作为「便器」的工作
+					PRINTFORML 便器就要做便器本来的用途、哥伦林们对着%ANAME(対象)%撒起尿来
+					PRINTFORML 已经几乎变成了哥布林的奴隶的%ANAME(対象)%、顺从的把它们喝干
+				ELSE
+					PRINTFORML 哥布林们把%ANAME(対象)%固定住墙壁上、用口枷撑起嘴巴、作为「便器」使用着……
+					PRINTFORML 戴着眼睛的她，吞吐着着不知道谁的肉棒、喝下射出的白浊液
+					PRINTFORML %ANAME(対象)%呕吐了无数次、但即使这样哥布林们也没有丝毫的怜悯
+					PRINTFORML 夹杂着暴力地、一次一次的使用着%ANAME(対象)%
+				ENDIF
+				PRINTFORML 精疲力尽后的%ANAME(対象)%、被哥布林们泼水「刷洗」着……
+				CALL FUCK_SP(対象, "欲望, 奉仕, 精愛, 性技, Ｍ, 口淫, 緊縛, 被虐, 輪姦", "接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 10
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自己志愿做，作为哥布林的「便器」工作着
+					PRINTFORML 下半身被固定在墙壁外的她、%STR_BODY("膣", 対象)%和%STR_BODY("アナル", 対象)%挤着被不知道是谁的肉棒
+					PRINTFORML 因为能够服务着他们坚挺的肉棒而感到幸福、她完全停不下作为「便器」的工作
+					PRINTFORML 便器就要做便器本来的用途、哥伦林们插入%ANAME(対象)%体内撒起尿来
+					PRINTFORML 已经几乎变成了哥布林的奴隶的%ANAME(対象)%、带着无上的幸福感受着……
+				ELSE
+					PRINTFORML 哥布林们把%ANAME(対象)%固定在墙壁里、下半身露在外面当着「便器」使用着
+					PRINTFORML 身体动弹不得的她、%STR_BODY("膣", 対象)%和%STR_BODY("アナル", 対象)%挤着被不知道是谁的肉棒
+					PRINTFORML %ANAME(対象)%抵抗地蹬着双脚、但是哥布林们完全无法容忍这种程度的反抗
+					PRINTFORML 夹杂着暴力地、一次一次的使用着%ANAME(対象)%的身体
+				ENDIF
+				PRINTFORML 精精疲力尽后的%ANAME(対象)%、被哥布林们泼水「刷洗」着……
+				CALL FUCK_SP(対象, "欲望, 性交, 性交, 精愛, Ｃ, Ｖ, Ａ, 緊縛, 被虐, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 11
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%倒在地板上，被哥布林们围住
+					PRINTFORML 一只哥布林骑跨到她的脸上、把菊花压到她的嘴巴上
+					PRINTFORML 已经成为了哥布林们从顺的奴隶的%ANAME(対象)%、立刻理解了那个意图
+					PRINTFORML 积极地把舌头伸进菊花里、侍奉着排泄污秽的地方……
+				ELSE
+					PRINTFORML %ANAME(対象)%倒在地板上，被哥布林们围住
+					PRINTFORML 一只哥布林骑跨到她的脸上、把菊花压到她的嘴巴上
+					PRINTFORML 她虽然进行了防抗、但却一点效果也没有
+					PRINTFORML 只能一直侍奉着他的菊花、知道哥布林满足为止……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 奉仕, 性交, 奉仕, 精愛, Ｃ, Ｖ, Ａ, Ｍ, Ｂ, 輪姦, 苦痛快楽, 被虐, 口淫, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), "ホフゴブリンのアナル", "哥布林", "", "輪姦")
+			CASE 12
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%向哥布林们乞求着、进入关押着男囚人的牢房里进行慰安卖身
+					PRINTFORML 不得不过着禁欲生活的男人们、一边感谢着哥布林们、一边疯狂的侵犯着%ANAME(対象)%……
+					PRINTFORML 小穴一次又一次的被贯穿、%ANAME(対象)%绝顶了无数次
+					PRINTFORML 腰扭动着、接受着男俘虏们数不清次数的发射……
+				ELSE
+					PRINTFORML 哥布林们命令%ANAME(対象)%、进入关押着男囚人的牢房里进行慰安卖身
+					PRINTFORML 全身赤裸的%ANAME(対象)%被扔进了牢房里、男人们相视一眼后就蜂拥而上
+					PRINTFORML 虽然%ANAME(対象)%进行了拼命的抵抗、但是寡不敌众、马上四肢都被控制住了
+					PRINTFORML 之后她的雌穴里、就被塞满了许久没有清洗过的、肮脏的肉棒……
+				ENDIF
+				PRINTFORML 直到整整一天后、哥布林们来回收为止、她的雌穴一直被侵犯着……
+				CALL FUCK_SP(対象, "欲望, 奉仕, 性交, 奉仕, 精愛, Ｖ拡張, Ａ拡張, Ｃ, Ｖ, Ａ, Ｍ, Ｂ, 口淫, 輪姦, 苦痛快楽, 被虐, Ｖ性交, Ａ性交", "接吻喪失, 膣内射精, 処女喪失, Ａ処女喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("地痞"), @"地痞的\@ RAND:2 ? 唇 # 肉棒 \@", "地痞", "", "輪姦")
+			CASE 13
+				IF 士官フラグ
+					PRINTFORML 哥布林们的兵舍中、%ANAME(対象)%全身赤裸带着项圈在散步
+					PRINTFORML 她的脚步瞒珊、因为两穴都被塞进的扩张气球撑得大开……
+					PRINTFORML 快乐的膝盖都在颤抖、好几次潮吹了的她、 被哥布林们嘲笑着
+					PRINTFORML 不时会停下来、按照命令的要求公开自慰、或者用嘴巴侍奉、扩张气球也被责弄着……
+				ELSE
+					PRINTFORML 哥布林们的兵舍中、%ANAME(対象)%全身赤裸带着项圈在散步
+					PRINTFORML 她的脚步瞒珊、因为两穴都被塞进的扩张气球撑得大开……
+					PRINTFORML 哥布林们毫不掩饰地注视着赤裸裸的躯体。因为羞耻，她的脚步十分沉重
+					PRINTFORML 她不时会停下来、按照命令的要求边公开自慰边被强行口爆……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 自慰, 自慰, 露出, 露出, Ｖ, Ａ, 口淫, 輪姦, 緊縛, 被虐, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), "ホフゴブリンのペニス", "振動棒", "", "調教")
+			CASE 14
+				IF 士官フラグ
+					PRINTFORML 全裸的%ANAME(対象)%摆出一副淫荡的姿势、被哥布林们围在中间
+					PRINTFORML 哥布林们脸上浮现出咸湿的笑容、肉棒早就挺了起来……
+					PRINTFORML 因为被挺立的肉棒包围着、她兴奋的公开自慰起来
+					PRINTFORML 一边发出菇滋菇滋的声音、不时颤抖着深吸着空气中充满了的雄性气息
+					PRINTFORML 不久之后哥布林们射出的精液弄脏了她的身体、在精液的热度的刺激下她挺直了身子高潮了……
+				ELSE
+					PRINTFORML 全裸的%ANAME(対象)%被强迫着摆出一副淫荡的姿势、被哥布林们围在中间
+					PRINTFORML 哥布林们脸上浮现出咸湿的笑容、肉棒早就挺了起来……
+					PRINTFORML %PRONOUN(対象)%厌恶的看着四面八方的、朝自己挺着的肉棒
+					PRINTFORML 而且、在他们的强迫下、%ANAME(対象)%不得不公开自慰起来
+					PRINTFORML 不久之后哥布林们射出的精液弄脏了她的身体……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 露出, 自慰, Ｃ, Ｂ, 輪姦", "", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 15
+				IF 士官フラグ
+					PRINTFORML 被狠狠地从背后侵犯的%ANAME(対象)%、在地上爬着
+					PRINTFORML 用舌头舔着洒在地上的精液
+					PRINTFORML 一边道着歉一边热心地打扫着
+					PRINTFORML 但是，在两个洞里注入的精液又流出来了，所以搞得像是没有打扫过一样
+					PRINTFORML 哥布林们以进行惩罚的借口、又一次开始侵犯起%ANAME(対象)%……
+				ELSE
+					PRINTFORML 被狠狠地从背后侵犯的%ANAME(対象)%、在地上爬着
+					PRINTFORML 用舌头舔着洒在地上的精液
+					PRINTFORML 即使对不讲理的要求感到愤怒，也只能选择服从
+					PRINTFORML 她一边进行的打扫、一边气的身体发抖……
+					PRINTFORML 哥布林们一边哄笑着、一边骂到打扫太慢了
+					PRINTFORML 作为对失职行为的惩罚、哥布林们开始再次侵犯起她……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 精愛, 性交, Ａ, Ｖ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 16
+				IF 士官フラグ
+					PRINTFORML 作为对反抗的态度的惩罚、%ANAME(対象)%被罚做了肉便器……
+					PRINTFORML 和其他的肉便器一起、带上眼罩口枷帮在专用的小黑屋里
+					PRINTFORML 不时到访的哥布林们、像使用「物品」一样使用着她……
+					PRINTFORML 她因为不被当人看待而感到无比兴奋、发出沉闷的呻吟声
+					PRINTFORML 这幅样子非常对哥布林们的胃口、一次一次地对着她发泄着性欲……
+				ELSE
+					PRINTFORML 作为对反抗的态度的惩罚、%ANAME(対象)%被罚做了肉便器……
+					PRINTFORML 和其他的肉便器一起、带上眼罩口枷帮在专用的小黑屋里
+					PRINTFORML 不时到访的哥布林们、像使用「物品」一样使用着她……
+					PRINTFORML 虽然一直在拼命地抵抗、但是却因为被绑住了而毫无意义
+					PRINTFORML 哥布林们一边嘲笑着发出沉闷呻吟的%ANAME(対象)%、一边有长长的肉棒剜着她的两穴……
+				ENDIF
+				PRINTFORML 一周之后、被放出来的她、已经变成了看不出原样的破破烂烂的样子……
+				CALL FUCK_SP(対象, "欲望, 奉仕, 精愛, 性交, 性技, 露出, Ａ拡張, Ｖ拡張, Ａ, Ｖ, Ｃ, Ｂ, Ｍ, 緊縛, 苦痛快楽, 被虐, 輪姦, Ｖ性交, Ａ性交", "接吻喪失, 膣内射精, 処女喪失, Ａ処女喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 17
+				IF 士官フラグ
+					PRINTFORML 哥布林们的宴会上、%ANAME(対象)%作为余兴表演赤裸裸的跳着舞
+					PRINTFORML %ANAME(対象)%像雌犬一样俯下身、双腿岔开、像强调一样地舞动着%STR_BODY("胸：修飾", 対象)%乳房
+					PRINTFORML 但仅仅如此的话还达不到余兴节目的标准、于是她开始当着表演起自慰来……
+				ELSE
+					PRINTFORML 哥布林们的宴会上、%ANAME(対象)%作为余兴表演赤裸裸的跳着舞
+					PRINTFORML 因为被盯着看非常羞耻、%ANAME(対象)%试图遮住重要的部位
+					PRINTFORML 这当然是不被允许的、马上就遭到了不堪入耳的骂声与嘘声
+					PRINTFORML %ANAME(対象)%就这样、被强迫当场自慰了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 露出, 自慰, Ｃ, Ｂ, Ｖ", "", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 18
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%看起来渴的厉害。已经连续几天没有喝到水了
+					PRINTFORML 用嘶哑的声音恳求看守给些水和、他把自己的肉棒掏了出来
+					PRINTFORML 让她蹲下来喝小便
+					PRINTFORML 已经变成了哥布林的忠实奴隶的%ANAME(対象)%、觉得这样就可以了、蹲下来开始喝起哥布林冒着热骚气的尿
+					PRINTFORML %ANAME(対象)%忘记了最初的目标、一心想着侍奉哥布林
+				ELSE
+					PRINTFORML %ANAME(対象)%看起来渴的厉害。已经连续几天没有喝到水了
+					PRINTFORML 用嘶哑的声音恳求看守给些水和、他把自己的肉棒掏了出来
+					PRINTFORML 让她蹲下来喝小便
+					PRINTFORML %ANAME(対象)%虽然非常生气、但是想到再继续下去可能会渴死
+					PRINTFORML 流着屈辱到想死的泪水、用嘴巴含住了勃起的肉棒
+				ENDIF
+				PRINTFORML 哥布林咯咯地大笑着、在她嘴里尿了出来……
+				CALL FUCK_SP(対象, "欲望, 奉仕, 精愛, 性技, 口淫", "接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), "ホフゴブリンのペニス", "哥布林", "", "調教")
+			CASE 19
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%看起来渴的厉害。已经连续几天没有喝到水了
+					PRINTFORML 用嘶哑的声音恳求看守给些水和、他把自己的肉棒掏了出来
+					PRINTFORML 然后示意着想喝的话、就把精液喝下去…… 
+					PRINTFORML 已经变成了哥布林的忠实奴隶的%ANAME(対象)%、觉得这样就可以了、蹲下来含住肉棒开始侍奉起来
+					PRINTFORML %ANAME(対象)%忘记了最初的目标、一心想着侍奉哥布林
+				ELSE
+					PRINTFORML %ANAME(対象)%看起来渴的厉害。已经连续几天没有喝到水了
+					PRINTFORML 用嘶哑的声音恳求看守给些水和、他把自己的肉棒掏了出来
+					PRINTFORML 然后示意着想喝的话、就把精液喝下去…… 
+					PRINTFORML %ANAME(対象)%虽然非常生气、但是想到再继续下去可能会渴死
+					PRINTFORML 流着屈辱到想死的泪水、用嘴巴含住了勃起的肉棒
+				ENDIF
+				PRINTFORML 哥布林咯咯地大笑着、在她嘴里射出了黏糊糊的白浊液……
+				CALL FUCK_SP(対象, "欲望, 奉仕, 精愛, 性技, 口淫", "接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), "ホフゴブリンのペニス", "哥布林", "", "調教")
+			CASE 20
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自愿参加了性处理的工作、前往了哥布林们的营地
+					PRINTFORML 赤身裸体地被绑着、像礼物盒一样的%PRONOUN(対象)%、被路过的哥布林们当着手纸的替代品使用着
+					PRINTFORML 她焦急地等着着被肉棒插入、似乎已经忍耐不下去了
+					PRINTFORML 一边从不知被中出了多少次的两穴里流出白浊液、一边用淫荡的话语勾引着路过的哥布林
+				ELSE
+					PRINTFORML %ANAME(対象)%被命令进行性处理的工作、带到了哥布林们的营地
+					PRINTFORML 赤身裸体地被绑着、像礼物盒一样的%PRONOUN(対象)%、被路过的哥布林们当着手纸的替代品使用着
+					PRINTFORML 当然她进行了激烈的反抗、但因为双手双脚都不能自由活动而毫无意义
+					PRINTFORML 无意义的抵抗结束后、她的两穴就被当成性处理工具使用了
+				ENDIF
+				PRINTFORML 当被允许从营地带走的时候、她的经验人数已经增加了两手两脚都数不过来的数量了……
+				CALL FUCK_SP(対象, "欲望, 精愛, 精愛, 性交, Ａ, Ｖ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 21
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被几个哥布林包围着
+					PRINTFORML 他们用肉棒摩擦着%ANAME(対象)%的身体、染上雄性的臭味
+					PRINTFORML 被身上雄性的腥臭味道诱惑的无法忍耐、%ANAME(対象)%开始自顾自地自慰起来
+					PRINTFORML %ANAME(対象)%焦急地等待着被早点侵犯、媚笑着挑逗着哥布林们……
+				ELSE
+					PRINTFORML %ANAME(対象)%被几个哥布林包围着
+					PRINTFORML 他们用肉棒摩擦着%ANAME(対象)%的身体、染上雄性的臭味
+					PRINTFORML 被身上雄性的腥臭味道熏的无法忍耐、%ANAME(対象)%一阵阵恶心头痛
+					PRINTFORML 哥布林们当然没有就此放过%ANAME(対象)%的打算……
+				ENDIF
+				PRINTFORML 哥布林们一边凌辱着%ANAME(対象)%、一边用肉棒在她身上染上洗不掉的腥臭味……
+				CALL FUCK_SP(対象, "欲望, 精愛, 精愛, 性交, Ａ, Ｖ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 22
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%志愿参加了哥布林们的「慈善活動」
+					PRINTFORML 用自己的身体来处理那些流浪妖怪的性欲
+					PRINTFORML 妖兽样貌的、行为也像野兽一样粗暴的妖怪们抓住了%ANAME(対象)%
+					PRINTFORML 在野兽特有的激烈的活塞下、%ANAME(対象)%发出响亮地叫床声
+					PRINTFORML 但是、总感觉比不上哥布林们肉棒的样子、无法完全得到满足
+				ELSE
+					PRINTFORML %ANAME(対象)%被驱使着参加了哥布林们的「慈善活動」
+					PRINTFORML 用自己的身体来处理那些流浪妖怪的性欲
+					PRINTFORML 妖兽样貌的、行为也像野兽一样粗暴的妖怪们抓住了%ANAME(対象)%
+					PRINTFORML %ANAME(対象)%虽然进行了抵抗、但是被更强的力量按住了
+					PRINTFORML 妖怪们毫不留情地进行着活塞运动、用这种方式教育着%ANAME(対象)%她的立场……
+				ENDIF
+				PRINTFORML 不久后妖兽们把白浊液喷射进了%ANAME(対象)%的阴道内
+				PRINTFORML 但是「慈善活動」还没有结束。还有数不清的妖怪们等着被侍奉……
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 精愛, Ｖ, Ｖ拡張, 輪姦, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("流浪妖怪"), @"流浪妖怪的\@ RAND:2 ? 唇 # 肉棒 \@", "流浪妖怪", "", "強姦")
+			CASE 23
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%看起来非常饿的样子。这几天什么都没有吃到
+					PRINTFORML 好不容易才送来的硬面包上、被哥布林们抹上了成为“果酱”的白浊精液
+					PRINTFORML 已经变成了哥布林们忠实奴隶的%ANAME(対象)%、脸上闪耀着被好好款待了的兴奋
+					PRINTFORML 一边慢慢的咀嚼着、品尝着味道吃着「果酱」面包……
+				ELSE
+					PRINTFORML %ANAME(対象)%看起来非常饿的样子。这几天什么都没有吃到
+					PRINTFORML 好不容易才送来的硬面包上、被哥布林们抹上了成为“果酱”的白浊精液
+					PRINTFORML %ANAME(対象)%虽然愤慨的想着那种东西怎么能吃、但是再不吃东西的话就要饿死了
+					PRINTFORML 为了不闻道味道而屏住呼吸、努力地不尝出味道、飞快地吃掉了「果酱」面包……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛", "", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "調教")
+			CASE 24
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的%STR_BODY("膣", 対象)%被两只肉棒同时插入、激烈地凌辱着
+					PRINTFORML %PRONOUN(対象)%的%STR_BODY("膣：処女確認：時間経過", 対象)%被雄壮的肉棒撑开、紧闭的嘴巴里发出悲鸣
+					PRINTFORML %ANAME(対象)%被这种痛苦和搭配着的强烈的快感搞得满身大汗……
+				ELSE
+					PRINTFORML %ANAME(対象)%的%STR_BODY("膣", 対象)%被两只肉棒同时插入、激烈地凌辱着
+					PRINTFORML %PRONOUN(対象)%的%STR_BODY("膣：処女確認：時間経過", 対象)%被雄壮的肉棒撑开、紧闭的嘴巴里发出悲鸣
+					PRINTFORML %ANAME(対象)%因为撕裂般的剧痛而闷不做声、浑身流汗……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ, Ｖ拡張, Ｖ拡張, 輪姦, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 25
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的%STR_BODY("アナル", 対象)%被两只肉棒同时插入、激烈地凌辱着
+					PRINTFORML %PRONOUN(対象)%的%STR_BODY("アナル：感度", 対象)%被雄壮的肉棒撑开、紧闭的嘴巴里发出悲鸣
+					PRINTFORML %ANAME(対象)%被这种痛苦和搭配着的强烈的快感搞得满身大汗……
+				ELSE
+					PRINTFORML %ANAME(対象)%的%STR_BODY("アナル", 対象)%被两只肉棒同时插入、激烈地凌辱着
+					PRINTFORML %PRONOUN(対象)%的%STR_BODY("アナル：感度", 対象)%被雄壮的肉棒撑开、紧闭的嘴巴里发出悲鸣
+					PRINTFORML %ANAME(対象)%因为撕裂般的剧痛而闷不做声、浑身流汗……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ａ, Ａ拡張, Ａ拡張, 輪姦, Ａ性交", "Ａ処女喪失, 腸内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 26
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在照顾哥布林们洗澡
+					PRINTFORML 她用双手、嘴巴、%STR_BODY("胸", 対象)%和%STR_BODY("膣", 対象)%、侍奉清洗着他们的肉棒
+					PRINTFORML 澡堂里有几个哥布林在和%ANAME(対象)%混浴、%ANAME(対象)%用身体清洗着他们的肉棒
+					PRINTFORML 乳房、秘部、尻穴、不知道被哥布林的手指责弄了多久、%ANAME(対象)%绝顶了好几次
+					PRINTFORML 身体里面也要漂亮地清理干净、哥布林们边说着变把肉棒插进她的两穴里
+					PRINTFORML 之后、一次又一次地、用她身体里的「肥皂」「清洗」着他们的肉棒……
+				ELSE
+					PRINTFORML %ANAME(対象)%得到了和哥布林们混浴的许可
+					PRINTFORML 不像%ANAME(対象)%一开始高兴地设想的那样、哥布林们并不会做那么好的事情
+					PRINTFORML 澡堂里有几个哥布林在和%ANAME(対象)%混浴、%ANAME(対象)%用身体清洗着他们的肉棒
+					PRINTFORML 乳房、秘部、尻穴、不知道被哥布林的手指责弄了多久、%ANAME(対象)%绝顶了好几次
+					PRINTFORML 身体里面也要漂亮地清理干净、哥布林们边说着变把肉棒插进她的两穴里
+					PRINTFORML 之后、一次又一次地、用她身体里的「肥皂」「清洗」着他们的肉棒……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+			CASE 27
+				IF 士官フラグ
+					PRINTFORML 作为工作失败的惩罚、%ANAME(対象)%赤身裸体的土下座向哥布林们请求原谅
+					PRINTFORML 哥布林们一边骂着%ANAME(対象)%、一边用力踩着她低下的头
+					PRINTFORML 作为原谅%ANAME(対象)%的代价、开始凌辱她的两穴
+					PRINTFORML 身体刚刚有一点感受到快感的迹象、就会遭到严厉的责骂和毒打
+					PRINTFORML 几个小时后、哥布林们朝着、低着头、两穴都冒出白浊液的%PRONOUN(対象)%集体小便之后就离开了……
+				ELSE
+					PRINTFORML 作为工作失败的惩罚、%ANAME(対象)%被迫赤身裸体的土下座向哥布林们请求原谅
+					PRINTFORML 哥布林们一边骂着%ANAME(対象)%、一边用力踩着她低下的头
+					PRINTFORML 作为原谅%ANAME(対象)%的代价、开始凌辱她的两穴
+					PRINTFORML 身体刚刚有一点感受到痛苦而躲避的迹象、就会遭到严厉的责骂和毒打
+					PRINTFORML 几个小时后、哥布林们朝着、低着头、两穴都冒出白浊液的%PRONOUN(対象)%集体小便之后就离开了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 奉仕, 性交, Ａ, Ｖ, 輪姦, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 腸内射精", 勢力番号, GET_SPERM_ID("哥布林"), @"哥布林的\@ RAND:2 ? 唇 # 肉棒 \@", "哥布林", "", "輪姦")
+		ENDSELECT
+	;-------------------------ここから汎用-------------------------
+	CASE 3
+		SELECTCASE RAND:2
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%为哥布林劳动着
+					PRINTFORML 虽然环境是严酷的，但哥布林们的忠诚的%ANAME(対象)%毫不在乎的专心劳作着……
+				ELSE
+					PRINTFORML %ANAME(対象)%为哥布林劳动着
+					PRINTFORML 虽然环境很残酷，但如果不服从的话，就会被暴力对待…
+				ENDIF
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML 哥布林们为解闷、在%ANAME(対象)%滥用暴力
+					PRINTFORML 哥布林的忠诚无比的%ANAME(対象)%、默默地忍受着……
+				ELSE
+					PRINTFORML 哥布林们为解闷、在%ANAME(対象)%滥用暴力
+					PRINTFORML %ANAME(対象)%咬着牙、默默地忍受着……
+				ENDIF
+		ENDSELECT
+ENDSELECT
+

@@ -1,0 +1,266 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@EVENT_DAILY_GAIRAI_PHEROMONE_RATE()
+RETURN (DVAR:フェロモン中毒_発生回数 > 0 ? 200 # 50)
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@EVENT_DAILY_GAIRAI_PHEROMONE_DECISION()
+#DIM 外来人
+外来人 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_外来人)
+SIF 外来人 == -1
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@EVENT_DAILY_GAIRAI_PHEROMONE_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;特定の条件を満たすキャラをランダムに選択する場合に利用
+;他の関数は必須だが、これだけはなくてもよい　というかパフォーマンスへ影響するので不要なら作ってはならない
+;対象が存在せずデイリーを開始できない場合は0を返すことでデイリーの発生をキャンセルする
+;---------------------
+@EVENT_DAILY_GAIRAI_PHEROMONE_SETTARGET()
+#DIM 対象
+#DIM 外来人
+外来人 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_外来人)
+対象 = ID_TO_CHARA(DVAR:フェロモン中毒_対象ID)
+
+;前回の発生からの状態変化をみる
+IF 対象 != -1
+	;君主になっているなら解除
+	IF 対象 == GET_COUNTRY_BOSS(CFLAG:対象:所属)
+		DVAR:フェロモン中毒_対象ID = 0
+		RETURN 0
+	ENDIF
+
+	;外来人所属になってるなら解除
+	IF CFLAG:対象:所属 == 外来人
+		DVAR:フェロモン中毒_対象ID = 0
+		RETURN 0
+	ENDIF
+
+	;死んでいたら戻す
+	IF CFLAG:対象:特殊状態 == 特殊状態_死亡
+		DVAR:フェロモン中毒_対象ID = 0
+		RETURN 0
+	ENDIF
+
+	;未登場
+	IF ALLSAMES(CFLAG:対象:特殊状態, CFLAG:対象:所属, 0)
+		DVAR:フェロモン中毒_対象ID = 0
+		RETURN 0
+	ENDIF
+
+	;オンナをやめたなら解除
+	IF !IS_FEMALE(対象)
+		DVAR:フェロモン中毒_対象ID = 0
+		RETURN 0
+	ENDIF
+
+	;捕虜になっているなら戻す
+	SIF CFLAG:対象:捕虜先
+		RETURN 0
+;対象がいなければ新たに設定する
+ELSE
+	FOR LOCAL, 0, CHARANUM
+		;所属が外来人でなく、捕虜でなく、女。
+		;MASTERでなく、君主でなく、動物でなく、特殊キャラでなく、特殊勢力キャラでなく、死んでおらず、未登場でもない
+		{
+			IF CFLAG:(LOCAL):所属 != 外来人 && !CFLAG:(LOCAL):捕虜先 && IS_FEMALE(LOCAL) 
+				&& LOCAL != MASTER && LOCAL != GET_COUNTRY_BOSS(CFLAG:LOCAL:所属) && !IS_ANIMAL(LOCAL) && !IS_SP_CHARA(LOCAL) && !TALENT:LOCAL:特殊勢力素質
+				&& CFLAG:LOCAL:特殊状態 != 特殊状態_死亡 && !ALLSAMES(CFLAG:LOCAL:特殊状態, CFLAG:LOCAL:所属, 0)
+		}
+			SIF CFLAG:LOCAL:所属 == CFLAG:MASTER:所属 && RAND:3
+				CONTINUE
+			DAILY_TARGET:DAILY_TARGET_NUM = LOCAL
+			DAILY_TARGET_NUM ++
+		ENDIF
+	NEXT
+	SIF DAILY_TARGET_NUM < 1
+		RETURN 0
+	DVAR:フェロモン中毒_対象ID = GET_ID(DAILY_TARGET:(RAND:DAILY_TARGET_NUM))
+ENDIF
+
+RETURN 1
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@EVENT_DAILY_GAIRAI_PHEROMONE()
+#DIM 対象
+#DIM 外来人
+#DIM 勢力番号
+
+外来人 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_外来人))
+対象 = ID_TO_CHARA(DVAR:フェロモン中毒_対象ID)
+
+IF DVAR:フェロモン中毒_発生回数 == 0
+	PRINTFORML 外来人发明了一种调教性奴隶用的机器
+	PRINTFORML 它会产生一种吸引女性的费洛蒙
+	PRINTFORML 马上进行试验后、%ANAME(対象)%被吸引了过去
+	PRINTFORML 那个表情显然不太正常、而是已经是表现出发情的样子
+	PRINTFORML %ANAME(対象)%边走边垂着舌头、手指还不停责弄着自己的秘处、扭动着娇躯摇摇晃晃的走向了外来人
+	PRINTFORMW 他们满意的笑着、相信实验成功了、%ANAME(対象)%被它带到了阴暗的角落里去了
+ELSE
+	PRINTFORML 又一次启动了费洛蒙发散装置
+	PRINTFORML 这次是为了确认费洛蒙中毒性成瘾的实验
+	PRINTFORML 稍等了一会儿、就发现%ANAME(対象)%从阴暗处蹒跚着走来了
+	PRINTFORML 那个表情果然是发情了的样子、脸上写满了期待
+	PRINTFORMW 外来人看到%ANAME(対象)%的样子确信了实验的确是成功了、他们满意的笑着并继续将她带入到阴暗的角落中去
+ENDIF
+PRINTFORML 
+SELECTCASE RAND:20
+	CASE 0
+		PRINTFORML %ANAME(対象)%以四肢伏地的姿态被外来人侵犯着
+		PRINTFORML 每当外来人粗暴的挺腰时、都会发出肉与肉互相拍打的声音%ANAME(対象)%的娇声有节奏地回响着
+		PRINTFORML 在激烈的活塞运动中、子宫的淫疼已经无法忍受了%ANAME(対象)%撒着娇地索求着他人的播种
+		PRINTFORMW 他为了回应、在她的身体深处射精了、%ANAME(対象)%发出了喜悦的娇声并顺应着播种绝顶了
+	CASE 1
+		PRINTFORML %ANAME(対象)%像狗一样打扮着被外来人侵犯
+		PRINTFORML 她被压在身下、肉棒在身躯中激烈地拧入、%ANAME(対象)%身体颤抖着发出了喜悦的娇声
+		PRINTFORML 每一次突刺都会带来令大脑也麻痹的快乐%ANAME(対象)%在快乐的袭击下、颤抖到手臂都快要垮掉
+		PRINTFORMW 如同野兽一样激烈的交尾持续到了日落、%ANAME(対象)%在播种中好几次品尝到了甘美的绝顶
+	CASE 2
+		PRINTFORML %ANAME(対象)%被外来人推倒了、在挣扎中雌穴被拧入了肉棒
+		PRINTFORML 在连同子宫都在震响的激烈冲击中、%ANAME(対象)%脸上带着不爽的表情娇喘着
+		PRINTFORML 但在雄壮的抽插中身体完全屈服了、为了索求播种膣肉开始收缩、用力刺激着被含咥在蜜壶深处的肉棒
+		PRINTFORMW 很快他的精液射了出来、%ANAME(対象)%的身体在喜悦的后仰中发出无与伦比的娇声
+	CASE 3
+		PRINTFORML %ANAME(対象)%被以叠压的姿势激烈地打入了肉棒
+		PRINTFORML 粗大的肉棒将膣肉嘎吱嘎吱地挖蹭着、%ANAME(対象)%哭着发出了喜悦的娇声
+		PRINTFORML 突然一挺！被深深地打了进来、%ANAME(対象)%的脑袋变的一片空白、抵达了顶点
+		PRINTFORMW 肉体被支配的%ANAME(対象)%在那之后也依然被侵犯着、强制送上了疯狂的快感
+	CASE 4
+		PRINTFORML %ANAME(対象)%被外来人推倒了、以正常位侵犯着
+		PRINTFORML 那个表情充满了喜悦，颤抖的手脚紧紧抱住了他，嘴中充斥着淫靡的喘息声
+		PRINTFORML 和猥亵的甜美水声一起，每次肉棒出入的时候、%ANAME(対象)%的膣道都紧缠着肉棒、蠢蠢欲动地渴求着播种
+		PRINTFORMW 他无法忍耐地在那个收缩着的紧窄膣道中射精了、%ANAME(対象)%露出阿嘿颜迎来了绝顶
+	CASE 5
+		PRINTFORML %ANAME(対象)%被剥光了衣物、赤裸裸的她被粗暴地侵犯着
+		PRINTFORML 他的肉棒被膣道深深的接受了、%ANAME(対象)%以诱惑着雄性的淫靡表情露出了纠缠着的舌头
+		PRINTFORML 像一个娼婦一样%ANAME(対象)%在淫荡的动作中、外来人因为兴奋而加速、更加激烈的晃动着腰部
+		PRINTFORMW %ANAME(対象)%从他激烈的活塞中感受到越来越强烈的喜悦的、身体下意识的弯曲了起来同时迎来了绝顶
+	CASE 6
+		PRINTFORML 外来人的粗大肉棒激烈地拍打着蜜壶%ANAME(対象)%迎来了绝顶
+		PRINTFORML 因为他的肉欲、强暴持续了下去%ANAME(対象)%属于雌性的脸在颤抖中迎来了痉挛
+		PRINTFORML 在连续的绝顶冲击让脑袋都精神恍惚起来、那膣道的媚肉也为了寻求更高的快乐而下意识地捆紧了内里的肉棒
+		PRINTFORMW 在这之后两人都忘记了时间、一直持续着、%ANAME(対象)%好几次接受了他的播种
+	CASE 7
+		PRINTFORML %ANAME(対象)%在外来人的身上一脸浪荡地摆动着腰身
+		PRINTFORML 肉棒每次出入都会将膣道内合拢的媚肉挖开、%ANAME(対象)%口中发出淫靡的娇声并忍不住弯下了腰
+		PRINTFORML 突然被从下往上顶起了腰肢、传来的冲击像是子宫被踢中一样、%ANAME(対象)%在快感的冲击中支起了脊背并顺势后仰了
+		PRINTFORMW %ANAME(対象)%在快乐的冲击中痉挛了、头脑变得一片空白、媚眼变化成♥传达着内心的喜悦
+	CASE 8
+		PRINTFORML %ANAME(対象)%被推倒在地上激烈的挤入了肉棒
+		PRINTFORML 在他的热情的交合中、她数次绝顶%ANAME(対象)%的身上没力气了、只是一直保持着被进入的姿态
+		PRINTFORML 由于绝顶而被肉棒挖削到无比敏感的媚肉中、传来了剧烈的冲击、%ANAME(対象)%像坏掉的人偶一样动弹不得、在难以承受的肉欲中几近发狂
+		PRINTFORMW 但是他的进攻力度毫无衰减、%ANAME(対象)%在之后也依旧被狠狠的虐待着
+	CASE 9
+		PRINTFORML %ANAME(対象)%跨坐在外来人身上、淫荡的身体弯曲着
+		PRINTFORML 蜜壶张开了、将粗大的肉棒含咥在其中、膣肉能感受到肉棒雄壮的轮廓%ANAME(対象)%娇喘着露出喜悦的表情
+		PRINTFORML 外来人对%ANAME(対象)%的奉仕服务感到满足、大声称赞着她的淫靡、并且预告为了奖励她即将对她进行播种
+		PRINTFORMW 因为那个词%ANAME(対象)%感到的喜悦让子宫开始淫痛起来、为了得到奖励她开始更加激烈的持续奉仕
+	CASE 10
+		PRINTFORML %ANAME(対象)%躺卧着、精液从秘所中溢出、流淌到地面上
+		PRINTFORML 虽然被侵犯的乱七八糟、但那表情充满了喜悦、颤抖的娇喘从唇齿间流露出来
+		PRINTFORML 膣道外面的下腹部被外来人温柔的充分抚摸着、%ANAME(対象)%的身体不由自主的颤动着
+		PRINTFORMW 子宫的淫痛无法阻止%ANAME(対象)%如果用手指去打开的话，接下来就要开始索求了
+	CASE 11
+		PRINTFORML %ANAME(対象)%被抱起了一边的大腿、单脚站立的她被激烈的冲顶往上带动着整个身体
+		PRINTFORML 每一次突刺都在子宫中响起、像是在子宫里进行着粗暴的活塞运动、%ANAME(対象)%响亮地发出了淫靡的娇声
+		PRINTFORML 因為過度的快樂、身體劇烈地顫抖著就快要崩潰了、倚靠在墻壁上、才勉強維持著體態
+		PRINTFORMW 对这样的她毫不在意地加强进攻力度、猛烈地冲击着、%ANAME(対象)%娇媚地喘着气、接受了这种猛烈冲击
+	CASE 12
+		PRINTFORML %ANAME(対象)%以站立的姿态被人从背后猛烈的侵犯着
+		PRINTFORML 脑子里像是有闪光灯在闪烁%ANAME(対象)%脑袋里一片空白，从喉咙发出了娇媚的呻吟声
+		PRINTFORML 身体被粗暴的性交完全教育、%ANAME(対象)%的膣道已经完全记忆了他肉棒的形状
+		PRINTFORMW 他突然释放了自己的精华、%ANAME(対象)%伴随着强烈的绝顶一同潮吹了
+	CASE 13
+		PRINTFORML %ANAME(対象)%跪在他的两腿之间奉仕着他的肉棒
+		PRINTFORML 从淫靡的松散裂缝中溢出了粘糊和白浊液，说明已经发生了好几次污浊的故事。
+		PRINTFORML 但%ANAME(対象)%对于那些把自己数次引导至绝顶的可爱坚挺肉棒依然无法拒绝、欢喜地奉仕着
+		PRINTFORMW 很快肉棒再次复活、%ANAME(対象)%紧紧地抱住了他索求着他的慈悲
+	CASE 14
+		PRINTFORML %ANAME(対象)%用面对面坐着的姿态、把他的肉棒整根含咥到膣肉中去
+		PRINTFORML 一边被紧紧的拥抱着、一边在一次又一次的不断突入中轻吻着她的子宫、%ANAME(対象)%陶醉于其中
+		PRINTFORML 膣肉一边痉挛着一边收缩捆紧了肉棒、雌性的本能在以这种方式促求着播种
+		PRINTFORMW 临近极限的他毫不客气的往膣肉深处进行了播种、%ANAME(対象)%带着喜悦的娇声一同抵达了高潮
+	CASE 15
+		PRINTFORML %ANAME(対象)%由于外来人激烈的侵犯而不断疯狂高潮着
+		PRINTFORML 他低声呢喃着在膣内射精了、用那种热量令%ANAME(対象)%把身体向后仰、在高昂的娇声中绝顶了
+		PRINTFORML 看啊♥看啊♥很有气势呢、感觉到子宫中被注入的精液、%ANAME(対象)%在无法抑制的痉挛中连续绝顶了
+		PRINTFORMW 完成了射精的他拔出肉棒，咯吱咯吱地从雌穴中溢出了淫亵的声音和精液
+	CASE 16
+		PRINTFORML %ANAME(対象)%和他的舌头纠缠在一起，就像野兽一样
+		PRINTFORML 一边被深深地挖掘着膣道一边被吻吸着舌头%ANAME(対象)%脑子里一片纯白、快要喘不过气来
+		PRINTFORML 在令全身溶化的快感中、%ANAME(対象)%的双眼变成♥紧紧地抱住了他、更加激烈地振起腰来
+		PRINTFORMW 两人在本能的驱使下散发着浓烈爱意、沉溺在腰身的相互碰打之中
+	CASE 17
+		PRINTFORML %ANAME(対象)%被通过绳索一边拉着脖子上的项圈一边从背后侵犯着
+		PRINTFORML 啪呐啪呐、外来人就像是在训练一直动物一样%ANAME(対象)%被激烈的撞击着腰部
+		PRINTFORML %ANAME(対象)%因为过分的快乐而像狗一样，很放荡地一边吐出了舌头，一边做活塞运动。
+		PRINTFORMW 向这个被标记的子宫灌注着他的种子、%ANAME(対象)%发出野兽般的叫声、绝顶了
+	CASE 18
+		PRINTFORML %ANAME(対象)%一边戴上了眼罩一边被外来人侵犯着
+		PRINTFORML 没有任何顾虑、雄壮的进行着活塞运动、%ANAME(対象)%仰起了被眼罩覆盖着的脸、沉溺在快感中
+		PRINTFORML 眼睛什么都看不见，但肉棒的形状通过被挖开的膣肉了解得一清二楚、整个膣道都被调教成他的肉棒专用的形状了
+		PRINTFORMW 在被完全教育完毕的子宫膣肉中射精了、%ANAME(対象)%因为感受到体内胎中的热量而绝顶了
+	CASE 19
+		PRINTFORML %ANAME(対象)%一边流着口水一边被侵犯着
+		PRINTFORML 为了实验而过度嗅取了费洛蒙%ANAME(対象)%从身体到内心都变成了发情的母狗
+		PRINTFORML 他把肉棒深深的推了进去、%ANAME(対象)%被刺激的身体大幅度弹跳了一下，发出了喜悦的娇声
+		PRINTFORMW %ANAME(対象)%在这之后也满脑子为了索求播种而交尾，子宫也被数次灌注了精液
+ENDSELECT
+
+CALL FUCK_SP(対象, "欲望, 精愛, 奉仕, 性交, 性技, Ｖ, Ｂ, Ｃ, Ｍ, Ｖ性交", "膣内射精, 処女喪失, 接吻喪失", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+
+PRINTFORML 
+
+IF GETBIT(TALENT:対象:特殊勢力陥落系, 特殊勢力_外来人)
+	PRINTFORML %ANAME(対象)%想起了曾经铭刻在身上的实验动物性
+	PRINTFORML 对着这边一边俯视着一边伸出了项圈的他、%ANAME(対象)%毫不犹豫的伸出了头露出了脖子
+	PRINTFORMW 那个表情既不是屈辱，也不是羞耻，充满了喜悦和期待。
+	CALL COLOR_PRINT(@"%ANAME(対象)%再一次沦落为外来人的实验动物……", カラー_ピンク)
+	PRINTFORMW 
+	CALL CHANGE_COUNTRY(対象, 外来人, 1)
+	DVAR:フェロモン中毒_対象ID = 0
+	DVAR:フェロモン中毒_発生回数 = 0
+ELSEIF DVAR:フェロモン中毒_発生回数 < 3
+	PRINTFORML %ANAME(対象)%在她失去意识的时候，他拿着装置迅速离开了
+	IF DVAR:フェロモン中毒_発生回数 == 0
+		PRINTFORMW 清醒过来之后%ANAME(対象)%因为自己的痴态羞得满脸通红、内心深处却在期待着下一次相遇
+	ELSE
+		PRINTFORMW 清醒过来之后%ANAME(対象)%因为自己的痴态羞得满脸通红、却微弱的回忆起了子宫的淫痛
+		DVAR:フェロモン中毒_対象ID = 対象
+	ENDIF
+	DVAR:フェロモン中毒_発生回数 ++
+ELSE
+	PRINTFORML %ANAME(対象)%好像完全得了费洛蒙中毒症
+	PRINTFORML 他跟随了正要离开的外来人，让他们今后也饲养着自己
+	PRINTFORML 她带着低贱的淫笑%ANAME(対象)%低头往下看的时候、视野里伸出了一个项圈
+	PRINTFORML 察觉到了那个意思%ANAME(対象)%虽然犹豫了一瞬间，但还是立即伸出了自己的脖子
+	PRINTFORMW 他抚摸着新宠物的弹滑屁股，带着她回家去了
+	SETBIT TALENT:対象:特殊勢力陥落系, 特殊勢力_外来人
+	CALL COLOR_PRINT(@"%ANAME(対象)%被作为外来人的实验动物……", カラー_ピンク)
+	PRINTFORMW 
+	CALL GAIRAI_FALLEN_LEAVE_MARK(対象)
+	CALL CHANGE_COUNTRY(対象, 外来人, 1)
+	DVAR:フェロモン中毒_対象ID = 0
+	DVAR:フェロモン中毒_発生回数 = 0
+ENDIF
+
+RETURN 1

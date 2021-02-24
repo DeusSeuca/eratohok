@@ -1,0 +1,724 @@
+﻿;-------------------------------------------------
+;調教メッセージ
+;-------------------------------------------------
+@BANDIT_TRAIN_MSG(対象, 士官フラグ)
+#DIM 対象
+#DIM プレイ番号
+#DIM 勢力番号
+#DIM 士官フラグ
+
+
+勢力番号 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_野盗)
+
+IF HAS_VAGINA(対象) && HAS_PENIS(対象)
+	SELECTCASE RAND:100
+		CASE IS < 10
+			プレイ番号 = 0
+		CASEELSE
+			プレイ番号 = 2
+	ENDSELECT
+ELSEIF HAS_VAGINA(対象)
+	プレイ番号 = 2
+ELSEIF HAS_PENIS(対象)
+	プレイ番号 = 1
+ELSE
+	プレイ番号 = 3
+ENDIF
+
+SELECTCASE プレイ番号
+	;-------------------------ここからふたなり専用-------------------------
+	CASE 0
+		SELECTCASE RAND:8
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为妓女在妓馆工作
+					PRINTFORML 据说通过自己卖春的事，打算把那个做为土匪们的军资金
+					PRINTFORML 说内衣有点勉强，穿上几乎透明的衣服，她在等客人
+					PRINTFORML 然后对来的客人，用口和%STR_BODY("胸：長", 対象)%、%STR_BODY("膣：処女確認：時間経過", 対象)%和肉棒充分做了服务……
+					PRINTFORML 对于罕见的两位妓女，客人似乎十分满意……
+				ELSE
+					PRINTFORML %ANAME(対象)%是作为妓女在妓馆工作的
+					PRINTFORML 土匪们让抓住了的女人卖春，把那个作为资金
+					PRINTFORML 说内衣有点勉强，穿上几乎透明的衣服，她在等客人
+					PRINTFORML 然后出现的客人，用口和%STR_BODY("胸：長", 対象)%、%STR_BODY("膣：処女確認：時間経過", 対象)%和肉棒充分地被迫服务了
+					PRINTFORML 对于罕见的两位妓女，客人似乎十分满意……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ｍ, 接吻, 口淫, 売春, Ｖ性交, 売春", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("娼館的客人"), @"娼館の客の\@ RAND:2 ? 唇 # 肉棒 \@", "娼館的客人", "", "売春")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被土匪轮奸
+					PRINTFORML 像你这样的小鸡女被骂成不卖东西了，被侵犯了，%ANAME(対象)%发出欢喜的声音
+					PRINTFORML 每当在阴道和屁股孔，口内种植种子的时候，%ANAME(対象)%的肉棒也吐出精
+					PRINTFORML 土匪们嘲笑那卑鄙的模样，更加激烈地侵犯了%ANAME(対象)%
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪轮奸
+					PRINTFORML 像你这样的小鸡女被骂成不卖东西了，被侵犯了，%ANAME(対象)%咬紧牙关
+					PRINTFORML %STR_BODY("膣", 対象)%和%STR_BODY("アナル", 対象)%、每当在口内种植种子的时候，%ANAME(対象)%的肉棒也会吐出精力
+					PRINTFORML 土匪们嘲笑那卑鄙的模样，更加激烈地侵犯了%PRONOUN(対象)%
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 輪姦, Ｖ性交, Ａ性交", "処女喪失, 接吻喪失, 膣内射精, Ａ処女喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被陌生男人拥抱
+					PRINTFORML 由于是世间也新奇的肉棒长了的女人，被好事家借出了
+					PRINTFORML 好事家一边穿%ANAME(対象)%一边责弄%PRONOUN(対象)%的肉棒，好多次使之射精
+					PRINTFORML 每当绝顶的时候，%ANAME(対象)%发出欢喜的声音苦闷不已……
+				ELSE
+					PRINTFORML %ANAME(対象)%被陌生男人拥抱
+					PRINTFORML 由于是世间也新奇的肉棒长了的女人，被好事家借出了
+					PRINTFORML 好事家一边穿%ANAME(対象)%一边责弄%PRONOUN(対象)%的肉棒，好多次使之射精
+					PRINTFORML 几度绝顶的%ANAME(対象)%中，没有剩下只是抵抗的体力……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ｍ, Ａ, 接吻, 口淫, 売春, Ｖ性交, Ａ性交, 売春", "処女喪失, Ａ処女喪失, 接吻喪失,　膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("貴族"), @"貴族の\@ RAND:2 ? 唇 # 肉棒 \@", "貴族", "", "売春")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在杂耍棚工作
+					PRINTFORML 因为世上少有的长着肉棒的女人而被卖掉了
+					PRINTFORML %PRONOUN(対象)%在舞台上，拥有象手臂一样粗的东西的男人从后面开始。
+					PRINTFORML 亲自处理物品，为了让观众看到而射精，观众们都发出了欢呼声……
+				ELSE
+					PRINTFORML %ANAME(対象)%在杂耍棚工作
+					PRINTFORML 因为世上少有的长着肉棒的女人而被卖掉了
+					PRINTFORML %PRONOUN(対象)%在舞台上，拥有象手臂一样粗的东西的男人从后面开始。
+					PRINTFORML 以贯穿的快感射精后，观众们欢呼声高涨……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 奉仕, 精愛, 射精, Ｖ拡張, Ｖ, Ｂ, Ｃ, Ｍ, 接吻, 口淫, 苦痛快楽, 被虐, 売春, Ｖ性交, 売春", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "売春")
+			CASE 4
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%和土匪做爱
+					PRINTFORML  %STR_BODY("胸：愛撫", 対象)%一边被揉搓一边被从后面推，%ANAME(対象)%快乐苦闷着
+					PRINTFORML %PRONOUN(対象)%自己地处置并且贪图快乐的话，土匪土匪哈哈地笑了笑
+					PRINTFORML 被解放的时候，%STR_BODY("膣：処女確認：時間経過", 対象)%粘糊糊地白的东西溢出……
+				ELSE
+					PRINTFORML %ANAME(対象)%和土匪做爱
+					PRINTFORML  %STR_BODY("胸：愛撫", 対象)%一边被揉搓一边从后面被推起，咬紧着嘴唇%ANAME(対象)%感觉不到
+					PRINTFORML %PRONOUN(対象)%被推上来的刺激射精的话，土匪哈哈大笑
+					PRINTFORML 被解放的时候，%STR_BODY("膣：処女確認：時間経過", 対象)%粘糊糊地白的东西溢出……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "強姦")
+			CASE 5
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%为土匪赚钱，正在街头巷尾
+					PRINTFORML 和打招呼的男子一起进入旅馆
+					PRINTFORML 男性似乎对%ANAME(対象)%大腿上长出的东西感到惊讶，但马上沉迷于%STR_BODY("身体", 対象)%
+					PRINTFORML 充分享受之后，%ANAME(対象)%和男性交换了联系方式回家了……
+				ELSE
+					PRINTFORML %ANAME(対象)%为了土匪赚钱，被迫街头巷尾
+					PRINTFORML 被打招呼的男子带进了旅馆
+					PRINTFORML 男性似乎对%ANAME(対象)%大腿上长出的东西感到惊讶，但马上沉迷于%STR_BODY("身体", 対象)%
+					PRINTFORML “お乐趣”结束的时候，%ANAME(対象)%被男性迷住了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ｍ, 接吻, 口淫, 売春, Ｖ性交, 売春", "接吻喪失, 膣内射精, 処女喪失, 口内射精", 勢力番号, GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@ RAND:2 ? 唇 # 肉棒 \@", "偶遇的男人", "", "売春")
+			CASE 6
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在可疑的酒吧当舞者
+					PRINTFORML 没有面积等危险的服装在激烈的舞蹈中简单地偏离，露出%ANAME(対象)%的%STR_BODY("身体", 対象)%
+					PRINTFORML 作为 "服务"的一环，%ANAME(対象)%亲自使用从胯座伸长的东西的话，从观众席猥亵的yaji飞了
+					PRINTFORML 舞蹈结束的时候，那个%STR_BODY("陰唇", 対象)%用不是汗的液体沾湿了……
+				ELSE
+					PRINTFORML %ANAME(対象)%在可疑的酒吧当舞者
+					PRINTFORML 没有面积等危险的服装在激烈的舞蹈中简单地偏离，露出%ANAME(対象)%的%STR_BODY("身体", 対象)%
+					PRINTFORML 本应受到强烈的羞耻袭击，但%ANAME(対象)%却在不知不觉中斩获了
+					PRINTFORML 舞蹈结束的时候，那个%STR_BODY("陰唇", 対象)%用不是汗的液体沾湿了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 欲望, 露出, 露出, 露出, 売春", "", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "売春")
+			CASE 7
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被橡木SHOTE挂上
+					PRINTFORML 为了土匪赚钱，自愿成为商品的
+					PRINTFORML 被"展出"了的女性中也特别美丽，而且是二个的%ANAME(対象)%高价被安上了
+					PRINTFORML 被中标的男子的手臂抱的时候，%ANAME(対象)%的%STR_BODY("陰唇", 対象)%已经慢慢地湿透了
+					PRINTFORML %ANAME(対象)%被兴奋的男子用了一晚上充分地教育了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被橡木SHOTE挂上
+					PRINTFORML 为了土匪赚钱，被强行卖掉了
+					PRINTFORML 被"展出"了的女性中也特别美丽，而且是二个的%ANAME(対象)%高价被安上了
+					PRINTFORML 对中标的男人的技巧，%ANAME(対象)%的%STR_BODY("陰唇", 対象)%沾湿了
+					PRINTFORML %ANAME(対象)%被兴奋的男子用了一晚上充分地教育了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 売春, Ｖ性交, Ａ性交, 売春", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("貴族"), @"貴族の\@ RAND:2 ? 唇 # 肉棒 \@", "貴族", "", "売春")
+		ENDSELECT
+	;-------------------------ここから要ペニス-------------------------
+	CASE 1
+		SELECTCASE RAND:1
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为土匪士兵袭击了附近的村落
+					PRINTFORML 找到了他们喜欢的美丽的姑娘，然后带他们到基地去
+					PRINTFORML 首先需要作为奴隶的教育，%ANAME(対象)%与土匪一起轮奸了被夺走的女儿……
+				ELSE
+					PRINTFORML %ANAME(対象)%作为土匪士兵袭击了附近的村落
+					PRINTFORML 找到了他们喜欢的美丽的姑娘，然后带他们到基地去
+					PRINTFORML 虽然被良心的谴责袭击的%ANAME(対象)%
+					PRINTFORML 土匪命令%ANAME(対象)%陵辱被抓走的女儿……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 射精, Ｃ, Ｖ挿入, Ａ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "村娘の膣", "輪姦")
+		ENDSELECT
+	;-------------------------ここから要Ｖ-------------------------
+	CASE 2
+		SELECTCASE RAND:28
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为妓女在妓馆工作
+					PRINTFORML 据说通过自己卖春天的事，打算把那个做为土匪们的军资金
+					PRINTFORML 说内衣有点勉强，穿上几乎透明的衣服，她在等客人
+					PRINTFORML 然后对来的客人，用嘴、乳房、阴道洞，充分地做了服务……
+					PRINTFORML %ANAME(対象)%取消了他们的基地，她把挣来的钱全部捐给了土匪
+				ELSE
+					PRINTFORML %ANAME(対象)%是作为妓女在妓馆工作的
+					PRINTFORML 土匪们让抓住了的女人卖春，把那个作为资金
+					PRINTFORML 说内衣有点勉强，穿上几乎透明的衣服，她在等客人
+					PRINTFORML 然后出现的客人，用嘴、乳房、阴道洞，充分地被迫做了服务
+					PRINTFORML %ANAME(対象)%取消了他们的基地，他们把所赚的钱全部拿走了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, Ｖ, Ｂ, Ｃ, 口淫, 売春, Ｖ性交, 売春", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("娼館的客人"), @"娼館の客の\@ RAND:2 ? 唇 # 肉棒 \@", "娼館的客人", "", "売春")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在与土匪有关的怪异店做服务员
+					PRINTFORML 不隐瞒应该隐藏的地方，这样的服装会激发顾客的兴奋
+					PRINTFORML 客人对%ANAME(対象)%的身体伸出手，爱抚乳房和秘部
+					PRINTFORML 此后，%ANAME(対象)%与喝醉了的客人一起到厕所，充分地请教了……
+				ELSE
+					PRINTFORML %ANAME(対象)%在与土匪有关的怪异店做服务员
+					PRINTFORML 不隐瞒应该隐瞒的地方的服装，羞耻那个的态度，煽动顾客的兴奋
+					PRINTFORML 客人对%ANAME(対象)%的身体伸出手，爱抚乳房和秘部
+					PRINTFORML 此后，%ANAME(対象)%被喝醉了的客人带进厕所，充分地被教育了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, Ｖ, Ｂ, Ｃ, 口淫, 売春, Ｖ性交, 売春", "処女喪失, 接吻喪失, 膣内射精, 口内射精", 勢力番号, GET_SPERM_ID("地痞"), @"地痞的\@ RAND:2 ? 唇 # 肉棒 \@", "地痞", "", "売春")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被土匪轮奸
+					PRINTFORML 地板上散乱着注射器之类的东西，%ANAME(対象)%哈哈地笑着
+					PRINTFORML 说如果想要更多的药就去侍奉小鸡，土匪就把%PRONOUN(対象)%推到眼前
+					PRINTFORML 即使没有药物的魔力结果是一样的吧，不管怎样%PRONOUN(対象)%一无二地叼进了那个
+					PRINTFORML 珠宝，咕嘟咕嘟地发出声音口淫的%PRONOUN(対象)%，淫乱的母狗男人们笑着
+					PRINTFORML 并且%ANAME(対象)%的身体聚集，好多次好多次侵犯了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪轮奸
+					PRINTFORML 地板上散乱着注射器之类的东西，%ANAME(対象)%哈哈地笑着
+					PRINTFORML 说如果想要更多的药就去侍奉小鸡，土匪就把%PRONOUN(対象)%推到眼前
+					PRINTFORML 在药物魔力面前屈服的%PRONOUN(対象)%毫无保留地叼进了那个
+					PRINTFORML 珠宝，咕嘟咕嘟地发出声音口淫的%PRONOUN(対象)%，淫乱的母狗男人们笑着
+					PRINTFORML 并且%ANAME(対象)%的身体聚集，好多次好多次侵犯了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, 性技, Ｖ, Ｂ, Ｃ, Ａ, 口淫, 薬物依存, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被土匪带走，赤身裸体在附近的村落里游行
+					PRINTFORML 途中，遇到村落的居民时，为了让他们犯下罪行而下跪恳求
+					PRINTFORML 习惯了这样的事的「译知」的居民们，笑嘻嘻地一边听了%ANAME(対象)%的请求
+					PRINTFORML 此后，在村落的广场，%ANAME(対象)%进行了跟土匪们的公开轮奸表演……
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪带走，赤身裸体在附近的村落里游行
+					PRINTFORML 途中被土匪责弄%STR_BODY("身体", 対象)%,被责弄肉棒,不过，居民们不帮助
+					PRINTFORML 他们都知道土匪的可怕之处，更重要的是%ANAME(対象)%的痴态
+					PRINTFORML 此后，在村落的广场，%ANAME(対象)%被迫与村落的居民们交往……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, 性技, Ｖ, Ｂ, Ｃ, Ａ, 口淫, 輪姦, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 4
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被地痞们卖掉了
+					PRINTFORML 被束缚的状态下说出淫秽的言语来诱惑男人%PRONOUN(対象)%，地痞们兴奋地扭进肉棒
+					PRINTFORML 因被粗暴对待而兴奋的%PRONOUN(対象)%，每当种下众种子时，就已经绝顶了
+					PRINTFORML 解放的时候，%ANAME(対象)%的%STR_BODY("膣：処女確認：時間経過：感度", 対象)%和%STR_BODY("アナル：感度", 対象)%也抽动蠢动不闭合……
+				ELSE
+					PRINTFORML %ANAME(対象)%被地痞们卖掉了
+					PRINTFORML 被束缚无法抵抗的%PRONOUN(対象)%，地痞们兴奋地扭进肉棒
+					PRINTFORML 因被粗暴对待而兴奋的%PRONOUN(対象)%，每当种下众种子时，就已经绝顶了
+					PRINTFORML 解放的时候，%ANAME(対象)%的%STR_BODY("膣：処女確認：時間経過：感度", 対象)%も%STR_BODY("アナル：感度", 対象)%也抽动蠢动不闭合……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 奉仕, 精愛, 輪姦, Ｖ, Ｂ, Ｃ, Ｍ, Ａ, 売春, Ｖ性交, Ａ性交, 売春", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "売春")
+			CASE 5
+				IF 士官フラグ
+					PRINTFORML 在狭窄而充满异臭的小屋里，%ANAME(対象)%被两手多余的流浪汉轮奸
+					PRINTFORML 为了补偿烫发，自己买了他们的慰安
+					PRINTFORML 女日照的他们没有宽恕，侵犯%ANAME(対象)%的%STR_BODY("胸：性交", 対象)%和%STR_BODY("尻肉：長", 対象)%的白浊，%STR_BODY("膣", 対象)%和%STR_BODY("アナル", 対象)%
+					PRINTFORML %ANAME(対象)%积极地吮吸他们肮脏的肉棒，用下面的嘴吮吸使之射精，自己也绝顶
+					PRINTFORML 解放的时候，%STR_BODY("膣：処女確認：時間経過", 対象)%和%STR_BODY("アナル", 対象)%都放松不关闭……
+				ELSE
+					PRINTFORML 在狭窄而充满异臭的小屋里，%ANAME(対象)%被两手多余的流浪汉轮奸
+					PRINTFORML 为了补偿烫发，被土匪卖掉了
+					PRINTFORML 女日照的他们没有宽恕，侵犯%ANAME(対象)%的%STR_BODY("胸：性交", 対象)%和%STR_BODY("尻肉：長", 対象)%的白浊，%STR_BODY("膣", 対象)%和%STR_BODY("アナル", 対象)%
+					PRINTFORML %ANAME(対象)%可能是放弃了，还是一副阴沉的脸被收养着
+					PRINTFORML 解放的时候，%STR_BODY("膣：処女確認：時間経過", 対象)%和%STR_BODY("アナル", 対象)%都放松不关闭……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 奉仕, 精愛, 輪姦, Ｖ, Ｂ, Ｃ, Ａ, Ｖ拡張, Ａ拡張, 口淫, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("流浪漢"), "流浪漢的肉棒", "流浪漢", "", "輪姦")
+			CASE 6
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%穿着不能称为衣服的无耻服装度过。土匪的奴隶女的着装
+					PRINTFORML 走着走着，被兴奋的土匪一人推倒，被%STR_BODY("膣：処女確認：感度", 対象)%扭进了肉棒
+					PRINTFORML 虽说是突然被犯了，%PRONOUN(対象)%立刻兴奋，举起瑜伽声音摇动腰
+					PRINTFORML 直到土匪满意为止，%ANAME(対象)%都让他给自己下了足量的种子……
+				ELSE
+					PRINTFORML %ANAME(対象)%被强迫穿着不能称为衣服的无耻服装生活
+					PRINTFORML 走着走着，被兴奋的土匪一人推倒，被%STR_BODY("膣：処女確認：感度", 対象)%扭进了肉棒
+					PRINTFORML %ANAME(対象)%是抵抗,不过，土匪那样反过来兴奋，激烈地挥动腰
+					PRINTFORML 直到土匪满意为止，%ANAME(対象)%都被他播下了足量的种子……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "強姦")
+			CASE 7
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被多名土匪爱抚
+					PRINTFORML %STR_BODY("胸：短", 対象)%和%STR_BODY("クリ：欲情", 対象)%被责弄，%ANAME(対象)%发出荡漾的声音
+					PRINTFORML 那双手握着他们的肉棒，用巧妙的技术慢慢地处理着
+					PRINTFORML 在 %ANAME(対象)%迎来顶峰的同时，他们的精液也降到了%ANAME(対象)%的%STR_BODY("身体", 対象)%
+				ELSE
+					PRINTFORML %ANAME(対象)%被复数的土匪爱抚
+					PRINTFORML %STR_BODY("胸：短", 対象)%和%STR_BODY("クリ：欲情", 対象)%被责弄，虽然想忍耐%ANAME(対象)%但是声音无法抑制
+					PRINTFORML 那双手握着他们的肉棒，被操纵着
+					PRINTFORML 在 %ANAME(対象)%迎来顶峰的同时，他们的精液也降到了%ANAME(対象)%的%STR_BODY("身体", 対象)%
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 奉仕, 精愛, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 輪姦", "接吻喪失", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 8
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%叼着复数的土匪的东西
+					PRINTFORML 接二连三地用嘴唇吸附肉棒，用舌头一边舔一边吸
+					PRINTFORML 将吐出的精液发出声音喝干，他们骂%ANAME(対象)%是精液狂乱的淫乱女
+					PRINTFORML 行为结束的时候，从脸到胸都变得雪白了……
+				ELSE
+					PRINTFORML %ANAME(対象)%让〓复数的土匪的东西
+					PRINTFORML 对接二连三拿出来的肉棒大吃一惊。不然就要挨打
+					PRINTFORML 被强迫喝被吐出的精液的事，%ANAME(対象)%一边继续那个一边也遵从以外没办法
+					PRINTFORML 行为结束的时候，从脸到胸都变得雪白了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 奉仕, 性技, 精愛, 精愛, Ｍ, 口淫, 輪姦", "接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), "土匪的肉棒", "土匪", "", "輪姦")
+			CASE 9
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在自己的单身牢房里，被看守侵犯
+					PRINTFORML 作为一天三餐的回报，身体被要求
+					PRINTFORML 一边被激烈地推起，一边被看守说其实只是想被抱，%ANAME(対象)%一边曝晒散漫的发型一边挣扎点头
+					PRINTFORML 直到看守满足为止，%ANAME(対象)%被充分地安上了种子……
+				ELSE
+					PRINTFORML %ANAME(対象)%在自己的单身牢房里，被看守侵犯
+					PRINTFORML 作为一天三餐的回报，身体被要求
+					PRINTFORML 屈辱地咬着嘴唇，看守的腰使发出了声音
+					PRINTFORML 直到看守满足为止，%ANAME(対象)%被充分地安上了种子……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "強姦")
+			CASE 10
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被土匪命令，高兴地脱去衣服
+					PRINTFORML 美丽的身体，野卑的目光注视着
+					PRINTFORML %ANAME(対象)%摆出强调耻部和胸部的姿势，土匪们发出欢呼，投下了野卑的言词
+					PRINTFORML %ANAME(対象)%摆出强调耻部和胸部的姿势，土匪们发出欢呼，投下了野卑的言词
+					PRINTFORML 如果一个人射精，其次，如果那个家伙射精了又下面一样地，%ANAME(対象)%接连接受他们的欲望
+					PRINTFORML 她的裂缝收不住白浊，即使满地溢出，肉宴依然持续着……
+				ELSE
+					PRINTFORML 土匪们用刀威胁%ANAME(対象)%
+					PRINTFORML 美丽的身体，野卑的目光注视着
+					PRINTFORML %ANAME(対象)%正要羞耻地藏起身体，土匪们就用脏话辱骂她
+					PRINTFORML 并且他们，作为对傲慢的行动的惩罚，向%ANAME(対象)%濡湿也没有的阴道拧进肉棒
+					PRINTFORML 如果一个人射精，下次，那个家伙射精的话，下次再说。
+					PRINTFORML 她的裂缝收不住白浊，即使不断地溢出，陵辱仍在持续……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 奉仕, 性交, 精愛, Ｖ, 輪姦, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 11
+				IF 士官フラグ
+					PRINTFORML 土匪们的宴会，%ANAME(対象)%作为脱衣舞者参加了
+					PRINTFORML 因为自己也是这个势力的一员，所以宴会气氛高涨是理所当然的……我是这样想的
+					PRINTFORML 在宴会厅中央设置的台子上，她在积极地跳舞
+					PRINTFORML 脱去极小的服装，亲自将%STR_BODY("身体：修飾", 対象)%肉体晒在无数下贱的视线下
+					PRINTFORML 不久醉意于酒，兴奋的男人们，聚集在%ANAME(対象)%的身体
+					PRINTFORML 肉宴%ANAME(対象)%的意识即使飞走也不结束，一直持续到夜晚变白为止……
+				ELSE
+					PRINTFORML 土匪们的宴会%ANAME(対象)%被迫参加了
+					PRINTFORML 虽说是但并不是让他吃喝的，她的作用是脱衣舞者
+					PRINTFORML 在宴会厅中央设置的台子上，她被迫跳舞
+					PRINTFORML 并且亲自，无数的下贱的视线下使之曝晒了那个皮肤
+					PRINTFORML 不久醉意酒，兴奋的男人们，%ANAME(対象)%的%STR_BODY("身体：修飾", 対象)%一起聚集在了身体上
+					PRINTFORML 轮奸剧是%ANAME(対象)%的意识即使飞走也不结束，持续到夜晚变白为止……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 奉仕, 性交, 性技, 精愛, Ｖ, Ａ, Ｃ, Ｂ, Ｍ, Ｖ拡張, Ａ拡張, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 接吻喪失, Ａ処女喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 12
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%由土匪调教
+					PRINTFORML 被绳子束缚的自由被夺走的%PRONOUN(対象)%，被眼罩口铐被犯
+					PRINTFORML %STR_BODY("膣：Ｖ挿入：中出し", 対象)%和%STR_BODY("アナル：Ａ挿入：中出し：欲情", 対象)%都完全记得他们的肉棒的味道
+					PRINTFORML 多次注入的子种将%PRONOUN(対象)%的胎内染成白色，并发出令人心旷神怡的声音
+					PRINTFORML 调教结束的时候，从两孔中白浊滴答滴落下来……
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪们调教
+					PRINTFORML 被绳子束缚的自由被夺走的%PRONOUN(対象)%，被眼罩口铐被犯
+					PRINTFORML %STR_BODY("膣：Ｖ挿入：中出し", 対象)%和%STR_BODY("アナル：Ａ挿入：中出し：欲情", 対象)%都完全记住了他们的肉棒的味道
+					PRINTFORML 虽然觉得讨厌，但已经屈服了的身体却激烈地绝顶了
+					PRINTFORML 调教结束的时候，从阴道孔中白浊滴答滴落下来……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 精愛, Ｖ, Ａ, 緊縛, 被虐, Ｖ性交, Ａ性交", "処女喪失, 膣内射精, Ａ処女喪失, 腸内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 13
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%是由土匪们调教的
+					PRINTFORML 请让我穿了的绑带衫，是剥出%STR_BODY("胸：短", 対象)%和%STR_BODY("尻：短い", 対象)%的下流的设计的东西
+					PRINTFORML 在开脚状态下固定的她的双孔中，深深地竖立着粗的振动棒
+					PRINTFORML 苦闷于激烈的振动带来的快乐，土匪们嘲笑着喷散iki潮流的%ANAME(対象)%
+					PRINTFORML 调教结束的时候，她的胯股之间有一个很大的水洼……
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪们调教
+					PRINTFORML 被穿了的bondiji，是剥出%STR_BODY("胸：短", 対象)%和%STR_BODY("尻：短い", 対象)%的下流的设计的东西
+					PRINTFORML 附着的是乳头夹在阴蒂夹中，在开脚状态下固定的两个孔中深深地竖立着粗的振动棒。
+					PRINTFORML 苦闷绝顶了激烈的振动给予的快乐%PRONOUN(対象)%，土匪们嘲笑着
+					PRINTFORML 调教结束的时候，她的胯股之间有一个很大的水洼……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, Ｖ, Ｖ, Ｖ, Ａ, Ａ, Ａ, Ｃ, Ｃ, Ｃ, Ｂ, Ｂ, Ｂ, 緊縛, 被虐", "処女喪失, Ａ処女喪失", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 14
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被土匪轮奸
+					PRINTFORML 像你这样腐烂的manko被骂成不是卖品，被侵犯，%ANAME(対象)%发出欢喜的声音
+					PRINTFORML 每当在阴道和屁股孔，口内种植种子的时候，%ANAME(対象)%就会激烈地绝顶
+					PRINTFORML 土匪们嘲笑那卑鄙的模样，更加激烈地侵犯了%PRONOUN(対象)%
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪轮奸
+					PRINTFORML 像你这样腐烂的manko被骂成不是卖品，被侵犯，%ANAME(対象)%咬紧牙关
+					PRINTFORML %STR_BODY("膣", 対象)%和%STR_BODY("アナル", 対象)%、每当在口内种植种子的时候，%ANAME(対象)%也会绝顶
+					PRINTFORML 土匪们嘲笑那卑鄙的模样，更加激烈地侵犯了%ANAME(対象)%
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 15
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被陌生男人拥抱
+					PRINTFORML 以其美貌为卖点，出租给好事家
+					PRINTFORML 好事家一边穿%ANAME(対象)%一边责弄%PRONOUN(対象)%的%STR_BODY("胸：短", 対象)%和%STR_BODY("クリ：欲情", 対象)%
+					PRINTFORML 每当绝顶的时候，%ANAME(対象)%发出欢喜的声音苦闷不已……
+				ELSE
+					PRINTFORML %ANAME(対象)%被陌生男人拥抱
+					PRINTFORML 以其美貌为卖点，出租给好事家
+					PRINTFORML 好事家一边穿%ANAME(対象)%一边责弄%PRONOUN(対象)%的%STR_BODY("胸：短", 対象)%和%STR_BODY("クリ：欲情", 対象)%
+					PRINTFORML 几度绝顶的%ANAME(対象)%中，没有剩下只是抵抗的体力……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ｍ, Ａ, 接吻, 口淫, 売春, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失,　膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("貴族"), @"貴族の\@ RAND:2 ? 唇 # 肉棒 \@", "貴族", "", "売春")
+			CASE 16
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在可疑的酒吧当舞者
+					PRINTFORML 没有面积等危险的服装在激烈的舞蹈中简单地偏离，露出%ANAME(対象)%的%STR_BODY("身体", 対象)%
+					PRINTFORML 作为 "服务"的一环，采取%STR_BODY("胸：短", 対象)%和%STR_BODY("膣：欲情", 対象)%这样的姿势的话，从观众席猥亵的yaji飞了
+					PRINTFORML 舞蹈结束的时候，那个%STR_BODY("陰唇", 対象)%用不是汗的液体沾湿了……
+				ELSE
+					PRINTFORML %ANAME(対象)%在可疑的酒吧当舞者
+					PRINTFORML 没有面积等危险的服装在激烈的舞蹈中简单地偏离，露出%ANAME(対象)%的%STR_BODY("身体", 対象)%
+					PRINTFORML 本应受到强烈的羞耻袭击，但%ANAME(対象)%却在不知不觉中高涨起来
+					PRINTFORML 舞蹈结束的时候，那个%STR_BODY("陰唇", 対象)%用不是汗的液体沾湿了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 欲望, 露出, 露出, 露出, 売春", "", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "売春")
+			CASE 17
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被橡木SHOTE挂上
+					PRINTFORML 为了土匪赚钱，自愿成为商品的
+					PRINTFORML 被"展出"了的女性中也特别美丽的%ANAME(対象)%高价被安上了
+					PRINTFORML 被中标的男子的手臂抱的时候，%ANAME(対象)%的%STR_BODY("陰唇", 対象)%已经慢慢地湿透了
+					PRINTFORML %ANAME(対象)%被兴奋的男子用了一晚上充分地教育了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被橡木SHOTE挂上
+					PRINTFORML 为了土匪赚钱，被强行卖掉了
+					PRINTFORML 被"展出"了的女性中也特别美丽的%ANAME(対象)%高价被安上了
+					PRINTFORML 对中标的男人的技巧，%ANAME(対象)%的%STR_BODY("陰唇", 対象)%沾湿了
+					PRINTFORML %ANAME(対象)%被兴奋的男子用了一晚上充分地教育了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 売春, Ｖ性交, 売春", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("貴族"), @"貴族の\@ RAND:2 ? 唇 # 肉棒 \@", "貴族", "", "売春")
+			CASE 18
+				IF 士官フラグ
+					PRINTFORML 因为 %ANAME(対象)%报名了，土匪们对她打了某药
+					PRINTFORML 也许是因为这个原因，%ANAME(対象)%只是嘿嘿地露出空虚的笑容
+					PRINTFORML 幸运的是，土匪们脱下了%ANAME(対象)%的衣服，在%STR_BODY("膣：感度：媚薬", 対象)%上拧进肉棒
+					PRINTFORML 对即使没有药的作用也瑜伽狂热亲自挥舞着腰吧%PRONOUN(対象)%，土匪们骂了淫乱的母猪
+					PRINTFORML 陵辱结束后，她在白浊的海洋中，一边笑着用手指拨弄着自己的双孔……
+				ELSE
+					PRINTFORML 因为 %ANAME(対象)%太反抗，土匪们给她打了一些药
+					PRINTFORML 也许是因为这个原因，%ANAME(対象)%只是嘿嘿地露出空虚的笑容
+					PRINTFORML 幸运的是，土匪们脱下了%ANAME(対象)%的衣服，在%STR_BODY("膣：感度：媚薬", 対象)%上拧进肉棒
+					PRINTFORML 由于药的作用瑜伽狂热亲自挥舞腰的%PRONOUN(対象)%，土匪们骂了是淫乱的母猪
+					PRINTFORML 陵辱结束后，她在白浊的海洋中，一边笑着用手指拨弄着自己的双孔……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 精愛, Ｖ, Ａ, Ｍ, 輪姦, 薬物依存, 口淫, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 19
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%与野狗交往
+					PRINTFORML 作为宴会的余兴，她自己报名了
+					PRINTFORML 作为土匪们的忠实的军官的%PRONOUN(対象)%，也不应该不志愿
+					PRINTFORML 狗骑%ANAME(対象)%，像兴奋一样不断地拍打腰部
+					PRINTFORML 对这个野性的活塞渐渐开始发出甜美的声音的%PRONOUN(対象)%，男人们嘲笑着
+					PRINTFORML 不久，将狗热的兽臭的精液投向%ANAME(対象)%的阴道内，她毫无羞耻和外表狂乱了……
+				ELSE
+					PRINTFORML %ANAME(対象)%与野狗相交
+					PRINTFORML 喝醉了酒的土匪们，作为宴会的余兴驱使了狗
+					PRINTFORML 如果想抵抗的话可能会被咬到。恐怖的%ANAME(対象)%只能服从
+					PRINTFORML 狗骑%ANAME(対象)%，像兴奋一样不断地拍打腰部
+					PRINTFORML 对这个野性的活塞渐渐开始发出甜美的声音的%PRONOUN(対象)%，男人们嘲笑着
+					PRINTFORML 不久，将狗热的兽臭的精液投向%ANAME(対象)%的阴道内，她毫无羞耻和外表狂乱了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 精愛, Ｖ, 獣姦, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("犬"), @"犬の\@ RAND:2 ? 唇 # 肉棒 \@", "犬", "", "強姦")
+			CASE 20
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%与土匪同行，被带到了基地附近的村落
+					PRINTFORML 她所赋予的任务是附近居民的性欲处理
+					PRINTFORML %ANAME(対象)%穿着%STR_BODY("胸：短", 対象)%和%STR_BODY("尻：短", 対象)%裸露的淫乱服装，走在村落中央的广场
+					PRINTFORML 并且在村落的男人们的眼前，与土匪好多次交换了
+					PRINTFORML 虽然男人们会以好奇的目光来看待，但是谁都不会插手。因为害怕土匪们
+					PRINTFORML 虽说是但其中之一是气势汹汹，主张只要能干掉那个女人，现在马上就干掉
+					PRINTFORML 土匪们满足了一阵后，%ANAME(対象)%正式开始了"任务"
+					PRINTFORML %ANAME(対象)%花了一个晚上，与全村的男性交往……
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪带到了基地附近的村落
+					PRINTFORML 这是他们的岛屿，时不时地卷起金钱和物资
+					PRINTFORML %ANAME(対象)%穿着%STR_BODY("胸：短", 対象)%和%STR_BODY("尻：短", 対象)%裸露的淫乱服装，走在村落中央的广场
+					PRINTFORML 并且并且，在村落的男人们的眼前，被土匪好多次侵犯了
+					PRINTFORML 男人们以好奇的目光来看待，但是没有人帮助我。因为害怕土匪们
+					PRINTFORML 并且比什么都(好)，所说的别人的偶然的姿态眼烙上，为了以后处理东西
+					PRINTFORML 土匪们满足了一阵后，%ANAME(対象)%就借给了他们
+					PRINTFORML %ANAME(対象)%花了一个晚上，被迫与全村男生交往……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 輪姦, Ｖ性交, Ａ性交", "Ａ処女喪失, 処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 21
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%似乎是烫发了
+					PRINTFORML 向土匪们拼命谢罪的%PRONOUN(対象)%,不过，几个男人被强行压住
+					PRINTFORML 他们给%ANAME(対象)%注射了可疑的药
+					PRINTFORML 于是%ANAME(対象)%空着眼睛，哈哈地笑了起来
+					PRINTFORML 对变得像白痴一样的她，土匪们聚集
+					PRINTFORML 然后，途中追加打了好几瓶药，在所有人都满意之前一直犯下所有的洞……
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪调教
+					PRINTFORML 虽然是极力抵抗的%ANAME(対象)%，但有几个男的被强行压制
+					PRINTFORML 他们给%ANAME(対象)%注射了可疑的药
+					PRINTFORML 于是%ANAME(対象)%空着眼睛，哈哈地笑了起来
+					PRINTFORML 面对不再抵抗的她，土匪们蜂拥而至
+					PRINTFORML 然后，途中追加打了好几瓶药，在所有人都满意之前一直犯下所有的洞……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 精愛, Ｖ, Ａ, Ｍ, 輪姦, 薬物依存, 口淫, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 22
+				PRINTFORML %ANAME(対象)%被土匪调教
+				PRINTFORML 全裸的%ANAME(対象)%全身都刻有淫乱的涂鸦
+				FOR LOCAL:0, 0, 5
+					PRINTDATA
+						DATAFORM 【肉便器】
+						DATAFORM 【売女】
+						DATAFORM 【ダッチワイフ】
+						DATAFORM 【公衆便所】
+						DATAFORM 【性奴隷】
+						DATAFORM 【ビッチ】
+						DATAFORM 【変態】
+						DATAFORM 【痴女】
+						DATAFORM 【ドスケベ女】
+						DATAFORM 【雌犬】
+						DATAFORM 【オナホ女】
+						DATAFORM 【被虐】
+						DATAFORM 【真剣勝負エロ大根】
+						DATAFORM 【淫乱】
+						DATAFORM 【精液中毒】
+						DATAFORM 【セックス中毒】
+						DATAFORM 【オナニー猿】
+						DATAFORM 【苗床】
+						DATAFORM 【慰み者】
+						DATAFORM 【淫乱家畜女】
+						DATAFORM 【無　料】
+						DATAFORM 【色気違い】
+						DATAFORM 【ザーメン乞食】
+						DATAFORM 【職業：便器】
+						DATAFORM 【私は家畜です】
+						DATAFORM 【ペット】
+						DATAFORM 【精液で浣腸して】
+						DATAFORM 【露出狂】
+						DATAFORM 【アナル気違い】
+						DATAFORM 【変態乳】
+						DATAFORM 【口まんこ】
+						DATAFORM 【乳まんこ】
+						DATAFORM 【ケツまんこ】
+						DATAFORM 【外に射精さないでください】
+						DATAFORM 【ぶっかけてください】
+						DATAFORM 【ユルマン使って下さい】
+						DATAFORM 【グロマン】
+						DATAFORM 【ケツハメ最高】
+						DATAFORM 【全身開発済み】
+						DATAFORM 【膣内射精専用】
+						DATAFORM 【アナル便所】
+						DATAFORM 【子宮姦して】
+						DATAFORM 【変態まんこ】
+						DATAFORM 【I LOVE SEX】
+						DATAFORM 【ザーメンタンク】
+						DATAFORM 【チンポ依存症】
+						DATAFORM 【触手依存症】
+						DATAFORM 【精液依存症】
+						DATAFORM 【雌豚】
+						DATAFORM 【特技・アヘ顔】
+						DATAFORM 【ドブスでごめんなさい】
+						DATAFORM 【肉人形】
+						DATAFORM 【私は変態です】
+						DATAFORM 【お精子恵んで♥】
+						DATAFORM 【I LOVE FUCKING】
+						DATAFORM 【好物：\@ RAND:2 ? 精液 # ちんぽ \@】
+						DATAFORM 【\@ RAND:2 ? 正 # 正正 \@】
+						DATAFORM 【\@ RAND:2 ? 正正 # 正正正 \@】
+						DATAFORM 【\@ RAND:2 ? 正正正正 # 正正正正正 \@】
+						DATAFORM 【\@ RAND:2 ? 正正Ｔ # 正正正一 \@】
+						DATAFORM 【おちんぽ様に絶対服従！】
+						DATAFORM 【ちんぽの嫁】
+						DATAFORM 【ちんぽ奴隷】
+						DATAFORM 【FUCK ME♥】
+						DATAFORM 【RAPE ME♥】
+						DATAFORM 【気持よくなかったらお詫びします♥】
+						DATAFORM 【種付け最高♥】
+						DATAFORM 【一生性奴隷でいい♥】
+						DATAFORM 【いつでも使ってね♥】
+						DATAFORM 【輪姦希望♥】
+						DATAFORM 【奴隷志願♥】
+						DATAFORM 【レイプ歓迎♥】
+						DATAFORM 【汚ちんぽ大歓迎♥】
+						DATAFORM 【ちんぽでほじって♥】
+						DATAFORM 【ハメ逃げ歓迎♥】
+						DATAFORM 【パイズリさせてください♥】
+						DATAFORM 【種付け最高♥】
+						DATAFORM 【子宮ほじほじして♥】
+						DATAFORM 【精液飲ませて♥】
+						DATAFORM 【獣姦大好き♥】
+						DATAFORM 【♥♥♥♥♥】
+						DATAFORM 【膣内射精専用まんこ】
+						DATAFORM 【犯して下さいお願いします♥】
+						DATAFORM 【目指せ！　\@ RAND:2 ? セックス # レイプ \@100万回♥】
+						DATAFORM 【ママにして♥】
+						DATAFORM 【乳首も苛めて♥】
+						DATAFORM 【\@ TALENT:(対象):処女 ? 新品 # 中古 \@】
+						DATAFORM 【ガバマンでごめんなさい♥】
+						DATAFORM 【パパ募集中♥】
+						DATAFORM 【妊娠マシーン】
+						DATAFORM 【孕み頃奴隷まんこ】
+						DATAFORM 【タダハメOK♥】
+						DATAFORM 【お精子恵んで♥】
+						DATAFORM 【二穴責めして♥】
+						DATAFORM 【パコリ手】
+						DATAFORM 【チンしゃぶ大好き♥】
+						DATAFORM 【犯されるの大好き♥】
+					ENDDATA
+				NEXT
+				PRINTL
+				PRINTL その他、見るに堪えない猥語や、記号……
+				IF 士官フラグ
+					PRINTFORML 在这种状态下，他们在接近%ANAME(対象)%的村落中游行
+					PRINTFORML 不知道情况的村落的男人们，用好奇和好色的眼注视%ANAME(対象)%
+					PRINTFORML 身体疼痛的视线%PRONOUN(対象)%，在他们的眼前开始做自慰
+					PRINTFORML 不久变得不能忍耐了的一人袭击%ANAME(対象)%的话，男人们象切了堤坝一样地聚集了到她
+					PRINTFORML 结果，%ANAME(対象)%回到基地，整整过了一天……
+				ELSE
+					PRINTFORML 在这种状态下，他们在接近%ANAME(対象)%的村落中游行
+					PRINTFORML 不知道情况的村落的男人们，用好奇和好色的眼注视%ANAME(対象)%
+					PRINTFORML 不久变得不能忍耐了的一人袭击%ANAME(対象)%的话，男人们象切了堤坝一样地聚集了到她
+					PRINTFORML 结果，%ANAME(対象)%回到基地，整整过了一天……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 精愛, Ｖ, Ａ, Ｍ, 輪姦, 薬物依存, 口淫, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@ RAND:2 ? 唇 # 肉棒 \@", "偶遇的男人", "", "輪姦")
+			CASE 23
+				IF 士官フラグ
+					PRINTFORML 土匪们束缚全裸的%ANAME(対象)%
+					PRINTFORML 那个身体几个粗俗的涂鸦被施给，二孔张型被拧进着
+					PRINTFORML 在这种状态下直到让一百个男人满足为止都不要回来，这是她给予的任务
+					PRINTFORML 不久男子通过的话，%ANAME(対象)%用艳丽的声音诱惑他
+					PRINTFORML 男人微微一笑，脸上浮现出下贱的笑容，说是正好的肉便器，开始侵犯%ANAME(対象)%
+					PRINTFORML 不久，男子射精，不知从哪里离去过了一段时间，别的男人们纷纷来到
+					PRINTFORML 就这样%ANAME(対象)%作为肉便器，在土匪来回收之前一直被陌生男子们使用……
+				ELSE
+					PRINTFORML 土匪们束缚全裸的%ANAME(対象)%
+					PRINTFORML 那个身体几个粗俗的涂鸦被施给，二孔张型被拧进着
+					PRINTFORML 不久男子经过时，%ANAME(対象)%会寻求帮助
+					PRINTFORML 但是男人微微露出下贱的笑脸，卖女开始犯%ANAME(対象)%
+					PRINTFORML 不久，男子射精，不知从哪里离去过了一段时间，别的男人们纷纷来到
+					PRINTFORML 就这样%ANAME(対象)%作为肉便器，在土匪来回收之前一直被陌生男子们使用……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 精愛, Ｖ, Ａ, Ｂ, Ｃ, Ｍ, 輪姦, 緊縛, 被虐, 口淫, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@ RAND:2 ? 唇 # 肉棒 \@", "偶遇的男人", "", "輪姦")
+			CASE 24
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自己吃安眠药，睡觉
+					PRINTFORML 她睁开眼睛怀疑自己的眼睛
+					CALL SET_PIERCE_RANDOM(対象, 0)
+					IF RESULT != -1
+						PRINTFORML 在 %GET_PIERCE_NAME(RESULT)%里，不是悬挂着很棒的穿孔道具吗？
+						PRINTFORML 睡觉的时候打扮得漂亮极了，土匪们露出了下贱的笑容
+						PRINTFORML 并且，压住对感谢中发抖的%PRONOUN(対象)%，称作施策略费好多次侵犯了她……
+					ELSE
+						PRINTFORML 全身沾满白浊，散发出难受精灵的气味，不是从秘部和两孔滴答滴答地流着子种吗？
+						PRINTFORML 奴隶的工作是二十四小时三百六十五日。睡觉的时候当然也会使用，就是这样
+						PRINTFORML 被使用过的感谢压制住内心颤抖的%ANAME(対象)%，土匪们多次侵犯了她……
+					ENDIF
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪灌下安眠药，睡着了
+					PRINTFORML 她睁开眼睛怀疑自己的眼睛
+					CALL SET_PIERCE_RANDOM(対象, 0)
+					IF RESULT != -1
+						PRINTFORML 在 %GET_PIERCE_NAME(RESULT)%里，不正悬挂着令人心痛的穿孔道具吗？
+						PRINTFORML 睡觉的时候打扮得漂亮极了，土匪们露出了下贱的笑容
+						PRINTFORML 并且，压住愤怒闹腾的%PRONOUN(対象)%，称作施策略费好多次侵犯了她……
+					ELSE
+						PRINTFORML 全身沾满白浊，散发出难受精灵的气味，不是从秘部和两孔滴答滴答地流着子种吗？
+						PRINTFORML 领悟到在睡觉的时候做了什么，%PRONOUN(対象)%脸色发青
+						PRINTFORML 压制住开始发怒的%ANAME(対象)%，土匪们多次侵犯她……
+					ENDIF
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 25
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自己吃安眠药，睡觉
+					PRINTFORML 她睁开眼睛怀疑自己的眼睛
+					CALL SET_TATTOO_RANDOM(対象, STR_FOR_TATTOO(-1), 0)
+					IF RESULT != -1
+                        PRINTFORML %GET_TATTOO_NAME(RESULT)%に、「%TATTOO:対象:RESULT%」”不是有刺青吗？
+						PRINTFORML 睡觉的时候打扮得漂亮极了，土匪们露出了下贱的笑容
+						PRINTFORML 并且，压住对感谢中发抖的%PRONOUN(対象)%，称作施策略费好多次侵犯了她……
+					ELSE
+						PRINTFORML 全身沾满白浊，散发出难受精灵的气味，不是从秘部和两孔滴答滴答地流着子种吗？
+						PRINTFORML 性奴隶工作二十四小时三百六十五天。睡觉的时候当然也会使用，就是这样
+						PRINTFORML 被使用过的感谢压制住内心颤抖的%ANAME(対象)%，土匪们多次侵犯了她……
+					ENDIF
+				ELSE
+					PRINTFORML %ANAME(対象)%被土匪灌下安眠药，睡着了
+					PRINTFORML 她睁开眼睛怀疑自己的眼睛
+					CALL SET_TATTOO_RANDOM(対象, STR_FOR_TATTOO(-1), 0)
+					IF RESULT != -1
+                        PRINTFORML %GET_TATTOO_NAME(RESULT)%に、「%TATTOO:対象:RESULT%」”不是有刺青吗？
+						PRINTFORML 睡觉的时候打扮得漂亮极了，土匪们露出了下贱的笑容
+						PRINTFORML 并且，压住愤怒闹腾的%PRONOUN(対象)%，称作施策略费好多次侵犯了她……
+					ELSE
+						PRINTFORML 全身沾满白浊，散发出难受精灵的气味，不是从秘部和两孔滴答滴答地流着子种吗？
+						PRINTFORML 性奴隶工作二十四小时三百六十五天。睡觉的时候当然也会使用，就是这样
+						PRINTFORML 压制住愤怒暴走的%ANAME(対象)%，土匪们多次侵犯她……
+					ENDIF
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 26
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%好像是打了可疑的药
+					PRINTFORML 地板上散乱着注射器之类的东西，%ANAME(対象)%哈哈地笑着
+					PRINTFORML 如果再想要药就去侍奉小鸡，土匪就冲到她面前
+					PRINTFORML 即使没有药物的魔力，结果也是一样的吧，总之，她一两也没有，就把那东西叼了进去
+					PRINTFORML 男生们笑着说珠宝，咕嘟咕嘟地发出声音口淫的她，是淫乱的母狗
+					PRINTFORML 并且%ANAME(対象)%的身体聚集，好多次好多次侵犯了……
+				ELSE
+					PRINTFORML %ANAME(対象)%好像被打了可疑的药
+					PRINTFORML 地板上散乱着注射器之类的东西，%ANAME(対象)%哈哈地笑着
+					PRINTFORML 如果再想要药就去侍奉小鸡，土匪就冲到她面前
+					PRINTFORML 在药物的魔力面前屈服的她，一无二地叼进了那个
+					PRINTFORML 男生们笑着说珠宝，咕嘟咕嘟地发出声音口淫的她，是淫乱的母狗
+					PRINTFORML 并且%ANAME(対象)%的身体聚集，好多次好多次侵犯了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 輪姦, 薬物依存, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+			CASE 27
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为土匪士兵袭击了附近的村落
+					PRINTFORML 找到了他们喜欢的美丽的姑娘，然后带他们到基地去
+					PRINTFORML 作为工作极好的奖励，%ANAME(対象)%得到了女儿们的轮奸……
+				ELSE
+					PRINTFORML %ANAME(対象)%作为土匪士兵袭击了附近的村落
+					PRINTFORML 找到了他们喜欢的美丽的姑娘，然后带他们到基地去
+					PRINTFORML 虽然被良心的谴责袭击的%ANAME(対象)%
+					PRINTFORML 作为工作极好的奖励，土匪和得到了%ANAME(対象)%的女儿一起轮奸了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性技, 性交, 奉仕, 精愛, 射精, Ｖ, Ｂ, Ｃ, Ａ, Ｍ, 接吻, 口淫, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+		ENDSELECT
+	;-------------------------ここから汎用-------------------------
+	CASE 3
+		SELECTCASE RAND:1
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%は暴行を加えられている
+					PRINTFORML 野盗の忠実な奴隷である%ANAME(対象)%は、暴行にじっと耐えている……
+				ELSE
+					PRINTFORML %ANAME(対象)%は暴行を加えられている
+					PRINTFORML %ANAME(対象)%はじっと耐えている……
+				ENDIF
+				CALL FUCK_SP(対象, "苦痛快楽, 被虐", "", 勢力番号, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "")
+		ENDSELECT
+ENDSELECT

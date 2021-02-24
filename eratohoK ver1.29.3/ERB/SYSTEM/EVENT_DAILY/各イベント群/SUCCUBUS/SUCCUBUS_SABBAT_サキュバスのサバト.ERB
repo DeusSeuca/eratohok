@@ -1,0 +1,128 @@
+﻿;---------------------
+;発生確率(1000分率 100で10%)
+;---------------------
+@EVENT_DAILY_SUCCUBUS_SABBAT_RATE()
+RETURN 35
+
+;---------------------
+;確率以外の発生判定
+;---------------------
+@EVENT_DAILY_SUCCUBUS_SABBAT_DECISION()
+#DIM 夢魔
+夢魔 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_サキュバス))
+SIF 夢魔 == -1
+	RETURN 0
+SIF CFLAG:MASTER:所属 != 夢魔
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;---------------------
+@EVENT_DAILY_SUCCUBUS_SABBAT_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;---------------------
+@EVENT_DAILY_SUCCUBUS_SABBAT
+#DIM 夢魔
+
+夢魔 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_サキュバス)
+
+PRINTFORML 今天是每月举行一次集会的日子。
+PRINTFORMW 这是一个抛开战争，所有领民都参加，一心一意地互相交流的节日。
+PRINTFORMW %ANAME(MASTER)%当然也要参加
+PRINTFORML 
+IF IS_MALE(MASTER) || (HAS_PENIS(MASTER) && RAND:2) || (HAS_PENIS(MASTER) && TALENT:MASTER:討厭男人)
+	SELECTCASE RAND:4
+		CASE 0
+			PRINTFORMW %ANAME(MASTER)%被无数的梦魔包围着
+			PRINTFORML 她们像聚在糖上的蚂蚁一般，拥抱在%ANAME(MASTER)%的地方，滴下接吻的雨
+			PRINTFORML 一个人抱着射精，然后反复地被下一个女人催促，肉棒连干的时间都没有
+			PRINTFORML 不知道是不是她们的淫气的缘故，无论怎么射精勃起不但没有平息，性欲也越来越大
+			PRINTFORMW %ANAME(MASTER)%在天亮前一直保持着肉欲与她们持续交往…
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "夢魔的唇", "", "夢魔的膣穴", "乱交")
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "夢魔的唇", "", "夢魔的膣穴", "乱交")
+		CASE 1
+			PRINTFORMW %ANAME(MASTER)%与无数的村姑们交往着
+			PRINTFORML 她们用同样发情了的狗一样的邋遢的表情聚集%ANAME(MASTER)%寻求性爱
+			PRINTFORML 象卖媚媚一样地转向屁股的女孩子们的雌孔不检点地拉紧，使之溢出爱液
+			PRINTFORML 那不该有的样子和令人着急的雌性气味%ANAME(MASTER)%像野兽一样向她们袭击
+			PRINTFORMW 几个人抱着几次射精，直到数不清为止都埋头于性爱……
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "村娘の唇", "", "村娘の膣", "乱交")
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "村娘の唇", "", "村娘の膣", "乱交")
+		CASE 2
+			PRINTFORMW 从宫殿中传来了不该有的娇声悦耳
+			PRINTFORML 不管年轻、老少、人还是梦魔，无数裸露的男女都在这里互相追求
+			PRINTFORML 不道德的景象，从早上开始就在不断重复着，真可谓是梦魔之宴
+			PRINTFORML 那个中也有%ANAME(MASTER)%的身姿，现在也一个人的梦魔和激烈的性爱埋头
+			PRINTFORMW %ANAME(MASTER)%一直到疲惫不堪入睡为止，无休无休地和许多女性打交道……
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "夢魔の唇", "", "夢魔の膣", "乱交")
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "夢魔の唇", "", "夢魔の膣", "乱交")
+		CASE 3
+			PRINTFORMW %ANAME(MASTER)%从早上开始就是替换女人的対象
+			PRINTFORML 人与梦魔都积极地邀请%ANAME(MASTER)%，使用了全身的精心的服务使之满足
+			PRINTFORML 她把的回礼和阴道拿出来，她们发出了欢喜的声音，露出了可爱的雌性的脸
+			PRINTFORML 被脑部摇晃的那样的甜的雌性的气味刺激，一物不管射精多少次也不收纳
+			PRINTFORMW %ANAME(MASTER)%在那之后也持续着交往，在黎明时分与她们拥抱着睡着了……
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "村娘の唇", "", "村娘の膣", "乱交")
+			CALL FUCK(MASTER, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "村娘の唇", "", "村娘の膣", "乱交")
+	ENDSELECT
+ELSE
+	SELECTCASE RAND:5
+		CASE 0
+			PRINTFORMW %ANAME(MASTER)%被无数的梦魔包围着
+			PRINTFORML 她们的胯股之间生长着出色的男根，漂浮着雄性的气味勃起着
+			PRINTFORML 从现在开始只是考虑被这个无数的肉棒侵犯尽头的事子宫疼痛%ANAME(MASTER)%瞳孔浮起了♥
+			PRINTFORML 立刻第一人的梦魔推倒的话，%ANAME(MASTER)%提高喜悦的声音亲自打开了胯
+			PRINTFORMW %ANAME(MASTER)%在黎明之前被无数的肉棒侵犯，直到子宫膨胀为止都被种下了……
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精, Ａ処女喪失, 腸内射精", GET_SPERM_ID("夢魔"), @"夢魔的\@RAND:2 ? 肉棒 # 唇\@", @"夢魔", "", "乱交")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精, Ａ処女喪失, 腸内射精", GET_SPERM_ID("夢魔"), @"夢魔的\@RAND:2 ? 肉棒 # 唇\@", @"夢魔", "", "乱交")
+		CASE 1
+			PRINTFORMW %ANAME(MASTER)%被多名男性粗暴地侵犯
+			PRINTFORML 被淫气中了的男人们象盛了的猴子一样地%ANAME(MASTER)%聚集拥挤立了的一东西拧进来了
+			PRINTFORML 他们把%ANAME(MASTER)%当作只是肉穴来对待，粗暴地将腰部撞击并蹂躏全身，反复进行射精
+			PRINTFORML %ANAME(MASTER)%是%ANAME(MASTER)%，对于男人们只是作为雌性被要求的事感到无比的喜悦，YOGARI疯狂了
+			PRINTFORMW 当大家回到正气中解放的时候%ANAME(MASTER)%全身都被搞得一团糟…
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精, Ａ処女喪失, 腸内射精", GET_SPERM_ID("偶遇的男人"), @"領民の\@RAND:2 ? 肉棒 # 唇\@", @"領民", "", "乱交")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, Ｖ性交, Ａ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精, Ａ処女喪失, 腸内射精", GET_SPERM_ID("偶遇的男人"), @"領民の\@RAND:2 ? 肉棒 # 唇\@", @"領民", "", "乱交")
+		CASE 2
+			PRINTFORMW %ANAME(MASTER)%被梦魔带来的巨大鬼所侵犯
+			PRINTFORML 凶恶的肉棒由于淫气而更加膨胀，仅仅一击就破坏了%ANAME(MASTER)%的理性
+			PRINTFORML 他疯狂地摇动腰，配合%ANAME(MASTER)%使下腹部鼓起痉挛
+			PRINTFORML 但是%ANAME(MASTER)%不但感到痛苦，反而感到疯狂的快感。
+			PRINTFORMW 对从梦魔先生被给予的最高的性爱%ANAME(MASTER)%到丢失气享受了…
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, Ｖ拡張, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("鬼"), @"鬼の\@RAND:2 ? 肉棒 # 唇\@", "鬼", "", "乱交")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, Ｖ拡張, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("鬼"), @"鬼の\@RAND:2 ? 肉棒 # 唇\@", "鬼", "", "乱交")
+		CASE 3
+			PRINTFORMW %ANAME(MASTER)%作为公共肉便器被设置
+			PRINTFORML 根据梦魔的淫气%ANAME(MASTER)%被疯狂程度的快感袭击散漫地一个劲地
+			PRINTFORML 被连长相都不认识的男人无责任侵犯，事实上%ANAME(MASTER)%兴奋得脊梁发抖
+			PRINTFORML 然后又是小唯！一边被气势很好地射精，%ANAME(MASTER)%很大地仰面顶上绝顶了
+			PRINTFORMW 解放时的%ANAME(MASTER)%确实是身心都作为出色的肉便器晒着头发…
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"領民の\@RAND:2 ? 肉棒 # 唇\@", "領民", "", "乱交")
+			CALL FUCK(MASTER, "欲望, 奉仕, 性技, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ｍ, Ｖ性交, 接吻, 口淫", "接吻喪失, 処女喪失, 膣内射精, 口内射精", GET_SPERM_ID("偶遇的男人"), @"領民の\@RAND:2 ? 肉棒 # 唇\@", "領民", "", "乱交")
+		CASE 4
+			PRINTFORMW %ANAME(MASTER)%与马一边交配一边发出象野兽一样的呐喊
+			PRINTFORML 马也因受淫气而兴奋不已，疯狂地一边叫%ANAME(MASTER)%一边打腰
+			PRINTFORML 受到用PRINTFORML 长的肉棒子宫破裂程度的活塞，%ANAME(MASTER)%激烈地一边吹潮一边痉挛
+			PRINTFORML 被畜生侵犯这样的不道德感使%ANAME(MASTER)%兴奋一边剥白眼一边反复了几次绝顶
+			PRINTFORMW "他"中意的%ANAME(MASTER)%将特浓的spelma注入极限…
+			CALL FUCK(MASTER, "欲望, 性技, 性交, 精愛, Ｖ, Ｖ, Ｖ性交, 獣姦", "処女喪失, 膣内射精", GET_SPERM_ID("馬"), @"馬の\@RAND:2 ? 肉棒 # 唇\@", "馬", "", "和姦")
+			CALL FUCK(MASTER, "欲望, 性技, 性交, 精愛, Ｖ, Ｖ, Ｖ性交, 獣姦", "処女喪失, 膣内射精", GET_SPERM_ID("馬"), @"馬の\@RAND:2 ? 肉棒 # 唇\@", "馬", "", "和姦")
+	ENDSELECT
+ENDIF
+PRINTFORML 
+FOR LOCAL, 0, CHARANUM
+	IF LOCAL != MASTER && CFLAG:(LOCAL):所属 == CFLAG:MASTER:所属 && !CFLAG:(LOCAL):捕虜先 && !IS_ANIMAL(LOCAL)
+		ABL:LOCAL:武闘 += RAND:2
+		ABL:LOCAL:防衛 += RAND:2
+		ABL:LOCAL:知略 += RAND:2
+		ABL:LOCAL:政治 += RAND:2
+	ENDIF
+NEXT
+CALL COLOR_PRINTW("サバトで集めた精気はサキュバス達を強化した", カラー_注意)
+
+RETURN 1

@@ -1,0 +1,1793 @@
+﻿;イベント口上
+@KOJO_EVENT_K9(ARG)
+#DIM 咲夜_対象
+#DIM 咲夜
+#DIMS 咲夜機嫌
+
+咲夜_対象 = MASTER
+咲夜 = NAME_TO_CHARA("咲夜")
+咲夜機嫌 '= TOSTR_EMOTION(咲夜)
+
+SIF CFLAG:咲夜:400 == 1
+	RETURN 0
+
+SETCOLOR 咲夜_口上カラー
+
+;─────────────────────────────────────── 
+;●2_告白成功
+;─────────────────────────────────────── 
+IF ARG == 2
+	咲夜_告白成功期 = DAY
+	咲夜_告白成功場所 = TFLAG:54
+	咲夜_告白成功したキャラ = 咲夜_対象
+	;陥落済み
+	IF CHECK_K9("陥落", 咲夜_対象)
+		PRINTFORML 「啊……」
+		;TranslatedMark 「あぁ……」
+		PRINTFORMDW %ANAME(咲夜)%捂着胸口，脸颊泛红，露出了恍惚地微笑
+		;TranslatedMark %ANAME(咲夜)%は胸を押さえて頬を染め、恍惚と微笑んでいる
+		PRINTL 
+		PRINTFORML 「…………」
+		PRINTFORML 「啊。啊。对不起」
+		;TranslatedMark 「あ。あぁ。ごめんなさい」
+		PRINTFORML 「不，%POLITE_K9("等一下", "请等一下")%」
+		;TranslatedMark 「いや、待って%POLITE_K9("ちょうだい", "ください")%」
+		PRINTFORML 「%POLITE_K9("不是拒绝的意思", "我并不是说要拒绝")%……」
+		;TranslatedMark 「断るという意味では%POLITE_K9("ないわ", "ありません")%……」
+		PRINTFORMW 「%POLITE_K9("是我发了呆才道歉的", "我发呆了，所以向你道歉。")%」
+		;TranslatedMark 「ぼうっとしてしまったから謝った%POLITE_K9("のよ", "んです")%」
+		PRINTL 
+		PRINTFORML 「如果不是%CALLNAME_K9(咲夜_対象)%跟%POLITE_K9("我告白", "我告白的话")%，我%POLITE_K9("就跟你告白了", "也一定会自己开口的")%」
+		;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%が言って%POLITE_K9("くれな", "くださらな")%かったら、私から%POLITE_K9("言うところだったわ", "お願いしてしまうところでした")%」
+		PRINTFORML 「这段时间，明明没有什么可怕的事情。我却一直很害怕……」
+		;TranslatedMark 「ここしばらくは、何も怖いことなんてなかったのに。ずっと怖くて……」
+		PRINTFORMW 「啊啊」
+		;TranslatedMark 「あぁ」
+		PRINTL 
+		PRINTFORML 「我从未想过我会有这种感觉。」
+		;TranslatedMark 「こんな気持ちがあるなんてね」
+		PRINTFORML 「我的心怦怦直跳，胸口好痛……%CALLNAME_K9(咲夜_対象)%……」
+		;TranslatedMark 「胸が、どきどきし過ぎて、痛い……%CALLNAME_K9(咲夜_対象)%……」
+		PRINTFORML 「最喜欢%POLITE_K9("了", "你了")%。%POLITE_K9("我非常高兴", "我很高兴")%。%POLITE_K9("回答当然是我愿意", "我的话以后就拜托你了")%」
+		;TranslatedMark 「大好き%POLITE_K9("よ", "です")%。%POLITE_K9("すごく嬉しいわ", "とても嬉しいです")%。%POLITE_K9("返事はもちろん、イエスよ", "私からもどうか、お願いします")%」
+	;陥落百合
+	ELSEIF TALENT:咲夜:親友
+		PRINTFORML 「……%POLITE_K9("交往？是指那个", "交往是指……那个")%」
+		;TranslatedMark 「……%POLITE_K9("付き合うって、いうのは。その", "付き合う、というのは……その")%」
+		PRINTFORML 「%POLITE_K9("一起去哪里玩，不是这样的", "要去什么地方，叫我陪你，不是这样的")%？」
+		;TranslatedMark 「%POLITE_K9("一緒にどこかへ遊びに行くとか、そういうことじゃなく", "どこかへ出かけるから伴をするようにとか、そういうことではなく")%？」
+		PRINTFORML 「是恋爱……？」
+		;TranslatedMark 「恋愛の……？」
+		PRINTFORMDW %ANAME(咲夜)%目瞪口呆，停下了动作
+		;TranslatedMark %ANAME(咲夜)%は目を丸くしてポカンと口を開いたまま動きを止めた
+		PRINTL 
+		PRINTFORML 「啊……是啊，原来是这样啊」
+		;TranslatedMark 「あぁ……そう、そうだったのね」
+		PRINTFORMDW 过了一会儿，%ANAME(咲夜)%紧紧抱住自己的胸膛，脸颊染上红晕，恍惚地微笑着
+		;TranslatedMark ややあって、%ANAME(咲夜)%は自らの胸を抱きしめて頬を染め、恍惚と微笑んだ
+		PRINTL 
+		PRINTFORML 「啊。对不起，我已经说服了自己。我，那个」
+		;TranslatedMark 「あっ。ごめんなさい、ひとりで納得してしまって。私、その」
+		PRINTFORML 「%POLITE_K9("我以为我们是最好的朋友", "一直以为我们是好朋友")%、%POLITE_K9("我却没有意识到", "所以没有注意到")%」
+		;TranslatedMark 「親友だと思っていたもの%POLITE_K9("だから", "ですから")%、%POLITE_K9("気づいていなかったのだけれど", "気づいていなかったのですけれど")%」
+		PRINTFORML 「听到那句话，突然……心跳加速，感觉很幸福」
+		;TranslatedMark 「その言葉を聞いたら急に……凄く胸がどきどきして、幸せな気持ちになって」
+		PRINTFORMW 「%POLITE_K9("我一直在想，也许我真的是这样的。", "我想我也可能是这样的。")%」
+		;TranslatedMark 「私も本当はそうだったのかもしれないと思っていた%POLITE_K9("の", "んです")%」
+		PRINTL 
+		PRINTFORML 「好开心啊……%CALLNAME_K9(咲夜_対象)%……」
+		;TranslatedMark 「嬉しいわ……%CALLNAME_K9(咲夜_対象)%……」
+		PRINTFORML 「%POLITE_K9("我非常高兴", "我很高兴")%。%POLITE_K9("我爱你", "我喜欢你")%。%POLITE_K9("回答当然是我愿意", "我以后也拜托你了")%」
+		;TranslatedMark 「%POLITE_K9("すごく嬉しいわ", "とても嬉しいです")%。大好き%POLITE_K9("よ", "です")%。%POLITE_K9("返事はもちろん、イエスよ", "私からもどうか、お願いします")%」
+	;未陥落
+	ELSE
+		PRINTFORML 「……和我%POLITE_K9("？　交往、是恋爱的意思", "吗。成为恋人")%？」
+		;TranslatedMark 「……私と%POLITE_K9("？　付き合うって、恋愛の", "ですか。恋人に")%？」
+		PRINTFORML 「你很个特别的人啊%POLITE_K9("你很个特别的人啊", "你是一个非常不寻常的人")%。%CALLNAME_K9(咲夜_対象)%」
+		;TranslatedMark 「よくよく珍しい人%POLITE_K9("ね", "ですね")%。%CALLNAME_K9(咲夜_対象)%は」
+		PRINTFORMW 「%POLITE_K9("好吧，我知道了 我会和你在一起着你", "如果我可以的话，我会很高兴和您交往")%」
+		;TranslatedMark 「%POLITE_K9("いいわよ。付き合ってあげるわ", "私でよろしければ、喜んでお付き合い致します")%」
+		PRINTL 
+		PRINTFORML 「哎呀。%POLITE_K9("不是因为讨厌。", "并不是讨厌")%就随便回答了%POLITE_K9("的", "的哟？")%」
+		;TranslatedMark 「あら。適当に答えた訳%POLITE_K9("じゃないわ。", "ではありませんよ？　")%嫌いではないから%POLITE_K9("よ", "です")%」
+		PRINTFORML 「好好……%POLITE_K9("比起其他任何人，我更容易被视为恋爱对象，所以点了点头", "我点了点头，因为我觉得自己比任何人都更容易被当成恋爱对象")%」
+		;TranslatedMark 「ちゃんと……他の誰よりも、恋愛対象として見られそうだから頷%POLITE_K9("いたわ", "きました")%」
+		PRINTFORML 「%POLITE_K9("虽然还不知道是怎么回事", "虽然还不知道是怎么回事")%，没关系%POLITE_K9("吗", "吧")%？」
+		;TranslatedMark 「まだどういうものかは%POLITE_K9("わかってないのだけど", "わからないのですが")%、かまわない%POLITE_K9("かしら", "でしょうか")%？」
+	ENDIF
+	WAIT
+ENDIF
+
+;─────────────────────────────────────── 
+;●3_告白失敗
+;─────────────────────────────────────── 
+IF ARG == 3
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「哎呀……我以为我是%CALLNAME_K9(咲夜_対象)%的奴隶呢」
+		;TranslatedMark 「あら……私は%CALLNAME_K9(咲夜_対象)%の奴隷かと思っていました」
+		PRINTFORML 「这样的话心情也会变化的吧。让我考虑一下」
+		;TranslatedMark 「そうなると気持ちも変わりそうです。少し考えさせてください」
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「%POLITE_K9("哎呀。是不是搞错了说话的对象?", "哎呀。您是在跟我说话吗？")%」
+		;TranslatedMark 「あら。言う相手を間違えて%POLITE_K9("いるんじゃないかしら", "いらっしゃいませんか")%」
+		PRINTFORML 「%CALLNAME_K9(咲夜_対象)%，%POLITE_K9("我还以为你有很多其他的恋人呢?", "在我的印象中，你还有很多其他恋人吧")%」
+		;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%には他にたくさん恋人がいる%POLITE_K9("かと思ったけれど？", "かと思っておりました")%」
+		PRINTFORML 「……如果你是认真的，%POLITE_K9("让我考虑一下吧", "能不能让我考虑一下")%」
+		;TranslatedMark 「……本気で%POLITE_K9("言ってるなら、少し考えさせてくれないかしら", "仰っているなら、少し考えさせてください")%」
+	ELSEIF TALENT:咲夜:親友
+		PRINTFORML 「%POLITE_K9("呵呵，是啊。妖精女仆跟我说我们的关系就像恋人一样好。", "呵呵，是啊。妖精女仆们调侃我们，说我们像情侣一样")%。」
+		;TranslatedMark 「ふふ、そう%POLITE_K9("ね", "ですね")%。私たちは恋人みたいに仲が良い%POLITE_K9("って妖精メイドに言われたわ", "と、妖精メイドにからかわれました")%」
+		PRINTFORML 「异性%POLITE_K9("だったら", "でしたら")%，我觉得肯定是在向%CALLNAME_K9(咲夜_対象)%告白」
+		;TranslatedMark 「異性%POLITE_K9("だったら", "でしたら")%、間違いなく%CALLNAME_K9(咲夜_対象)%に告白していたと思%POLITE_K9("うわ", "います")%」
+		PRINTFORMDL %ANAME(咲夜)%好像误解是开玩笑或者比喻表达
+		;TranslatedMark %ANAME(咲夜)%は冗談か比喩表現だと誤解したようだ
+	ELSE
+		PRINTFORML 「……%POLITE_K9("和我", "和我在一起")%？%POLITE_K9("玩笑开得太过分了", "你一定是在开玩笑")%」
+		;TranslatedMark 「……私%POLITE_K9("と", "とですか")%？　冗談が過ぎ%POLITE_K9("るわよ", "ますよ")%」
+		PRINTFORML 「我看起来就那么容易调戏吗？」
+		;TranslatedMark 「そんなにからかいやすく見え%POLITE_K9("るのかしら", "ますか？")%」
+	ENDIF
+	WAIT
+ENDIF
+
+;─────────────────────────────────────── 
+;●4_押し倒し成功(酒酔いの影響・合意は得られない)
+;─────────────────────────────────────── 
+IF ARG == 4
+	PRINTFORML 「嗯……嗯？喂，什么%POLITE_K9("よ", "ですか")%。打算做下流的事%POLITE_K9("", "ですか")%？」
+	;TranslatedMark 「ん……っ？　ちょっと、何%POLITE_K9("よ", "ですか")%。いやらしいことをするつもり%POLITE_K9("", "ですか")%？」
+	PRINTFORML 「……是%POLITE_K9("ね", "ですね")%。也喝了很多酒，有点怀念人的肌肤……%POLITE_K9("かまわないけれど", "かまいませんが")%」
+	;TranslatedMark 「……そう%POLITE_K9("ね", "ですね")%。お酒もまわって少し人肌恋しいし……%POLITE_K9("かまわないけれど", "かまいませんが")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●5_押し倒し成功(合意を取得)
+;─────────────────────────────────────── 
+IF ARG == 5
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「啊……❤%CALLNAME_K9(咲夜_対象)%……我很高兴❤」
+		;TranslatedMark 「あっ……❤　%CALLNAME_K9(咲夜_対象)%……嬉しい、です❤」
+	ELSEIF IS_LOVER(咲夜)
+		IF CHECK_K9("敬語")
+			PRINTFORML 「那个……啊❤居然能从%CALLNAME_K9(咲夜_対象)%那里寻求……我很高兴❤」
+			;TranslatedMark 「あの……あっ❤　%CALLNAME_K9(咲夜_対象)%から求めて頂けるなんて……嬉しいです❤」
+		ELSE
+			PRINTFORML 「等、等一下。啊❤」
+			;TranslatedMark 「ちょ、ちょっと。あっ❤」
+			PRINTFORML 「你注意到了吧。呵呵……我一直在等你哦？」
+			;TranslatedMark 「気づいてくれたのね。ふふっ……待ってたのよ？」
+		ENDIF
+	ELSE
+		PRINTFORML 「什么？嗯。打算和他玩%POLITE_K9("かしら", "ですか")%？」
+		;TranslatedMark 「何？　もうっ。遊び相手にするつもり%POLITE_K9("かしら", "ですか")%？」
+		PRINTFORML 「……如果能让%CALLNAME_K9(咲夜_対象)%玩的话，那也不错吧%POLITE_K9("ないわ", "ません")%」
+		;TranslatedMark 「……%CALLNAME_K9(咲夜_対象)%に遊んで貰えるなら、それもいいかもしれ%POLITE_K9("ないわ", "ません")%」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●6_押し倒し失敗
+;─────────────────────────────────────── 
+IF ARG == 6
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「啊……不行，不行。现在……」
+		;TranslatedMark 「あっ……だ、駄目です。今は……」
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「等、等一下。啊❤不行啊，现在」
+		;TranslatedMark 「ちょ、ちょっと。あっ❤　駄目よ、今は」
+	ELSE
+		PRINTFORML 「什么？嗯……打算和他玩%POLITE_K9("かしら", "ですか")%？」
+		;TranslatedMark 「何？　もうっ……遊び相手にするつもり%POLITE_K9("かしら", "ですか")%？」
+		PRINTFORML 「这种事拜托别人吧」
+		;TranslatedMark 「そういうのは他の人に頼んで%POLITE_K9("ちょうだい", "ください")%」
+	ENDIF
+	WAIT
+ENDIF
+
+;─────────────────────────────────────── 
+;●7_押し倒し成功(既に合意あり)
+;─────────────────────────────────────── 
+IF ARG == 7
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「啊，那个。啊❤　……没睡太好了」
+		;TranslatedMark 「あ、あの。あっ❤　……おねだりしなくて良かったです」
+		PRINTFORML 「如果能从%CALLNAME_K9(咲夜_対象)%中寻求的话，我会很开心的❤」
+		;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%から求めて頂けると、嬉しくなります❤」
+	ELSEIF IS_LOVER(咲夜)
+		IF CHECK_K9("敬語")
+			PRINTFORML 「啊，那个。啊❤　……没睡太好了」
+			;TranslatedMark 「あ、あの。あっ❤　……おねだりしなくて良かったです」
+			PRINTFORML 「如果能从%CALLNAME_K9(咲夜_対象)%中寻求的话，我会很开心的❤」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%から求めて頂けると、嬉しくなります❤」
+		ELSE
+			PRINTFORML 「等、等一下。啊❤　……没睡太好了」
+			;TranslatedMark 「ちょ、ちょっと。あっ❤　……おねだりしなくて良かったわ」
+			PRINTFORML 「能从%CALLNAME_K9(咲夜_対象)%中寻求，真是太棒了❤」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%から求めてもらえるのって、最高ね❤」
+		ENDIF
+	ELSE
+		PRINTFORML 「啊❤已经，又……」
+		;TranslatedMark 「あっ❤　もう、また……」
+	ENDIF
+	WAIT
+ENDIF
+
+;─────────────────────────────────────── 
+;●11_体力切れによる行動不能（捕虜調教ではないか実行者）
+;─────────────────────────────────────── 
+IF ARG == 11
+	IF (FLAG:調教モード == 調教_会う || FLAG:調教モード == 調教_閨) && GROUPMATCH(咲夜機嫌,"幸","悦","良")
+		PRINTFORML 「哈……❤啊……不行了，不管怎么做身体都受不了❤」
+		;TranslatedMark 「はぁっ……❤　あぁ……もう駄目よ、いくらしたくても体がもたないわ❤」
+	ELSE
+		PRINTFORML 「啊哈……不行了，身体啊……」
+		;TranslatedMark 「あはぁっ……もう駄目、体がぁ……」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●12_気力切れ（快楽）による失神（捕虜調教ではないか実行者）
+;─────────────────────────────────────── 
+IF ARG == 12
+	IF (FLAG:調教モード == 調教_会う || FLAG:調教モード == 調教_閨) && GROUPMATCH(咲夜機嫌,"幸","悦")
+		PRINTFORML 「啊啊……疯了❤最棒了……幸福啊❤」
+		;TranslatedMark 「ひぁっ……狂っちゃう❤　最高ぉ……に、幸せ、よ❤」
+	ELSE
+		PRINTFORML 「啊啊……呜、呜、呜……嗯」
+		;TranslatedMark 「ひぁっ……くるっ、ちゃ、うぅ……っ」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●13_怒り限界による離脱（閨に呼ぶモードやデート先でない）
+;─────────────────────────────────────── 
+IF ARG == 13
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「对不起，差不多该送你了」
+		;TranslatedMark 「申し訳ありませんが、そろそろお見送りさせてください」
+		PRINTFORML 「今天一训练，手上就要发疯了」
+		;TranslatedMark 「今日は訓練をすると手元が狂ってしまいそうです」
+		PRINTFORML 「如果是%CALLNAME_K9(咲夜_対象)%的话，你知道如何让无论如何都得不到心的人得到手的方法吗？」
+		;TranslatedMark 「どうしても心が手に入らない方を手に入れる方法は、%CALLNAME_K9(咲夜_対象)%ならご存知でしょう？」
+	ELSEIF IS_LOVER(咲夜)
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起，差不多该送你了」
+			;TranslatedMark 「申し訳ありませんが、そろそろお見送りさせてください」
+			PRINTFORML 「今天一训练手都快疯了」
+			;TranslatedMark 「今日は訓練をすると手元が狂いそうです」
+			PRINTFORML 「因为我喜欢得想看看血的颜色」
+			;TranslatedMark 「血の色を見てみたいくらい好きなものですから」
+		ELSE
+			PRINTFORML 「不好意思，我想差不多该打扫了，能请你回去吗」
+			;TranslatedMark 「悪いけれど、そろそろお掃除がしたいから帰って貰えるかしら」
+			PRINTFORML 「如果能陪我参加训练的话就太好了，但是今天手好像要疯了」
+			;TranslatedMark 「訓練に付き合ってくれるなら助かるけれど、今日は手元が狂いそうよ」
+			PRINTFORML 「我喜欢到想看看血的颜色」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%のことは血の色を見てみたいくらい好きなんですもの」
+		ENDIF
+	ELSE
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起，我想差不多该打扫了，请让我送行」
+			;TranslatedMark 「申し訳ありませんが、そろそろお掃除をしたいのでお見送りさせてください」
+			PRINTFORML 「可以进行训练……今天手好像要疯了」
+			;TranslatedMark 「訓練をしても良いのですが……今日は手元が狂いそうです」
+		ELSE
+			PRINTFORML 「不好意思，我想差不多该打扫了，能请你回去吗」
+			;TranslatedMark 「悪いけれど、そろそろお掃除をしたいから、帰って貰えるかしら」
+			PRINTFORML 「还是和我一起训练？」
+			;TranslatedMark 「それとも訓練に付き合ってくれる？」
+			PRINTFORML 「虽然向%CALLNAME_K9(咲夜_対象)%请求了目标，但是今天手好像要疯了」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%には的をお願いするけれど、今日は手元が狂いそうよ」
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●14_哀しみ限界による離脱（閨に呼ぶモードやデート先でない）
+;─────────────────────────────────────── 
+IF ARG == 14
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「对不起，我想差不多该打扫了，请让我送行」
+		;TranslatedMark 「申し訳ありませんが、そろそろお掃除をしたいのでお見送りさせてください」
+		PRINTFORML 「我不想再让%CALLNAME_K9(咲夜_対象)%看到黑暗的脸了」
+		;TranslatedMark 「これ以上%CALLNAME_K9(咲夜_対象)%に暗い顔は見せたくありません」
+		PRINTFORML 「我马上就能冷静下来。请让我一个人」
+		;TranslatedMark 「すぐに落ち着けます。少しだけ、ひとりにならせてください」
+	ELSEIF IS_LOVER(咲夜)
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起，我想差不多该打扫了，请让我送行」
+			;TranslatedMark 「申し訳ありませんが、そろそろお掃除をしたいのでお見送りさせてください」
+			PRINTFORML 「我不想再让%CALLNAME_K9(咲夜_対象)%看到黑暗的脸了」
+			;TranslatedMark 「これ以上%CALLNAME_K9(咲夜_対象)%に暗い顔は見せたくありません」
+			PRINTFORML 「我马上就能冷静下来。请让我一个人」
+			;TranslatedMark 「すぐに落ち着けます。少しだけ、ひとりにならせてください」
+		ELSE
+			PRINTFORML 「我服了。竟然让%CALLNAME_K9(咲夜_対象)%担心」
+			;TranslatedMark 「参ったわね。%CALLNAME_K9(咲夜_対象)%に心配をかけちゃうなんて」
+			PRINTFORML 「可以让我一个人吗？是不是因为太可怜而消沉」
+			;TranslatedMark 「少しだけひとりにならせてくれる？　情けなくて落ち込みそうなの」
+			PRINTFORML 「没关系。过一会儿就会好起来的」
+			;TranslatedMark 「大丈夫よ。少ししたら、すぐ元気になるわ」
+		ENDIF
+	ELSE
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起，我想差不多该打扫了，请让我送行」
+			;TranslatedMark 「申し訳ありませんが、そろそろお掃除をしたいのでお見送りさせてください」
+			PRINTFORML 「我不想让你看到太暗的脸。请让我一个人」
+			;TranslatedMark 「あまり暗い顔は見せたくないんです。少しだけひとりにならせてください」
+			PRINTFORML 「我马上就能冷静下来。请不要担心」
+			;TranslatedMark 「すぐに落ち着けます。どうかご心配なく」
+		ELSE
+			PRINTFORML 「让你担心了呢。对不起」
+			;TranslatedMark 「心配をかけちゃってるわね。ごめんなさい」
+			PRINTFORML 「可以让我一个人吗？是不是因为太可怜而消沉」
+			;TranslatedMark 「少しだけひとりにならせてくれる？　情けなくて落ち込みそうなの」
+			PRINTFORML 「没关系。过一会儿就会好起来的」
+			;TranslatedMark 「大丈夫よ。少ししたら、すぐ元気になるわ」
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●15_怒り限界による離脱（閨に呼ぶモードかデート先）
+;─────────────────────────────────────── 
+IF ARG == 15
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「对不起。%ANAME(咲夜)%差不多该告辞了」
+		;TranslatedMark 「申し訳ありません。%ANAME(咲夜)%はそろそろお暇します」
+		PRINTFORML 「在服务过程中好像会被咬到」
+		;TranslatedMark 「ご奉仕の途中で噛みついてしまいそうです」
+	ELSEIF IS_LOVER(咲夜)
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起。%ANAME(咲夜)%差不多该告辞了」
+			;TranslatedMark 「申し訳ありません。%ANAME(咲夜)%はそろそろお暇します」
+			PRINTFORML 「为%CALLNAME_K9(咲夜_対象)%服务的话，会想吃的」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%にご奉仕していたら、食べてしまいたくなりそうです」
+		ELSE
+			PRINTFORML 「不好意思，我想差不多该打扫了，所以要回去了」
+			;TranslatedMark 「悪いけれど、そろそろお掃除がしたいから帰るわね」
+			PRINTFORML 「虽然想欺负%CALLNAME_K9(咲夜_対象)%，但是手上好像发狂了」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%をいじめたいけれど、手元が狂ってしまいそう」
+		ENDIF
+	ELSE
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起。%ANAME(咲夜)%差不多该告辞了」
+			;TranslatedMark 「申し訳ありません。%ANAME(咲夜)%はそろそろお暇します」
+			PRINTFORML 「在服务过程中好像会被咬到」
+			;TranslatedMark 「ご奉仕の途中で噛みついてしまいそうです」
+		ELSE
+			PRINTFORML 「不好意思，我想差不多该打扫了，所以要回去了」
+			;TranslatedMark 「悪いけれど、そろそろお掃除がしたいから帰るわね」
+			PRINTFORML 「手快疯了」
+			;TranslatedMark 「手元が狂ってしまいそう」
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●16_哀しみ限界による離脱（閨に呼ぶモードかデート先）
+;─────────────────────────────────────── 
+IF ARG == 16
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「对不起。%ANAME(咲夜)%差不多该告辞了」
+		;TranslatedMark 「ごめんなさい。%ANAME(咲夜)%はそろそろお暇します」
+		PRINTFORML 「无法回应%CALLNAME_K9(咲夜_対象)%的期待，非常抱歉」
+		;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%のご期待に応えられなくて、申し訳ありません」
+		PRINTFORML 「请让我一个人呆一会儿。平心静气」
+		;TranslatedMark 「少しだけひとりにならせてください。気持ちを落ち着けます」
+
+	ELSEIF IS_LOVER(咲夜)
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起。%ANAME(咲夜)%差不多该告辞了」
+			;TranslatedMark 「ごめんなさい。%ANAME(咲夜)%はそろそろお暇します」
+			PRINTFORML 「无法回应%CALLNAME_K9(咲夜_対象)%的期待，非常抱歉」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%のご期待に応えられなくて、申し訳ありません」
+			PRINTFORML 「请让我一个人呆一会儿。平心静气」
+			;TranslatedMark 「少しだけひとりにならせてください。気持ちを落ち着けます」
+		ELSE
+			PRINTFORML 「对不起。我差不多该休息了。我想让心情平静下来」
+			;TranslatedMark 「ごめんなさい。私、そろそろ休むわね。気持ちを落ち着けたいわ」
+			PRINTFORML 「想要回应%CALLNAME_K9(咲夜_対象)%的期待的东西」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%の期待に応えられるようになりたいもの」
+		ENDIF
+	ELSE
+		IF CHECK_K9("敬語")
+			PRINTFORML 「对不起。%ANAME(咲夜)%差不多该告辞了」
+			;TranslatedMark 「申し訳ありません。%ANAME(咲夜)%はそろそろお暇します」
+			PRINTFORML 「请让我一个人」
+			;TranslatedMark 「少しだけ、ひとりにならせてください」
+		ELSE
+			PRINTFORML 「对不起。我差不多该休息了」
+			;TranslatedMark 「ごめんなさい。私、そろそろ休むわね」
+			PRINTFORML 「我想让你一个人」
+			;TranslatedMark 「少しひとりにならせて欲しいの」
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●17_体力切れによる行動不能（捕虜調教かつ対象者）
+;─────────────────────────────────────── 
+IF ARG == 17
+	PRINTFORML 「已经不行了……身体会动吗——原谅我……」
+	;TranslatedMark 「もう、だめ……体が、動かな――許してぇ……」
+ENDIF
+
+;─────────────────────────────────────── 
+;●18_気力切れ快楽による失神（捕虜調教かつ対象者）
+;─────────────────────────────────────── 
+IF ARG == 18
+	PRINTFORML 「啊啊啊……！已经不行了❤请原谅我……嗯❤」
+	;TranslatedMark 「ひあぁっ……！　もう、だめぇ❤　もう許してぇ……っ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●19_気絶からの復帰
+;─────────────────────────────────────── 
+IF ARG == 19
+	;疲労深度が０以下なら疲労回復とみなす
+	IF TCVAR:(咲夜):26 <= 0
+		PRINTFORML 「啊……嗯，嗯……对不起，请。冷静下来……%POLITE_K9("きたわ", "きました")%」
+		;TranslatedMark 「あ……ん、う……ごめ、なさい。落ち着いて……%POLITE_K9("きたわ", "きました")%」
+	;疲労があれば気絶からの回復とみなす
+	ELSE
+		PRINTFORML 「啊啊啊！啊……诶！？啊，啊，啊——嘻哈」
+		;TranslatedMark 「あぁああっ！　あ……っ！？　あ、あ、あ――ヒッ」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●20_デート中に向こうからキス
+;─────────────────────────────────────── 
+IF ARG == 20
+	PRINTFORML 「有点%POLITE_K9("いいかしら", "待って頂けますか")%？」
+	;TranslatedMark 「ちょっと%POLITE_K9("いいかしら", "待って頂けますか")%？」
+	PRINTFORML 「朝向这边%POLITE_K9("。", "ください。")%……❤」
+	;TranslatedMark 「こっちを向いて%POLITE_K9("。", "ください。")%んっ……❤」
+	WAIT
+ENDIF
+
+;─────────────────────────────────────── 
+;●21_デート中に向こうから告白
+;─────────────────────────────────────── 
+IF ARG == 21
+	IF CHECK_K9("敬語")
+		PRINTFORML 「那个，可以稍等一下吗？有点突然，能请您听一下吗」
+		;TranslatedMark 「あの、少々宜しいでしょうか？　急な話ですが、聞いて頂けないでしょうか」
+		PRINTFORMDW %ANAME(咲夜)%捂着胸口，脸颊绯红
+		;TranslatedMark %ANAME(咲夜)%は胸を押さえて頬を染めている
+		PRINTL 
+		PRINTFORML 「那个。%CALLNAME_K9(咲夜_対象)%和我在一起过得开心吗？」
+		;TranslatedMark 「その。%CALLNAME_K9(咲夜_対象)%は私と居て楽しく過ごせてらっしゃるでしょうか？」
+		PRINTFORML 「我经常会想，不是%CALLNAME_K9(咲夜_対象)%」
+		;TranslatedMark 「私は、%CALLNAME_K9(咲夜_対象)%でなくては、と思うことがよくあります」
+		PRINTFORML 「我还不知道这是什么心情……」
+		;TranslatedMark 「これがどういう気持ちなのかはまだわからないのですが……」
+		PRINTFORML 「对不起。没有其他经验」
+		;TranslatedMark 「すみません。他に経験がなくて」
+		PRINTFORML 「但是……那个」
+		;TranslatedMark 「ですが……その」
+		PRINTFORMW 「希望能一直在一起。可以预约吗？」
+		;TranslatedMark 「ずっと一緒に居て、頂きたいのです。約束、して頂けないでしょうか？」
+		PRINTL 
+		PRINTFORML 「……我喜欢。关于%CALLNAME_K9(咲夜_対象)%」
+		;TranslatedMark 「……好きです。%CALLNAME_K9(咲夜_対象)%のことが」
+		PRINTFORML 「是的，那个……和恋人」
+		;TranslatedMark 「そう、その……恋人、と」
+		PRINTFORML 「我想成为被称呼的关系」
+		;TranslatedMark 「呼ばれるような仲に、なりたいと思っています」
+		PRINTFORML 「不知道立场，在说狂妄的话吗？」
+		;TranslatedMark 「立場もわきまえず、生意気なことを申し上げているでしょうか？」
+	ELSE
+		PRINTFORML 「喂，突然说这样的话可能会感到迷惑……有想让你听的话吗」
+		;TranslatedMark 「ねぇ、急にこんなこと言うと戸惑うかもしれないけれど……聞いて欲しい話があるの」
+		PRINTFORMDW %ANAME(咲夜)%捂着胸口，脸颊绯红
+		;TranslatedMark %ANAME(咲夜)%は胸を押さえて頬を染めている
+		PRINTL 
+		PRINTFORML 「那个。%CALLNAME_K9(咲夜_対象)%和我在一起会开心吗？」
+		;TranslatedMark 「その。%CALLNAME_K9(咲夜_対象)%は私と居て楽しいかしら？」
+		PRINTFORML 「我经常会想，除了快乐之外，还必须是%CALLNAME_K9(咲夜_対象)%」
+		;TranslatedMark 「私は、楽しいとかそれ以上に、%CALLNAME_K9(咲夜_対象)%でなくちゃいけない、って思うことがよくあるわ」
+		PRINTFORML 「虽然还不知道这是什么心情……」
+		;TranslatedMark 「これがどういう気持ちなのかはまだわからないけれど……」
+		PRINTFORML 「没办法。因为没有其他经验嘛」
+		;TranslatedMark 「し、仕方ないじゃない。他に経験がないんだもの」
+		PRINTFORML 「所以……那个」
+		;TranslatedMark 「だから……その」
+		PRINTFORMW 「想一直在一起。约定，不做……是吗？」
+		;TranslatedMark 「ず、ずっと一緒に居たいわ。約束、してくれない……かしら？」
+		PRINTL 
+		PRINTFORML 「……我喜欢。关于%CALLNAME_K9(咲夜_対象)%」
+		;TranslatedMark 「……好きなのよ。%CALLNAME_K9(咲夜_対象)%のことが」
+		PRINTFORML 「是的，那个……喂，小家伙。在。……想成为的」
+		;TranslatedMark 「そう、その……こい、びと。に。……なりたいの」
+		PRINTFORML 「不行吗？」
+		;TranslatedMark 「駄目、かしら？」
+	ENDIF
+
+	CALL KOJO_ASK("受け入れる", "拒绝")
+
+	;受け入れる
+	IF RESULT == 0
+		咲夜_告白成功期 = DAY
+		咲夜_告白成功場所 = TFLAG:54
+		咲夜_告白成功したキャラ = 咲夜
+		PRINTFORML 「啊…………」
+		;TranslatedMark 「あっ…………」
+		PRINTFORMDL %ANAME(咲夜)%睁开眼凝视着%ANAME(咲夜_対象)%，啪嗒啪嗒大颗的眼泪洒在了脸颊上
+		;TranslatedMark %ANAME(咲夜)%は目を見開いて%ANAME(咲夜_対象)%を見つめたまま、ぽろぽろと大粒の涙を頬に零した
+		;告白成功時はTFLAG:4に1を代入
+		TFLAG:4 = 1
+	;拒绝
+	ELSE
+		PRINTFORML 「%POLITE_K9("そう……よね。急にこんな話をしても、戸惑うわよね。わかったわ", "……はい……聞いてくださって、ありがとうございました")%」
+		PRINTFORML 「%POLITE_K9("だけど、できたら考えておいてくれるかしら……", "でも、できたらもう少しだけ。考えてみてくださると嬉しいです……")%」
+		;告白成功時はTFLAG:4に0を代入
+		TFLAG:4 = 0
+	ENDIF
+	WAIT
+ENDIF
+
+;─────────────────────────────────────── 
+;●22～25_相手から押し倒される　合意なし／合意なし＆酔った勢い／合意あり／合意あり＆酔った勢い
+;─────────────────────────────────────── 
+IF ARG == 22 || ARG == 23 || ARG == 24 || ARG == 25
+	;選択肢を出すが結果は変わらない
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「请稍等。——不能去哦！」
+		;TranslatedMark 「お待ちください。――行っちゃ駄目よっ！」
+		PRINTFORML 「啊。……对不起。但是，竟然就这样回去了」
+		;TranslatedMark 「あ。……ごめんなさい。でも、このまま帰ってしまわれるなんて」
+		PRINTFORML 「自从看到%CALLNAME_K9(咲夜_対象)%的脸后，就一直在trotro」
+		;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%のお顔を見てからずっと、もうトロトロなんです」
+		PRINTFORML 「拜托了……是，是❤不要放弃……请安慰我❤」
+		;TranslatedMark 「お願いですからっ……は、あ❤　見捨てないで……慰めてくださいっ❤」
+		CALL KOJO_ASK("受け入れる", "拒绝")
+		IF RESULT == 0
+			PRINTFORML 「啊啊❤好开心，%CALLNAME_K9(咲夜_対象)%……❤」
+			;TranslatedMark 「あぁ❤　嬉しい、%CALLNAME_K9(咲夜_対象)%……❤」
+			PRINTFORMDL %ANAME(咲夜)%的脚被%ANAME(咲夜_対象)%缠住，有人来找我
+			;TranslatedMark %ANAME(咲夜)%は%ANAME(咲夜_対象)%に足を絡めてしなだれかかってきた
+		ELSE
+			PRINTFORML 「是啊。也有累的时候吧。对不起」
+			;TranslatedMark 「そうですよね。疲れているときだってありますよね。ごめんなさい」
+			PRINTFORMDW 与语言相反，%ANAME(咲夜)%用脚缠住%ANAME(咲夜_対象)%，扑通一声推倒了她
+			;TranslatedMark 言葉とは裏腹に、%ANAME(咲夜)%は%ANAME(咲夜_対象)%に足を絡めてしなだれかかり押し倒してきた
+			PRINTL 
+			PRINTFORML 「%CALLNAME_K9(咲夜_対象)%什么都不做也没关系。请让我为你服务❤」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%は何もしてくださらなくて構いません。私にご奉仕させてください❤」
+		ENDIF
+
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「哎呀，不行%POLITE_K9("よ", "ですよ")%。就这样回去了」
+		;TranslatedMark 「あら、駄目%POLITE_K9("よ", "ですよ")%。このまま帰ってしま%POLITE_K9("うつもりかしら", "われるのですか")%」
+		PRINTFORML 「把恋人丢下不管，太%POLITE_K9("じゃない", "ではありませんか")%了」
+		;TranslatedMark 「恋人を置いてけぼりにするなんて、あんまり%POLITE_K9("じゃない", "ではありませんか")%」
+		PRINTFORML 「我已经，看吧？电子管」
+		;TranslatedMark 「私もう、ほら、ね？　トロトロ%POLITE_K9("なの", "なんです")%」
+		PRINTFORML 「拜托了%POLITE_K9("だから", "ですから")%……安慰%POLITE_K9("欲しいの❤", "ください❤")%」
+		;TranslatedMark 「お願い%POLITE_K9("だから", "ですから")%っ……慰めて%POLITE_K9("欲しいの❤", "ください❤")%」
+		CALL KOJO_ASK("受け入れる", "拒绝")
+		IF RESULT == 0
+			PRINTFORML 「啊啊❤喜欢啊，%CALLNAME_K9(咲夜_対象)%……❤」
+			;TranslatedMark 「あぁ❤　好きよ、%CALLNAME_K9(咲夜_対象)%……❤」
+			PRINTFORMDL %ANAME(咲夜)%的脚被%ANAME(咲夜_対象)%缠住，有人来找我
+			;TranslatedMark %ANAME(咲夜)%は%ANAME(咲夜_対象)%に足を絡めてしなだれかかってきた
+		ELSE
+			PRINTFORML 「是啊。也有累的时候吧。我知道」
+			;TranslatedMark 「そうよね。疲れているときだってあるわよね。わかるわ」
+			PRINTFORMDW 与语言相反，%ANAME(咲夜)%用脚缠住%ANAME(咲夜_対象)%，扑通一声推倒了她
+			;TranslatedMark 言葉とは裏腹に、%ANAME(咲夜)%は%ANAME(咲夜_対象)%に足を絡めてしなだれかかり押し倒してきた
+			PRINTL 
+			PRINTFORML 「%CALLNAME_K9(咲夜_対象)%什么都不用为我做。我的%POLITE_K9("がぜんぶ、してあげる", "にご奉仕させてください")%❤」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%は何もしてくれなくていい%POLITE_K9("の", "んです")%。私%POLITE_K9("がぜんぶ、してあげる", "にご奉仕させてください")%❤」
+		ENDIF
+
+	ELSE
+		PRINTFORML 「明明气氛这么好，却很爽快地回去了，真是%POLITE_K9("冷たいわ", "つれなくはありませんか？")%」
+		;TranslatedMark 「こんなにいい雰囲気になれたのに、あっさり帰ってしまうなんて%POLITE_K9("冷たいわ", "つれなくはありませんか？")%」
+		PRINTFORML 「陪我到最后」
+		;TranslatedMark 「最後まで付き合って%POLITE_K9("くれるでしょう？　ね……❤", "ください。もう待ちきれません❤")%」
+		CALL KOJO_ASK("受け入れる", "拒绝")
+		IF RESULT == 0
+			PRINTFORML 「你不是讨厌我吗？好开心啊❤」
+			;TranslatedMark 「嫌われているわけじゃいのね？　嬉しいわ❤」
+			PRINTFORMDL %ANAME(咲夜)%的脚被%ANAME(咲夜_対象)%缠住，有人来找我
+			;TranslatedMark %ANAME(咲夜)%は%ANAME(咲夜_対象)%に足を絡めてしなだれかかってきた
+		ELSE
+			PRINTFORML 「如果不是讨厌我的话，%POLITE_K9("ダメよ", "意地悪を仰らないでください")%」
+			;TranslatedMark 「私のことが嫌いなわけじゃないなら、%POLITE_K9("ダメよ", "意地悪を仰らないでください")%」
+			PRINTFORMDW %ANAME(咲夜)%的脚被%ANAME(咲夜_対象)%缠住了，被强行推倒了
+			;TranslatedMark %ANAME(咲夜)%は%ANAME(咲夜_対象)%に足を絡めてしなだれかかり、強引に押し倒してきた
+			PRINTL 
+			PRINTFORML 「已经%POLITE_K9("逃がさないんだから", "待ちきれません")%❤」
+			;TranslatedMark 「もう%POLITE_K9("逃がさないんだから", "待ちきれません")%❤」
+		ENDIF
+
+	ENDIF
+	WAIT
+	RESETCOLOR
+	RETURN 1
+ENDIF
+
+;─────────────────────────────────────── 
+;●26～29_相手からおねだりされる　合意なし／合意なし＆酔った勢い／合意あり／合意あり＆酔った勢い
+;─────────────────────────────────────── 
+IF ARG == 26 || ARG == 27 || ARG == 28 || ARG == 29
+	IF IS_SLAVE(咲夜)
+		PRINTDATAL
+			DATALIST
+				DATAFORM 「请稍等。——不能去！」
+				;TranslatedMark 「お待ちください。――行っちゃ駄目っ！」
+				DATAFORM 「啊。……对不起。但是，竟然就这样回去了」
+				;TranslatedMark 「あ。……ごめんなさい。でも、このまま帰ってしまわれるなんて」
+				DATAFORM 「请一定要训练一下%ANAME(咲夜)%❤」
+				;TranslatedMark 「どうか%ANAME(咲夜)%をお躾ください❤」
+			ENDLIST
+			DATALIST
+				DATAFORM 「那个，请稍等」
+				;TranslatedMark 「あの、どうかお待ちください」
+				DATAFORM 「自从看到%CALLNAME_K9(咲夜_対象)%的脸后，就一直在trolo❤」
+				;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%のお顔を見てからもうずっとトロトロなんです❤」
+				DATAFORM 「拜托了。不要放弃……请安慰我❤」
+				;TranslatedMark 「お願いです。見捨てないで……慰めてくださいっ❤」
+			ENDLIST
+			DATALIST
+				DATAFORM 「请稍等。居然就这样回去了」
+				;TranslatedMark 「お待ちください。このまま帰ってしまわれるなんて」
+				DATAFORM 「今天也累了吧？请让我为%ANAME(咲夜)%服务❤」
+				;TranslatedMark 「今日もお疲れでしょう？　どうか%ANAME(咲夜)%にご奉仕させてください❤」
+			ENDLIST
+			DATALIST
+				DATAFORM 「您已经回去了吧。%CALLNAME_K9(咲夜_対象)%累了吗？」
+				;TranslatedMark 「もうお帰りなんですね。%CALLNAME_K9(咲夜_対象)%はお疲れなのでしょうか？」
+				DATAFORM 「为了能好好休息，请让我为%ANAME(咲夜)%服务❤」
+				;TranslatedMark 「よくお休みになれるよう%ANAME(咲夜)%にご奉仕させてください❤」
+			ENDLIST
+		ENDDATA
+
+	ELSEIF IS_LOVER(咲夜)
+		PRINTDATAL
+			DATAFORM 「哎呀，不行%POLITE_K9("よ", "ですよ")%。就这样回去了」
+			;TranslatedMark 「あら、駄目%POLITE_K9("よ", "ですよ")%。このまま帰ってしま%POLITE_K9("うつもり？", "われるのですか")%」
+			DATALIST
+				DATAFORM 「%POLITE_K9("待ってちょうだい", "お待ちください")%、%CALLNAME_K9(咲夜_対象)%」
+				DATAFORM 「把恋人丢下不管，真是太%POLITE_K9("じゃないかしら", "ではありませんか")%了？」
+				;TranslatedMark 「恋人を置いてけぼりにするなんて、あんまり%POLITE_K9("じゃないかしら", "ではありませんか")%？」
+			ENDLIST
+			DATALIST
+				DATAFORM 「%POLITE_K9("待ってちょうだい", "お待ちください")%、%CALLNAME_K9(咲夜_対象)%」
+				DATAFORM 「我已经，看吧？电子管」
+				;TranslatedMark 「私もう、ほら、ね？　トロトロ%POLITE_K9("なのよ", "なんです")%」
+				DATAFORM 「拜托了%POLITE_K9("だから", "ですから")%……是，是❤安慰%POLITE_K9("よ、ね？", "ください❤")%」
+				;TranslatedMark 「お願い%POLITE_K9("だから", "ですから")%っ……は、あ❤　慰めて%POLITE_K9("よ、ね？", "ください❤")%」
+			ENDLIST
+			DATALIST
+				DATAFORM 「%POLITE_K9("少し待ってくれないかしら", "お帰りですか？　少々お待ちください")%」
+				DATAFORM 「%POLITE_K9("こんなに早く帰ってしまうなんて、疲れているのでしょう", "すぐお帰りになるのは、お疲れだからではありませんか")%？」
+				DATAFORM 「%POLITE_K9("ぐっすり眠れるように、ご奉仕してあげる", "よくお休みになれるように、ご奉仕致します")%❤」
+			ENDLIST
+		ENDDATA
+	ELSE
+		PRINTFORML 「明明气氛这么好，却很爽快地回去了，真是%POLITE_K9("冷たいわ", "つれなくはありませんか？")%」
+		;TranslatedMark 「こんなにいい雰囲気になれたのに、あっさり帰ってしまうなんて%POLITE_K9("冷たいわ", "つれなくはありませんか？")%」
+		PRINTFORML 「陪我到最后」
+		;TranslatedMark 「最後まで付き合って%POLITE_K9("くれるでしょう？　ね❤", "ください。もう待ちきれません❤")%」
+	ENDIF
+	WAIT
+ENDIF
+
+;─────────────────────────────────────── 
+;●30_拠点フェイズ終了後
+;─────────────────────────────────────── 
+IF ARG == 30
+	IF CFLAG:(咲夜):所属 == CFLAG:咲夜_対象:所属 && !CFLAG:(咲夜):捕虜先 && KDVAR:咲夜:咲夜_ケガをしないで && !CFLAG:MASTER:捕虜先
+		;統一前なら次は戦略フェイズ
+		IF !FLAG:クリアフラグ
+			IF CHECK_K9("敬語")
+				PRINTDATAL
+					DATAFORM 「请让我用%ANAME(咲夜)%的小刀来帮助%CALLNAME_K9(咲夜_対象)%」
+					;TranslatedMark 「%ANAME(咲夜)%のナイフを%CALLNAME_K9(咲夜_対象)%のお役に立たせてください」
+					DATAFORM 「在与大势力作斗争的时候，请让我做使者」
+					;TranslatedMark 「大勢力と構えるときは、私を使者として遣わせてください」
+					DATAFORM 「您身体怎么样？本期也请不要勉强哦」
+					;TranslatedMark 「お体の調子はいかがですか？　今期もご無理はなさらないでくださいね」
+				ENDDATA
+			ELSE
+				PRINTDATAL
+					DATAFORM 「请让我的小刀起到%CALLNAME_K9(咲夜_対象)%的作用」
+					;TranslatedMark 「私のナイフを%CALLNAME_K9(咲夜_対象)%のお役に立たせてちょうだい」
+					DATAFORM 「无论是外交还是侵略，请使用我。希望%CALLNAME_K9(咲夜_対象)%能健康」
+					;TranslatedMark 「外交でも侵略でも、私を使ってちょうだい。%CALLNAME_K9(咲夜_対象)%には元気でいて欲しいの」
+					DATAFORM 「身体怎么样？这期也不要勉强哦。不然训练的时候手会发狂的」
+					;TranslatedMark 「体の調子はどう？　今期も無理はしないでね。でないと訓練のとき手元が狂っちゃうわ」
+				ENDDATA
+			ENDIF
+			PRINTDATADL
+				DATAFORM 战略会议期间，%ANAME(咲夜)%就在%ANAME(咲夜_対象)%身边
+				;TranslatedMark 戦略会議の間、%ANAME(咲夜)%は%ANAME(咲夜_対象)%のそばに控えていた
+				DATAFORM %ANAME(咲夜_対象)%被%ANAME(咲夜)%叫住，讨论了本期的战略
+				;TranslatedMark %ANAME(咲夜_対象)%は%ANAME(咲夜)%に呼び止められて今期の戦略について話し合った
+			ENDDATA
+			WAIT
+		;統一後なら次は拠点フェイズ
+		ELSE
+			IF CHECK_K9("敬語")
+				PRINTFORML 「%CALLNAME_K9(咲夜_対象)%。有热水和热水」
+				;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%。お湯とおゆはんができております」
+				PRINTFORML 「粥已经送到房间里了，请慢慢享用」
+				;TranslatedMark 「おゆはんはお部屋に運んでおきましたので、ごゆっくりお寛ぎください」
+			ELSE
+				PRINTFORML 「辛苦了。有热水和水哦」
+				;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%、おつかれさま。お湯とおゆはんができているわ」
+				PRINTFORML 「我把粥搬到房间里了，请好好休息吧」
+				;TranslatedMark 「おゆはんはお部屋に運んでおいたから、ゆっくり寛いでね」
+			ENDIF
+			PRINTFORMDL 夜晚%ANAME(咲夜)%向%ANAME(咲夜_対象)%打了招呼
+			;TranslatedMark 宵に%ANAME(咲夜)%が%ANAME(咲夜_対象)%に声を掛けてきた
+			WAIT
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●31_戦略フェイズ終了後
+;─────────────────────────────────────── 
+IF ARG == 31
+	IF CFLAG:(咲夜):所属 == CFLAG:咲夜_対象:所属 && !CFLAG:(咲夜):捕虜先 && KDVAR:咲夜:咲夜_ケガをしないで && !CFLAG:MASTER:捕虜先
+		;統一後は拠点フェイズ終了後
+		IF CHECK_K9("敬語")
+			PRINTFORML 「辛苦了，%CALLNAME_K9(咲夜_対象)%。有热水和热水」
+			;TranslatedMark 「お疲れ様です、%CALLNAME_K9(咲夜_対象)%。お湯とおゆはんができております」
+			PRINTFORML 「粥已经送到房间里了，请慢慢地治愈身体」
+			;TranslatedMark 「おゆはんはお部屋に運んでおきましたので、ごゆっくりお体を癒してください」
+		ELSE
+			PRINTFORML 「辛苦了。有热水和水哦」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%、おつかれさま。お湯とおゆはんができているわ」
+			PRINTFORML 「粥已经送到房间里了，好好地放松身体吧」
+			;TranslatedMark 「おゆはんはお部屋に運んでおいたから、ゆっくり体を癒してね」
+		ENDIF
+		PRINTFORMDL %ANAME(咲夜)%向归来的%ANAME(咲夜_対象)%搭话
+		;TranslatedMark 帰還した%ANAME(咲夜_対象)%に%ANAME(咲夜)%が声を掛けてきた
+		WAIT
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●32_酔い限界で倒れる
+;─────────────────────────────────────── 
+IF ARG == 32
+	PRINTFORML 「哎呀，酒……❤太好吃了，哇——……」
+	;TranslatedMark 「あら、お酒が……❤　美味し過ぎて、まわっ――……」
+	PRINTFORML 「嗯……好舒服啊❤嗯……」
+	;TranslatedMark 「んんん……気持ちいいわ❤　すぅ……」
+ENDIF
+
+;─────────────────────────────────────── 
+;●40_妊娠発覚
+;─────────────────────────────────────── 
+IF ARG == 40
+	;種親不明
+	IF CFLAG:咲夜:23 == 0
+		IF ABL:咲夜:出産 >= 3
+			PRINTFORML 「不知道谁是父亲，这个孩子……」
+			;TranslatedMark 「誰が父親なのかしら、この子……」
+			PRINTFORML 「哈，讨厌习惯了的自己」
+			;TranslatedMark 「はぁ、慣れてしまった自分が嫌だわ」
+		ELSE
+			PRINTFORML 「不知道谁是父亲，这个孩子……最差劲的妈妈啊，我」
+			;TranslatedMark 「誰が父親なのかしら、この子……最低の母親ね、私」
+		ENDIF
+	;主人公の子を孕んだ
+	ELSEIF CFLAG:咲夜:23 == GET_ID(咲夜_対象)
+		IF TALENT:咲夜:正妻
+			PRINTFORML 「我是%CALLNAME_K9(咲夜_対象)%之子！」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%の子だわ！」
+			PRINTFORML 「%CALLNAME_K9(咲夜_対象)%……你会高兴的吧？」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%……喜んでくれるわよね？」
+			PRINTFORMW 「因为是夫妇，所以一定会很高兴的。啊，好期待啊」
+			;TranslatedMark 「夫婦だもの、きっと喜んでくれるわ。ああ、楽しみね」
+			PRINTL 
+			PRINTFORML 「好幸福啊。我。要健康成长啊，真是个好孩子啊……」
+			;TranslatedMark 「幸せだわ。私。元気に育ってね、いい子ね……」
+		ELSEIF TALENT:咲夜:恋人
+			PRINTFORML 「我是%CALLNAME_K9(咲夜_対象)%之子！」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%の子だわ！」
+			PRINTFORML 「……啊，好幸福啊，我。要生喜欢的人的孩子啊」
+			;TranslatedMark 「……ああ、幸せよ、私。好きな人の子どもを産めるのね」
+			PRINTFORML 「但是，怎么样呢。虽然是恋人，但也不是结婚了」
+			;TranslatedMark 「でも、どうなのかしら。恋人だけど、結婚しているわけではないし」
+			PRINTFORMW 「如果说想生孩子的话，就不会赤脚逃走吧？」
+			;TranslatedMark 「産みたいなんて言ったら、裸足で逃げ出したりしないでしょうね？」
+			PRINTL 
+			PRINTFORML 「已经。不行吧。变得软弱起来」
+			;TranslatedMark 「もう。駄目よね。弱気になってちゃ」
+			PRINTFORML 「我不相信的话，对%CALLNAME_K9(咲夜_対象)%也会很失礼的」
+			;TranslatedMark 「私が信じなくちゃ、%CALLNAME_K9(咲夜_対象)%にも失礼だわ」
+			PRINTFORML 「也和爸爸说说看吧。健康地成长，真是个好孩子啊……」
+			;TranslatedMark 「パパにも話してみましょうね。元気に育って、いい子ね……」
+		ELSEIF TALENT:咲夜:烙印
+			PRINTFORML 「我是%CALLNAME_K9(咲夜_対象)%之子！　……啊，幸福」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%の子だわ！　……ああ、幸せ」
+			PRINTFORMW 「要生喜欢的人的孩子啊」
+			;TranslatedMark 「好きな人の子どもを産めるのね」
+			PRINTL 
+			PRINTFORML 「…………」
+			PRINTFORML 「能生下来吗？我虽然喜欢，但是是奴隶」
+			;TranslatedMark 「産める、かしら？　私は好きだけれど、奴隷なののね」
+			PRINTFORMW 「如果被知道了会不会被打肚子」
+			;TranslatedMark 「知られたらお腹を殴られたりしないかしら」
+			PRINTL 
+			PRINTFORML 「不，先对爸爸保持沉默吧」
+			;TranslatedMark 「い、一応、パパには黙っておきましょうか」
+			PRINTFORML 「对不起。要健康地成长哦。好孩子啊……」
+			;TranslatedMark 「ごめんね。元気に育ってね。いい子ね……」
+		ELSEIF TALENT:咲夜:恋慕 || TALENT:咲夜:服従
+			PRINTFORML 「%CALLNAME_K9(咲夜_対象)%之子……啊。太好了」
+			;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%の子……ね。よかったわ」
+			PRINTFORML 「生了喜欢的人的孩子。像个人啊」
+			;TranslatedMark 「好きな人の子どもを産めるんだもの。人間らしいわ」
+			PRINTFORMW 「……如果能在一起的话，那就更好了」
+			;TranslatedMark 「……結ばれていたら、もっとよかったけれどね」
+			PRINTL 
+			PRINTFORML 「好啊。保持沉默吧」
+			;TranslatedMark 「いいわ。黙っておきましょう」
+			PRINTFORML 「对不起。要健康地成长哦。好孩子啊……」
+			;TranslatedMark 「ごめんね。元気に育ってね。いい子ね……」
+		ELSEIF TALENT:咲夜:親友
+			PRINTFORML 「本以为是朋友，可真为难啊」
+			;TranslatedMark 「友達のつもりだったのに、困ったわね」
+			PRINTFORMW 「……很为难吧。生了的话……」
+			;TranslatedMark 「……困るかしらね。産んだら……」
+			PRINTL 
+			PRINTFORML 「但是，我并不讨厌。想生育」
+			;TranslatedMark 「でも、嫌いではないんだもの。産みたいわ」
+			PRINTFORML 「好啊。保持沉默吧」
+			;TranslatedMark 「いいわ。黙っておきましょう」
+			PRINTFORML 「对不起。要健康地成长哦。好孩子啊……」
+			;TranslatedMark 「ごめんね。元気に育ってね。いい子ね……」
+		ELSE
+			IF ABL:咲夜:出産 >= 3
+				PRINTFORML 「哈，讨厌习惯了的自己」
+				;TranslatedMark 「はぁ、慣れてしまった自分が嫌だわ」
+				PRINTFORML 「可爱吗。……最差劲的妈妈啊，我」
+				;TranslatedMark 「可愛がれるのかしら。……最低の母親ね、私」
+			ELSE
+				PRINTFORML 「可爱吗。……最差劲的妈妈啊，我」
+				;TranslatedMark 「可愛がれるのかしら。……最低の母親ね、私」
+			ENDIF
+		ENDIF
+	;触手の子を孕んだ
+	ELSEIF CFLAG:23 == GET_SPERM_ID("触手")
+		PRINTFORML 「啊啊……在里面，行动吧……嘿！有，有❤不，讨厌！」
+		;TranslatedMark 「ああっ……中で、動いてぇ……っ！　ひ、あっ❤　いや、嫌よっ！」
+	;他の士官の子を孕んだ
+	ELSE
+		IF ABL:咲夜:出産 >= 3
+			PRINTFORML 「哈，讨厌习惯了的自己」
+			;TranslatedMark 「はぁ、慣れてしまった自分が嫌だわ」
+			PRINTFORML 「可爱吗。……最差劲的妈妈啊，我」
+			;TranslatedMark 「可愛がれるのかしら。……最低の母親ね、私」
+		ELSE
+			PRINTFORML 「可爱吗。……最差劲的妈妈啊，我」
+			;TranslatedMark 「可愛がれるのかしら。……最低の母親ね、私」
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●41_臨月に入った
+;─────────────────────────────────────── 
+IF ARG == 41
+	PRINTFORML 「啊，肚子好重啊」
+	;TranslatedMark 「はぁ、おなか重いわね」
+	PRINTFORML 「好孩子啊……好好长大，真了不起。好可爱啊」
+	;TranslatedMark 「いい子ね……ちゃんと育って、偉いわ。可愛いわ」
+	PRINTFORML 「要健康地生下来哦？」
+	;TranslatedMark 「元気に産まれてきてね？」
+ENDIF
+
+;─────────────────────────────────────── 
+;●42_子供を出産した
+;─────────────────────────────────────── 
+IF ARG == 42
+	;種親不明
+	IF CFLAG:咲夜:23 == 0
+		PRINTFORML 「啊……平安地生下来了呢」
+		;TranslatedMark 「あぁっ……無事に、産めたのね」
+		PRINTFORML 「不管是谁的孩子，都是我的孩子。……要健康成长哦？」
+		;TranslatedMark 「誰の子でも、私の子よ。……元気に育ってね？」
+	;主人公の子を孕んだ
+	ELSEIF CFLAG:咲夜:23 == GET_ID(咲夜_対象)
+		IF TALENT:咲夜:恋慕 || TALENT:咲夜:服従
+			PRINTFORML 「啊……平安地生下来了呢」
+			;TranslatedMark 「あぁっ……無事に、産まれてきてくれたのね」
+			PRINTFORML 「太棒了。像天使一样。多么可爱啊……」
+			;TranslatedMark 「素敵よ。天使みたいだわ。なんて可愛いの……」
+			PRINTFORML 「呵呵。明明这么小，却觉得和%CALLNAME_K9(咲夜_対象)%很像」
+			;TranslatedMark 「ふふっ。こんなに小さいのに、%CALLNAME_K9(咲夜_対象)%に似てる気がするわ」
+		ELSEIF TALENT:咲夜:親友
+			PRINTFORML 「啊……平安地生下来了呢」
+			;TranslatedMark 「あぁっ……無事に、産まれてきてくれたのね」
+			PRINTFORML 「呵呵。明明这么小，却觉得和%CALLNAME_K9(咲夜_対象)%很像」
+			;TranslatedMark 「ふふっ。こんなに小さいのに、%CALLNAME_K9(咲夜_対象)%に似てる気がするわ」
+		ELSE
+			PRINTFORML 「啊……平安地生下来了呢」
+			;TranslatedMark 「あぁっ……無事に、産めたのね」
+			PRINTFORML 「不管是谁的孩子，都是我的孩子。……要健康成长哦？」
+			;TranslatedMark 「誰の子でも、私の子よ。……元気に育ってね？」
+		ENDIF
+	;他の士官の子を孕んだ
+	ELSE
+		PRINTFORML 「啊……平安地生下来了呢」
+		;TranslatedMark 「あぁっ……無事に、産めたのね」
+		PRINTFORML 「不管是谁的孩子，都是我的孩子。……要健康成长哦？」
+		;TranslatedMark 「誰の子でも、私の子よ。……元気に育ってね？」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●43_主人公に自分の子供を産ませた
+;─────────────────────────────────────── 
+IF ARG == 43
+	PRINTFORML 「呵呵。我的宝宝在%CALLNAME_K9(咲夜_対象)%的肚子里呢」
+	;TranslatedMark 「ふふっ。私の赤ちゃんが%CALLNAME_K9(咲夜_対象)%のおなかにいるのね」
+	PRINTFORML 「总觉得很不可思议呢。竟然有这样的事」
+	;TranslatedMark 「なんだかとても不思議ね。こんなことがあるなんて」
+	IF IS_SLAVE(咲夜)
+		PRINTFORMW 「但是很开心。%CALLNAME_K9(咲夜_対象)%，能生下来吗」
+		;TranslatedMark 「でも嬉しいわ。%CALLNAME_K9(咲夜_対象)%、産んでくれるかしら」
+		PRINTFORML 
+		PRINTFORML 「啊，好期待。但是有点不安……」
+		;TranslatedMark 「ああ、楽しみ。だけど少し不安ね……」
+		PRINTFORML 「拿些慰问品去吧。孕吐什么的还没有开始吧？」
+		;TranslatedMark 「差し入れでも持っていきましょう。つわりとか始まってないかしらね？」
+		PRINTFORML 「我心神不定。父亲会有这样的心情吗」
+		;TranslatedMark 「落ち着かないわ。父親ってこういう気持ちになるものなのかしら」
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORMW 「但是很开心。身体不要紧吧」
+		;TranslatedMark 「でも嬉しいわ。%CALLNAME_K9(咲夜_対象)%、体は大丈夫かしら」
+		PRINTFORML 
+		PRINTFORML 「好像越来越喜欢……」
+		;TranslatedMark 「ますます好きになっちゃいそう……」
+		PRINTFORML 「拿些慰问品去吧。孕吐什么的还没有开始吧？」
+		;TranslatedMark 「差し入れでも持っていきましょう。つわりとか始まってないかしらね？」
+		PRINTFORML 「我心神不定。父亲会有这样的心情吗」
+		;TranslatedMark 「落ち着かないわ。父親ってこういう気持ちになるものなのかしら」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●44_触手の子供を出産した
+;─────────────────────────────────────── 
+IF ARG == 44
+	PRINTFORML 「不行，不行……不行啊。讨厌……不是，不是。这样的事」
+	;TranslatedMark 「だ、駄目……駄目よ。嫌……違う、違うわ。こんなこと」
+	PRINTFORML 「我……我是人类哦。这样的，不是我的婴儿……」
+	;TranslatedMark 「私……私は人間なのよ。こんなのは、私の赤ちゃんなんかじゃ……」
+	PRINTFORMW 「好——！啊，啊啊啊啊啊❤啊——！」
+	;TranslatedMark 「ひぃいぃ――っ！　あ、あぁぁあっ❤　あ――っ！」
+	PRINTL 
+	PRINTFORML 「不行！原谅我，对不起！那、不要在那种地方胡闹……嗯」
+	;TranslatedMark 「駄目ぇ！　許してぇ、ごめんなさいっ！　そ、そんなところで暴れないでぇ……っ」
+	PRINTFORML 「原谅妈妈！啊，婴儿……拜托了！出来吧！」
+	;TranslatedMark 「ママを許してぇっ！　あ、赤ちゃん……お願い出てぇ！　出てきてぇっ！」
+	PRINTFORMW 「啊！呃，不好意思……啊啊啊啊啊！啊，啊，啊❤哈……嘿！」
+	;TranslatedMark 「あぐっ！　い、ぎぃっ……うああぁあっ！　あ、あ、あ❤　は……っ！」
+	PRINTL 
+	PRINTFORML 「一、一啊❤嗯，又要出生了！嗯，嗯……又来了！」
+	;TranslatedMark 「ひ、ひあぁ❤　ま、また産まれるぅっ！　い、イくっ……また、イくっ！」
+	PRINTFORML 「哎呀！不能回去！嗯……不在❤」
+	;TranslatedMark 「いやあ！　戻っちゃだめぇっ！　ひぃー……いぃぃいぃっ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●45_妊娠に対する育児対象の子の反応（東方キャラには不要）
+;─────────────────────────────────────── 
+IF ARG == 45
+ENDIF
+
+;─────────────────────────────────────── 
+;●46_臨月に対する育児対象の子の反応（東方キャラには不要）
+;─────────────────────────────────────── 
+IF ARG == 46
+ENDIF
+
+;─────────────────────────────────────── 
+;●50_忠誠を誓わせる/成功
+;─────────────────────────────────────── 
+IF ARG == 50
+	PRINTFORML 「哇……我知道了！已经不年轻了」
+	;TranslatedMark 「わ……わかったわ！　もうわか%POLITE_K9("ったわよ", "りましたから")%」
+	PRINTFORML 「中、忠诚……誓言%POLITE_K9("うわ", "います")%。在%CALLNAME_K9(咲夜_対象)%里」
+	;TranslatedMark 「ちゅ、忠誠を……誓%POLITE_K9("うわ", "います")%。%CALLNAME_K9(咲夜_対象)%に」
+	PRINTFORMW 「无论是烙印还是刺青，只要喜欢就可以了……」
+	;TranslatedMark 「焼き印でも、刺青でも、好きにしたらいいわ……」
+	PRINTL 
+	PRINTFORML 「呃……请把%ANAME(咲夜)%当作%CALLNAME_K9(咲夜_対象)%的奴隶……」
+	;TranslatedMark 「くっ……どうぞ、%ANAME(咲夜)%を%CALLNAME_K9(咲夜_対象)%の奴隷にして……」
+	PRINTFORML 「好，随你的便。随你的便！请喜欢我吧❤」
+	;TranslatedMark 「す、好きに、してください。好きにして！　私を好きにしてくださいっ❤」
+	PRINTFORML 「呜呜……嗯。这样就满足了吗……？已经……原谅我……」
+	;TranslatedMark 「うう……っ。これで、満足かしら……？　もう……許して……」
+ENDIF
+
+;─────────────────────────────────────── 
+;●51_忠誠を誓わせる/失敗
+;─────────────────────────────────────── 
+IF ARG == 51
+	PRINTFORML 「吐口水吧%POLITE_K9("欲しいのかしら？", "欲しいんですか？")%」
+	;TranslatedMark 「唾でも吐いて%POLITE_K9("欲しいのかしら？", "欲しいんですか？")%」
+	PRINTFORML 「拒绝%POLITE_K9("よ", "です")%」
+	;TranslatedMark 「お断り%POLITE_K9("よ", "です")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●52_自国に誘う/成功
+;─────────────────────────────────────── 
+IF ARG == 52
+	PRINTFORML 「%POLITE_K9("いいわ", "かしこまりました")%。%CALLNAME_K9(咲夜_対象)%的%POLITE_K9("力になれるなら、お手伝いするわ", "お手伝いができるなら、喜んで参ります")%」
+	;TranslatedMark 「%POLITE_K9("いいわ", "かしこまりました")%。%CALLNAME_K9(咲夜_対象)%の%POLITE_K9("力になれるなら、お手伝いするわ", "お手伝いができるなら、喜んで参ります")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●53_自国に誘う/失敗
+;─────────────────────────────────────── 
+IF ARG == 53
+	PRINTFORML 「%POLITE_K9("", "お")%心情好开心%POLITE_K9("けれど", "のですが")%……弄错邀请对象的话%POLITE_K9("いないかしら？", "いませんか？")%」
+	;TranslatedMark 「%POLITE_K9("", "お")%気持ちは嬉しい%POLITE_K9("けれど", "のですが")%……誘う相手を間違えては%POLITE_K9("いないかしら？", "いませんか？")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●54_捕虜会話中に自国へ誘うコマンドで成功
+;─────────────────────────────────────── 
+IF ARG == 54
+	PRINTFORMW 「背叛同伴」
+	;TranslatedMark 「仲間を裏切れと%POLITE_K9("言うつもりかしら", "仰るのですか？")%」
+	PRINTL 
+	PRINTFORMW 「……%POLITE_K9("わかったわ", "かしこまりました")%」
+	PRINTL 
+	PRINTFORML 「再也不能让%CALLNAME_K9(咲夜_対象)%遭遇危险了」
+	;TranslatedMark 「これ以上%CALLNAME_K9(咲夜_対象)%を危険な目に遭わせられ%POLITE_K9("ないもの", "ません")%」
+	PRINTFORML 「%CALLNAME_K9(咲夜_対象)%被关着，被侮辱，被处刑」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%が閉じ込められていたり、辱められたり処刑されたり」
+	PRINTFORMW 「这样的事，我觉得怎么样才是%POLITE_K9("よ", "です")%」
+	;TranslatedMark 「こんなこと、もう私のほうがどうにかなりそう%POLITE_K9("よ", "です")%」
+	PRINTL 
+	PRINTFORML 「背叛%POLITE_K9("るわ", "ります")%。帮助你%POLITE_K9("る", "ます")%」
+	;TranslatedMark 「裏切%POLITE_K9("るわ", "ります")%。あなたを助け%POLITE_K9("る", "ます")%」
+	PRINTFORML 「如果能安全逃脱的话……%POLITE_K9("仲良くしてね？", "よろしくお願いします")%」
+	;TranslatedMark 「無事に逃げられたら……%POLITE_K9("仲良くしてね？", "よろしくお願いします")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●55_捕虜会話中に自国へ誘うコマンドで失敗
+;─────────────────────────────────────── 
+IF ARG == 55
+	PRINTFORMW 「背叛同伴」
+	;TranslatedMark 「仲間を裏切れと%POLITE_K9("言うつもりかしら", "仰るのですか？")%」
+	PRINTL 
+	PRINTFORMW 「……我拒绝」
+	;TranslatedMark 「……断るわ」
+	PRINTL 
+	PRINTFORML 「觉得被关在家里很可怜%POLITE_K9("いるけれど", "おりますが")%」
+	;TranslatedMark 「閉じ込められて可哀想だとは思って%POLITE_K9("いるけれど", "おりますが")%」
+	PRINTFORML 「那么薄情%POLITE_K9("で扱いやすい女に見えるのね", "で扱いやすい女に見えるのですね")%」
+	;TranslatedMark 「そんなに薄情%POLITE_K9("で扱いやすい女に見えるのね", "で扱いやすい女に見えるのですね")%」
+	PRINTFORML 「改变主意比较好的是%CALLNAME_K9(咲夜_対象)%%POLITE_K9("よ", "ですよ")%」
+	;TranslatedMark 「気を変えた方がいいのは%CALLNAME_K9(咲夜_対象)%のほう%POLITE_K9("よ", "ですよ")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●60_恋慕を取得
+;─────────────────────────────────────── 
+IF ARG == 60
+	PRINTFORML 「我……我喜欢上了%CALLNAME_K9(咲夜_対象)%」
+	;TranslatedMark 「私……%CALLNAME_K9(咲夜_対象)%のこと、好きになっちゃったのね」
+ENDIF
+
+;─────────────────────────────────────── 
+;●61_親友を取得
+;─────────────────────────────────────── 
+IF ARG == 61
+	PRINTFORML 「和%CALLNAME_K9(咲夜_対象)%说话，怎么会这么安心呢」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%と話していると、どうしてこんなに安心できるのかしら」
+ENDIF
+
+;─────────────────────────────────────── 
+;●62_親愛を取得
+;─────────────────────────────────────── 
+IF ARG == 62
+	PRINTFORML 「%CALLNAME_K9(咲夜_対象)%……真不可思议。只要一想起，就会有温暖的心情」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%……不思議ね。思い浮かべただけで、温かい気持ちになれるわ」
+	PRINTFORML 「用我的全部，让你幸福。多么美好的生存价值啊」
+	;TranslatedMark 「私の全てで、幸せにする。なんて素敵な生き甲斐なのかしら」
+ENDIF
+
+;─────────────────────────────────────── 
+;●63_服従を取得
+;─────────────────────────────────────── 
+IF ARG == 63
+	PRINTFORML 「啊……我为什么不能违背%CALLNAME_K9(咲夜_対象)%呢」
+	;TranslatedMark 「はあ……私、どうして%CALLNAME_K9(咲夜_対象)%に逆らえないのかしら」
+	PRINTFORML 「如果只是不能违抗的话还好，但是如果看不到他的身影的话，就无法安心，很困扰」
+	;TranslatedMark 「逆らえないだけならまだいいけれど、姿が見えないと落ち着かなくて困るわ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●64_隷属を取得
+;─────────────────────────────────────── 
+IF ARG == 64
+	PRINTFORML 「%CALLNAME_K9(咲夜_対象)%……只要一想起全身就会变得甜蜜」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%……思い浮かべるだけで全身が甘くなるわ」
+	PRINTFORML 「我的全部都是他的。多么幸福啊」
+	;TranslatedMark 「私の全ては、あの方のもの。なんて幸せなのかしら」
+ENDIF
+
+;─────────────────────────────────────── 
+;●65_淫乱を取得
+;─────────────────────────────────────── 
+IF ARG == 65
+	PRINTFORML 「啊啊。已经……明明是。刚才才做的，明明是刚刚做的」
+	;TranslatedMark 「あぁっ。もう……イッたのに。さっき、した、ばかりなのに」
+	PRINTFORML 「痛苦是无法平息的。已经很累了，啊，真奇怪」
+	;TranslatedMark 「苦しいのが収まらないわっ。も、もう疲れているのに、あぁ、おかしいわ」
+	PRINTFORML 「脑袋有点奇怪……好舒服啊❤」
+	;TranslatedMark 「頭がおかしくなりそう……気持ち、いい、あぁっ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●66_淫核取得
+;─────────────────────────────────────── 
+IF ARG == 66
+	PRINTFORML 「%CALL_DIRTY_K9("Ｃ", "ぁ")%❤明明只是碰上内衣而已❤」
+	;TranslatedMark 「%CALL_DIRTY_K9("Ｃ", "ぁ")%❤　下着に当たっているだけなのにっ❤」
+	PRINTFORML 「已经不行了，打扫不好了。只有一点点……一点点，所以」
+	;TranslatedMark 「も、もうだめ、お掃除が手につかないわ。少しだけ……少し、だから」
+	PRINTFORML 「啊……！用扫帚，好漂亮啊❤心情很好❤」
+	;TranslatedMark 「あぁっ……！　箒で、イッちゃうなんてぇ❤　気持ち、いいっ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●67_淫壺取得
+;─────────────────────────────────────── 
+IF ARG == 67
+	PRINTFORML 「%CALL_DIRTY_K9("Ｖ", "ぁ")%❤只是拧紧了而已❤」
+	;TranslatedMark 「%CALL_DIRTY_K9("Ｖ", "ぁ")%❤　締め付けただけでぇ❤」
+	PRINTFORML 「即使疼痛，也……在里面，想要❤谁……是谁啊」
+	;TranslatedMark 「疼いて、もぅっ……奥にぃ、欲しいっ❤　誰か……誰かぁ」
+	PRINTFORML 「救命啊……不行，不行啊……在里面，做，想要❤不行」
+	;TranslatedMark 「助けて……だめ、だめよ……奥に、して、欲しい❤　だめっ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●68_尻穴狂い取得
+;─────────────────────────────────────── 
+IF ARG == 68
+	PRINTFORML 「%CALL_DIRTY_K9("Ａ", "ぁ")%❤只是紧紧地抱住，嘿嘿❤」
+	;TranslatedMark 「%CALL_DIRTY_K9("Ａ", "ぁ")%❤　ぎゅってしただけで、へんっ❤」
+	PRINTFORML 「即使疼痛，也……装成一个模子想要❤」
+	;TranslatedMark 「疼いて、もぅっ……ずぶずぶって、欲しいっ❤」
+	PRINTFORML 「不行，不行。这样卑鄙的事……我想要%CALL_DIRTY_K9("Ａ", "ぁ")%❤」
+	;TranslatedMark 「だめ、だめよ。こんなあさましいこと……%CALL_DIRTY_K9("Ａ", "ぁ")%に欲しいなんてぇっ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●69_淫乳取得
+;─────────────────────────────────────── 
+IF ARG == 69
+	PRINTFORML 「呼……嗯❤　%CALL_DIRTY_K9("Ｂ", "ぁ")%❤我把胸罩推上去了……嗯」
+	;TranslatedMark 「ひぅ……っ❤　%CALL_DIRTY_K9("Ｂ", "ぁ")%❤　ブラを、押し上げてるわ……っ」
+	PRINTFORML 「啊啊❤明明只是稍微按压了一下……」
+	;TranslatedMark 「ああっ❤　少し、押さえただけなのにぃ……」
+	PRINTFORML 「想抓住……啊，摸一下……想要，啊❤不行啊……嗯」
+	;TranslatedMark 「抓りたい……あぁ、触って……欲し、あぁ❤　だめよ……っ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●70_蕩唇取得
+;─────────────────────────────────────── 
+IF ARG == 70
+	PRINTFORML 「这个香肠又大又好吃」
+	;TranslatedMark 「このソーセージ、大きくて美味しそうね」
+	PRINTFORML 「切成薄片夹在面包里……。但是，只有一瓶……」
+	;TranslatedMark 「薄切りにしてパンに挟んで……。でも、１本だけ……」
+	PRINTFORML 「嗯，好痒……嗯，嗯❤嗯……嗯。啊，啊。嗯，嗯❤」
+	;TranslatedMark 「ん、むぐっ……んぷ❤　ぢゅう……っ。あむっ。んぐぅ❤」
+	PRINTFORML 「嗯，嗯~❤　……嘿！噗。啊哈哈❤」
+	;TranslatedMark 「ふぐ――う、ん～っ❤　……っ！　ぷぁっ。あはぁ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●71_サド取得
+;─────────────────────────────────────── 
+IF ARG == 71
+	PRINTFORML 「尽情地甩掉鲜红的屁股，为什么会这么兴奋呢」
+	;TranslatedMark 「真っ赤なお尻を思い切りぶつと、どうしてこんなに昂奮するのかしら」
+	PRINTFORML 「听到无情的声音，就想乱来」
+	;TranslatedMark 「情けない声が聞こえたら、無茶苦茶にしたくなっちゃう」
+	PRINTFORMW 「我想用脚踩在重要的地方，咕噜咕噜地砸碎它❤」
+	;TranslatedMark 「足で大事なところを踏みつけて、ぐりぐりって潰したいわ❤」
+	PRINTL 
+	PRINTFORML 「不，不是。更多。我想更多地欺负你❤我能为你做什么呢❤」
+	;TranslatedMark 「ううん。もっと。もっといじめたいわ❤　何をしてあげようかしら❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●72_マゾ取得
+;─────────────────────────────────────── 
+IF ARG == 72
+	PRINTFORMW 「总觉得没什么关系……明明被珍惜很幸福。真奇怪啊」
+	;TranslatedMark 「なんだか構われ足りないわ……大事にされて幸せなのに。おかしいわね」
+	PRINTL 
+	PRINTFORML 「想被更加紧紧地像绳子一样紧紧地责备……」
+	;TranslatedMark 「もっとぎゅうって荒縄みたいにきつく責められたいわ……」
+	PRINTFORML 「请不要原谅我，斥责我，把我逼到让看着的人都觉得可怜的地步……」
+	;TranslatedMark 「許さないで叱って、見ている人がかわいそうになるくらい追い詰めて欲しい……」
+	PRINTFORML 「我的身体好像不是我。啊啊❤感觉到了……嗯❤」
+	;TranslatedMark 「私の体が私じゃないみたいになって。あぁ❤　感じてきちゃうわ……っ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●73_射精狂い取得
+;─────────────────────────────────────── 
+IF ARG == 73
+	PRINTFORMW 「刚拿出来，就已经长大了……」
+	;TranslatedMark 「出したばかりなのに、もう大きくなってるわ……」
+	PRINTL 
+	PRINTFORML 「怎么办才好呢，这样啊……非常❤被内衣束缚住了……嗯❤」
+	;TranslatedMark 「どうしたらいいの、こんなぁ……ひぃ❤　下着に、締め付けられてぇ……っ❤」
+	PRINTFORML 「不行啊❤嘛，我又想拿出来了。已经不，明明讨厌」
+	;TranslatedMark 「だめぇ❤　ま、また出したくなっちゃうわ。もういや、嫌なのに」
+	PRINTFORML 「我想做……！我想背着身子拿出来。啊啊啊❤」
+	;TranslatedMark 「しゃせい、したいっ……！　ずぶずぶして、出したいわっ。あぁっ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●74_下戸を失うまたは酒豪取得
+;─────────────────────────────────────── 
+IF ARG == 74
+	PRINTFORML 「酒这么好喝吗？轻飘飘的，受不了❤」
+	;TranslatedMark 「お酒ってこんなにおいしかったかしら？　ふわふわして、たまらないわ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●76_おもらし癖取得
+;─────────────────────────────────────── 
+IF ARG == 76
+	PRINTFORML 「嗯……骗人的。骗人的。这、像这样的小孩子」
+	;TranslatedMark 「う……嘘。嘘よっ。こ、こんな小さな子みたいなこと」
+	PRINTFORML 「真有趣……啊啊……做的时候，很多……所以」
+	;TranslatedMark 「おもらしだなんてぇ……あんなぁ……しているときに、たくさん……だから」
+	PRINTFORML 「啊，已经。太过分了。得赶快洗衣服」
+	;TranslatedMark 「あぁ、もう。ひどい、ひどいわ。急いでお洗濯しなくちゃ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●78_虚ろ取得
+;─────────────────────────────────────── 
+IF ARG == 78
+	PRINTFORML 「嗯……嗯……现在是什么时候……什么……」
+	;TranslatedMark 「ん……う……今は、いつ……なの……」
+	PRINTFORML 「怎么都行吗……。……反正我已经……」
+	;TranslatedMark 「どうでもいい、か……。……どうせ、私はもう……」
+ENDIF
+
+;─────────────────────────────────────── 
+;●79_崩壊取得
+;─────────────────────────────────────── 
+IF ARG == 79
+	PRINTFORML 「嗯。嗯，啊……❤」
+	;TranslatedMark 「んぅ。う、あー……❤」
+	PRINTFORML 「心情，的……做，做❤好孩子……痛、害怕、没有❤」
+	;TranslatedMark 「気持ちー、の……する❤　いいこ……痛い、怖いの、ない❤」
+	PRINTFORML 「疼吗……哎呀。……啊——嗯……好孩子……」
+	;TranslatedMark 「痛いの……いやぁ。……あ――うー……いいこ……」
+ENDIF
+
+;─────────────────────────────────────── 
+;●82_精液便所取得
+;─────────────────────────────────────── 
+IF ARG == 82
+	PRINTFORML 「因为我是女仆，所以必须要打扫」
+	;TranslatedMark 「私はメイドだもの、お掃除しなくちゃいけないわ」
+	PRINTFORML 「厕所的打扫和别人的厕所都是我的工作」
+	;TranslatedMark 「おトイレの掃除も他人様のおトイレも、私の仕事よね」
+	PRINTFORML 「啊，好幸福啊❤快点把我送到厕所去……❤」
+	;TranslatedMark 「あぁ幸せだわ❤　早く、私をおトイレにしてぇ……❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●83_雌犬取得
+;─────────────────────────────────────── 
+IF ARG == 83
+	PRINTFORML 「不是啊。那只是野狗啊……我不会做那种事的」
+	;TranslatedMark 「違うわ。あれはただの野良犬よ……あんなこと、しないわ」
+	PRINTFORML 「啊啊❤为什么一看就湿了呢？」
+	;TranslatedMark 「あぁ❤　どうして見ただけで濡れてきちゃうの？」
+	PRINTFORML 「那可不行。好可怜啊。真奇怪……嘿！」
+	;TranslatedMark 「だめよそんなこと。かわいそうだわ。おかしいわ……っ！」
+ENDIF
+
+;─────────────────────────────────────── 
+;●85_薬物中毒取得
+;─────────────────────────────────────── 
+IF ARG == 85
+	PRINTFORML 「好痛苦，好痛苦。哪一个是我回去的？」
+	;TranslatedMark 「苦しい、苦しいわ。どっちが私の帰るほうなの？」
+	PRINTFORML 「好了，比起那个，我得找那个」
+	;TranslatedMark 「いいわもう、それよりあれを探さなくちゃ」
+	PRINTFORML 「药……那个药在哪里？如果给我的话我什么都会做……嗯」
+	;TranslatedMark 「クスリ……あのクスリはどこなの？　くれるなら何だってするわ……っ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●86_苗床取得
+;─────────────────────────────────────── 
+IF ARG == 86
+	PRINTFORML 「肚子空空的话，总觉得好寂寞啊……」
+	;TranslatedMark 「おなかのなかがからっぽだと、なんだか寂しいわ……」
+	PRINTFORML 「我生的孩子们，健康地犯了谁吗？」
+	;TranslatedMark 「私の産んだ子達、元気に誰かを犯しているのかしら？」
+	PRINTFORML 「我希望那些孩子也能用我的肚子❤触手婴儿❤」
+	;TranslatedMark 「あの子達にも、私のおなかを使って欲しいわ❤　触手の赤ちゃん❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●87_生ハメ依存
+;─────────────────────────────────────── 
+IF ARG == 87
+	PRINTFORML 「哈……嗯❤啊，啊……只要一想起来，就会紧张起来」
+	;TranslatedMark 「はぁ……っ❤　あ、あぁ……思い出しただけで、きゅんきゅん締っちゃうわ」
+	PRINTFORML 「在肚子的深处，呼，呼……发出讨厌的声音❤」
+	;TranslatedMark 「おなかの奥に、びゅー、びゅーってかかって……ぐちゅぐちゅっていやらしい音がして❤」
+	PRINTFORML 「明明不行……小宝宝，会了。明明必须好好考虑一下的」
+	;TranslatedMark 「だめなのに……赤ちゃん、できちゃうのに。ちゃんと考えてしなくちゃいけないのに」
+	PRINTFORML 「我受不了……做，做❤」
+	;TranslatedMark 「我慢、できないわ……して、してほしい❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●88_孕みたがり
+;─────────────────────────────────────── 
+IF ARG == 88
+	PRINTFORML 「肚子空空的话，总觉得有点寂寞。好像突然变成了一个人」
+	;TranslatedMark 「おなかがからっぽだと、なんだか寂しいわ。急にひとりになったみたい」
+	PRINTFORML 「那个孩子在肚子里的时候，感觉一直在他身边很幸福……」
+	;TranslatedMark 「あの子がおなかに居たときは、ずっとそばにいる気がして幸せで……」
+	PRINTFORML 「我很奇怪。寂寞什么的很任性呢。不是那样的吧？」
+	;TranslatedMark 「変だわ、私。寂しいなんて勝手よね。そういうものじゃないでしょう？」
+	PRINTFORML 「但是，但是想要啊……婴儿❤小宝宝，我想要肚子❤」
+	;TranslatedMark 「でも、でも欲しいわ……赤ちゃん❤　赤ちゃん、おなかに欲しいわ❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●90_婚姻の儀(選択時)
+;─────────────────────────────────────── 
+IF ARG == 90
+	PRINTFORMW 「……真的吗？真的……我，和我，成为夫妇？」
+	;TranslatedMark 「……本当に？　本気で……わ、私と、夫婦に？」
+	PRINTL 
+	PRINTFORML 「诶？不，讨厌什么的。那样的事……%POLITE_K9("ある訳ないわ", "有り得ません")%」
+	;TranslatedMark 「えっ？　い、嫌だなんて。そんなこと……%POLITE_K9("ある訳ないわ", "有り得ません")%」
+	PRINTFORML 「我……我呢，那个……」
+	;TranslatedMark 「私は……私は、その……」
+	PRINTFORMW 「喜欢%POLITE_K9("よ？", "です")%」
+	;TranslatedMark 「好き%POLITE_K9("よ？", "です")%」
+	PRINTL 
+	PRINTFORML 「但是，和恋人不同」
+	;TranslatedMark 「でも、恋人とは違%POLITE_K9("うわよ？", "います")%」
+	PRINTFORML 「妻子能做的只有一个人……%POLITE_K9("よ", "ですよ")%」
+	;TranslatedMark 「妻にできるのはたった一人……%POLITE_K9("よ", "ですよ")%」
+	PRINTFORMW 「选择我的%POLITE_K9("のかしら？", "んですか")%」
+	;TranslatedMark 「その一人に、私を選んでくれる%POLITE_K9("のかしら？", "んですか")%」
+	PRINTL 
+	PRINTFORML 「哈……啊。对、对不起、嗯、ふ」
+	;TranslatedMark 「はぁっ……あっ。ご、ごめんなさい、く、ふ」
+	PRINTFORMW 「太幸福了，悬崖塌落也会发生」
+	;TranslatedMark 「幸せ過ぎて崖崩れでも起きそう%POLITE_K9("だわ", "です")%」
+	PRINTL 
+	PRINTFORML 「呵呵……那样，那样」
+	;TranslatedMark 「ふふっ……そう%POLITE_K9("よね", "ですよね")%」
+	PRINTFORML 「明明这么幸福，却说出这么奇怪的话，对不起」
+	;TranslatedMark 「こんなに幸せなのに、変なこと言ってごめんなさい」
+	PRINTFORML 「谢谢你，%POLITE_K9("", "ございます")%。%CALLNAME_K9(咲夜_対象)%」
+	;TranslatedMark 「ありがとう%POLITE_K9("", "ございます")%。%CALLNAME_K9(咲夜_対象)%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●91_婚姻の儀(イベント時)
+;─────────────────────────────────────── 
+IF ARG == 91
+	PRINTFORML 「……喜欢。我很幸福。%CALLNAME_K9(咲夜_対象)%」
+	;TranslatedMark 「……好き。私、幸せよ。%CALLNAME_K9(咲夜_対象)%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●100_調教後自慰(Ｃ)
+;─────────────────────────────────────── 
+IF ARG == 100
+	PRINTFORML 「真糟糕。明明很兴奋，却很坏心眼。%CALLNAME_K9(咲夜_対象)%……」
+	;TranslatedMark 「困ったわ。昂ってしまったのに、意地悪ね。%CALLNAME_K9(咲夜_対象)%……」
+	PRINTFORML 「嗯……❤啊」
+	;TranslatedMark 「あんっ……❤　あっ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●101_調教後自慰(Ａ)
+;─────────────────────────────────────── 
+IF ARG == 101
+	PRINTFORML 「屁股疼什么的，没做过这种事……我」
+	;TranslatedMark 「お尻が疼くなんて、こんなのはしたないわ……私」
+	PRINTFORML 「都是因为%CALLNAME_K9(咲夜_対象)%……嗯……❤啊」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%のせいよ……あんっ……❤　あっ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●102_調教後性交
+;─────────────────────────────────────── 
+IF ARG == 102
+	PRINTFORML 「%CALLNAME_K9(咲夜_対象)%啊……更加……❤」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%ぁ……もっとぉっ……❤」
+ENDIF
+
+;─────────────────────────────────────── 
+;●103_おねだりに対して「おあずけ」を選択
+;─────────────────────────────────────── 
+IF ARG == 103
+	PRINTFORML 「坏心眼%POLITE_K9("だわ", "です")%……%CALLNAME_K9(咲夜_対象)%」
+	;TranslatedMark 「意地悪%POLITE_K9("だわ", "です")%……%CALLNAME_K9(咲夜_対象)%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●104_誘惑成功(酔った勢い・合意は得られない)
+;─────────────────────────────────────── 
+IF ARG == 104
+	PRINTFORML 「嗯……嗯？喂，什么%POLITE_K9("よ", "ですか")%。想做下流事的%POLITE_K9("かしら", "ですか")%？」
+	;TranslatedMark 「ん……っ？　ちょっと、何%POLITE_K9("よ", "ですか")%。いやらしいことがしたいの%POLITE_K9("かしら", "ですか")%？」
+	PRINTFORML 「……是%POLITE_K9("ね", "ですね")%。也喝了很多酒，有点怀念人的肌肤……%POLITE_K9("かまわないけれど", "かまいませんが")%」
+	;TranslatedMark 「……そう%POLITE_K9("ね", "ですね")%。お酒もまわって少し、人肌恋しいし……%POLITE_K9("かまわないけれど", "かまいませんが")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●105_誘惑成功(合意を取得)
+;─────────────────────────────────────── 
+IF ARG == 105
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「啊……❤那么，在旁边……我已经❤」
+		;TranslatedMark 「あっ……❤　そんなに、傍に……私、もう❤」
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「等、等一下。已经那么粘在一起了❤」
+		;TranslatedMark 「ちょ、ちょっと。もう、そんなにくっついて❤」
+		PRINTFORML 「邀请我的%POLITE_K9("かしら", "ですか")%？即使后悔也不知道？」
+		;TranslatedMark 「誘ってるの%POLITE_K9("かしら", "ですか")%？　後悔しても知%POLITE_K9("らないわよ", "りませんよ")%？」
+	ELSE
+		PRINTFORML 「什么？嗯……开玩笑的%POLITE_K9("かしら", "ですか")%？」
+		;TranslatedMark 「何？　もうっ……からかっているの%POLITE_K9("かしら", "ですか")%？」
+		PRINTFORML 「即使后悔也不知道？」
+		;TranslatedMark 「後悔しても知%POLITE_K9("らないわよ", "りませんよ")%？」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●106_誘惑失敗
+;─────────────────────────────────────── 
+IF ARG == 106
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「啊……不行，不行。现在……」
+		;TranslatedMark 「あっ……だ、駄目です。今は……」
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「等、等一下。啊❤不行啊，现在」
+		;TranslatedMark 「ちょ、ちょっと。あっ❤　駄目よ、今は」
+	ELSE
+		PRINTFORML 「什么？嗯……打算和他玩%POLITE_K9("かしら", "ですか")%？」
+		;TranslatedMark 「何？　もうっ……遊び相手にするつもり%POLITE_K9("かしら", "ですか")%？」
+		PRINTFORML 「这种事拜托别人吧」
+		;TranslatedMark 「そういうのは他の人に頼んで%POLITE_K9("ちょうだい", "ください")%」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●107_誘惑成功(既に合意あり)
+;─────────────────────────────────────── 
+IF ARG == 107
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「啊……❤」
+		;TranslatedMark 「あっ……❤」
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「等、等一下。啊❤」
+		;TranslatedMark 「ちょ、ちょっと。あっ❤」
+	ELSE
+		PRINTFORML 「啊❤已经，又……」
+		;TranslatedMark 「あっ❤　もう、また……」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●110_酔い潰れたところでイタズラ
+;─────────────────────────────────────── 
+IF ARG == 110
+	PRINTFORML 「嗯……❤但是，不能喝……哇」
+	;TranslatedMark 「んくう……❤　も、飲めない……わ」
+ENDIF
+
+;─────────────────────────────────────── 
+;●111_主人公が失神しても調教継続
+;─────────────────────────────────────── 
+IF ARG == 111
+	PRINTFORML 「睡着了的%POLITE_K9("かしら", "でしょうか")%。还差得远吧？」
+	;TranslatedMark 「眠ってしまったの%POLITE_K9("かしら", "でしょうか")%。まだまだでしょう？」
+ENDIF
+
+;─────────────────────────────────────── 
+;●112_主人公が疲労しても調教継続
+;─────────────────────────────────────── 
+IF ARG == 112
+	PRINTFORML 「已经累了吗？再稍微……对吧？」
+	;TranslatedMark 「もう疲れてしまったの%POLITE_K9("かしら", "ですか")%？　もう少し……ね？」
+ENDIF
+
+;─────────────────────────────────────── 
+;●150_コマンド実行失敗
+;─────────────────────────────────────── 
+IF ARG == 150
+ENDIF
+
+;─────────────────────────────────────── 
+;●151_浣腸＆プラグを実行後、プラグを引き抜く
+;─────────────────────────────────────── 
+IF ARG == 151
+	PRINTFORML 「不行，不行！啊……嘿！」
+	;TranslatedMark 「だ、駄目よ！　あ……っ！」
+ENDIF
+
+;─────────────────────────────────────── 
+;●240_朝イベント/自ら性知識を学ぶ
+;─────────────────────────────────────── 
+IF ARG == 240
+	PRINTFORML 「连这样的事都做吗？　……我不知道啊」
+	;TranslatedMark 「こんなことまでするの？　……知らなかったわ」
+	PRINTFORML 「喜欢这样的吗……」
+	;TranslatedMark 「こういうの、好きかしら……」
+
+;─────────────────────────────────────── 
+;●241_朝イベント/自ら性知識を学ぶ(逆調教)
+;─────────────────────────────────────── 
+ELSEIF ARG == 241
+	PRINTFORML 「连这样的事都做吗？　……我不知道啊」
+	;TranslatedMark 「こんなことまでするの？　……知らなかったわ」
+	PRINTFORML 「这样能得到忠诚吗？不太清楚呢」
+	;TranslatedMark 「これで忠誠が得られるのかしら？　よくわからないわね」
+ENDIF
+
+;─────────────────────────────────────── 
+;●300～302戦闘開始
+;─────────────────────────────────────── 
+;野戦
+IF ARG == 300
+	IF RAND:2 == 0
+		PRINTFORML 如果我赢了的话……今晚的粥是和食吧」
+		;TranslatedMark %ANAME(咲夜)%「私が勝ったら……今夜のおゆはんは和食ね」
+	ELSE
+		PRINTFORML %ANAME(咲夜)%：好啊。因为有什么可疑的地方，我来帮助你」
+		;TranslatedMark %ANAME(咲夜)%「良いわ。何か怪しいので相手をしてあげる」
+	ENDIF
+;防衛戦(侵攻側)
+ELSEIF ARG == 301
+	IF RAND:2 == 0
+		PRINTFORML 如果我赢了的话……今晚的米饭是珍馐拼盘」
+		;TranslatedMark %ANAME(咲夜)%「私が勝ったら……今夜のおゆはんは珍味の盛り合わせね」
+	ELSE
+		PRINTFORML 我被命令要打倒你……」
+		;TranslatedMark %ANAME(咲夜)%「貴方を倒すよう命じられましたので……」
+	ENDIF
+;防衛戦(防衛側)
+ELSEIF ARG == 302
+	IF RAND:2 == 0
+		PRINTFORML 如果我赢了的话……今晚的米饭是森林蘑菇饭」
+		;TranslatedMark %ANAME(咲夜)%「私が勝ったら……今夜のおゆはんは森の茸ご飯ね」
+	ELSE
+		PRINTFORML 你也很痛苦吧。我会完成的」
+		;TranslatedMark %ANAME(咲夜)%「貴方も苦しいでしょう。終わらせてあげます」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●310～313特殊戦術（311は見つからずカット）
+;─────────────────────────────────────── 
+;計略発動
+IF ARG == 310
+	PRINTFORML 你的时间是我的。如果你有时间以外的东西就好了」
+	;TranslatedMark %ANAME(咲夜)%「貴方の時間は私のもの。時間以外のものを貴方が持っていればいいけど」
+;貫計(武力)
+ELSEIF ARG == 312
+	PRINTFORML 来吧，玩笑就在这里……」
+	;TranslatedMark %ANAME(咲夜)%「さぁ、お戯れはその辺にして……」
+;貫計(好感度)
+ELSEIF ARG == 313
+	PRINTFORML 这种地方，赶紧穿过去吧」
+	;TranslatedMark %ANAME(咲夜)%「こんなところ、さっさと通り抜けましょう」
+ENDIF
+
+;─────────────────────────────────────── 
+;●331_主人公勢力に捕縛される(滅亡時)
+;─────────────────────────────────────── 
+IF ARG == 331
+	PRINTFORML 「输了%POLITE_K9("ったのね", "いましたか")%……」
+	;TranslatedMark 「負けてしま%POLITE_K9("ったのね", "いましたか")%……」
+ENDIF
+
+;─────────────────────────────────────── 
+;●332～336_主人公勢力に捕縛されたときのリアクション
+;─────────────────────────────────────── 
+;登用に応じる
+IF ARG == 332
+	PRINTFORML 「是的。如果我可以的话，请多关照%POLITE_K9("なるわね", "なります")%」
+	;TranslatedMark 「ええ。私で良かったら、お世話に%POLITE_K9("なるわね", "なります")%」
+;登用を拒否する
+ELSEIF ARG == 333
+	PRINTFORML 「哎呀。我只是个人类%POLITE_K9("だから、お", "ですから、お")%的角色」
+	;TranslatedMark 「あら。私はただの人間%POLITE_K9("だから、お", "ですから、お")%役に%POLITE_K9("立てないでしょう？", "立てそうにありません")%」
+;解放される
+ELSEIF ARG == 334
+	PRINTFORML 「哎呀。让我逃走的%POLITE_K9("のかしら？", "んですか？")%」
+	;TranslatedMark 「あら。逃がしてくれる%POLITE_K9("のかしら？", "んですか？")%」
+	PRINTFORML 「虽然是敌人，但是表达敬意。请告诉我这件事」
+	;TranslatedMark 「敵ながら敬意を表%POLITE_K9("するわ", "します")%。このことは伝えてお%POLITE_K9("くわね", "きますね")%」
+;投獄される
+ELSEIF ARG == 335
+	PRINTFORML 「……原来是这么强迫啊。吓了一跳」
+	;TranslatedMark 「……こんなに強引だったのね。驚いたわ」
+;処刑される
+ELSEIF ARG == 336
+	PRINTFORML 「是的……我会死的。作为人到最后」
+	;TranslatedMark 「そう……私、死ねちゃうのね。最後まで人間として」
+	PRINTFORML 「%POLITE_K9("そうね", "わかったわ")%」
+	PRINTFORML 「就算我不在了，那个人也能健康地生活就好了」
+	;TranslatedMark 「私が居なくなった後も、あの人が元気に過ごしてくれるといいの%POLITE_K9("だけれど", "ですけれど")%」
+ENDIF
+
+;─────────────────────────────────────── 
+;●337_戦死時
+;─────────────────────────────────────── 
+IF ARG == 337
+	;主人公と同一勢力に所属
+	IF CFLAG:1 >= 1 && CFLAG:1 == CFLAG:咲夜_対象:1
+		IF CHECK_K9("陥落", 咲夜_対象) || TALENT:咲夜:親友
+			PRINTFORML 「是的……我会死的。作为人到最后」
+			;TranslatedMark 「そう……私、死ねちゃうのね。最後まで人間として」
+			PRINTFORML 「%POLITE_K9("そうね", "わかったわ")%」
+			PRINTFORML 「就算我不在了，那个人也能健康地生活就好了」
+			;TranslatedMark 「私が居なくなった後も、あの人が元気に過ごしてくれるといいの%POLITE_K9("だけれど", "ですけれど")%」
+		ELSE
+			PRINTFORML 「是的……我会死的。作为人到最后」
+			;TranslatedMark 「そう……私、死ねちゃうのね。最後まで人間として」
+		ENDIF
+	;主人公と異なる勢力に所属
+	ELSE
+		PRINTFORML 「是的……我会死的。作为人到最后」
+		;TranslatedMark 「そう……私、死ねちゃうのね。最後まで人間として」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●340～342_捕虜調教のメニュー
+;─────────────────────────────────────── 
+;解放される
+IF ARG == 340
+	PRINTFORML 「哎呀。让我逃走的%POLITE_K9("のかしら？", "んですか？")%」
+	;TranslatedMark 「あら。逃がしてくれる%POLITE_K9("のかしら？", "んですか？")%」
+	PRINTFORML 「虽然是敌人，但是表达敬意。请告诉我这件事」
+	;TranslatedMark 「敵ながら敬意を表%POLITE_K9("するわ", "します")%。このことは伝えてお%POLITE_K9("くわね", "きますね")%」
+
+;処刑する→処刑or妊娠中なら災いの種は早いうちに摘んでおく
+ELSEIF ARG == 341
+	IF TALENT:咲夜:妊娠
+		PRINTFORML 「住手！不要杀婴儿……嘿！」
+		;TranslatedMark 「やめてぇ！　赤ちゃんは殺さないでぇ……っ！」
+		PRINTFORML 「啊啊啊啊啊啊啊————！！」
+		;TranslatedMark 「いやぁあああぁあぁぁぁ――――っ！！」
+	ELSE
+		PRINTFORML 「是的……我会死的。作为人到最后」
+		;TranslatedMark 「そう……私、死ねちゃうのね。最後まで人間として」
+		PRINTFORML 「%POLITE_K9("そうね", "わかったわ")%」
+		PRINTFORML 「就算我不在了，那个人也能健康地生活就好了」
+		;TranslatedMark 「私が居なくなった後も、あの人が元気に過ごしてくれるといいの%POLITE_K9("だけれど", "ですけれど")%」
+	ENDIF
+
+;性奴隷化
+ELSEIF ARG == 342
+	PRINTFORML 「在开玩笑吗？哈……冷酷也要有个限度」
+	;TranslatedMark 「ふざけているのかしら？　はぁ……無慈悲にも程があるわよ」
+
+;触手処刑→処刑or妊娠中なら災いの種は早いうちに摘んでおく
+ELSEIF ARG == 343
+	IF TALENT:咲夜:妊娠
+		PRINTFORML 「住手！不要杀婴儿……嘿！」
+		;TranslatedMark 「やめてぇ！　赤ちゃんは殺さないでぇ……っ！」
+		PRINTFORML 「啊啊啊啊啊啊啊————！！」
+		;TranslatedMark 「いやぁあ゛ああぁあぁぁぁ――――っ！！」
+	ELSE
+		PRINTFORML 「没办法。如果没有被杀的话，也许就已经杀了」
+		;TranslatedMark 「仕方がないわ。殺されなければ、殺していたかもしれないのだもの」
+		PRINTFORMDW %ANAME(咲夜)%的脚在颤抖，现在也在和暴躁的触手对峙
+		;TranslatedMark %ANAME(咲夜)%は足を震わせて、今にも食いつかんと暴れる触手に対峙している
+		PRINTL 
+		PRINTFORML 「只是，再稍微有点像人——啊」
+		;TranslatedMark 「ただ、もう少し人間らしく――あっ」
+		PRINTFORMDL %ANAME(咲夜)%连发出尖叫的间隙都没有，头被触手吞噬了
+		;TranslatedMark %ANAME(咲夜)%は高い悲鳴をあげる隙すら与えれず、頭から触手に呑み込まれていった
+	ENDIF
+
+;処刑する→慈悲をかける
+ELSEIF ARG == 344
+	PRINTFORMW 「啊啊……嗯。不会被杀吧？没事吧？很好吧？」
+	;TranslatedMark 「あぁあ……っ。殺されないのね？　無事なのね？　元気よね？」
+	PRINTL 
+	PRINTFORML 「非常感谢！谢谢你救了这孩子」
+	;TranslatedMark 「ありがとうございます！　この子を助けてくださってありがとうございます」
+	PRINTFORMW 「我错了。是我不好。今后什么都做……嘿！」
+	;TranslatedMark 「私が間違っていました。私がいけなかったんです。これからは何でも致します……っ！」
+	PRINTL 
+	PRINTFORML 「我绝对不会再违背%ANAME(ID_TO_CHARA(FLAG:触手部屋管理者))%大人的话了！」
+	;TranslatedMark 「%ANAME(ID_TO_CHARA(FLAG:触手部屋管理者))%様の仰ることに、もう絶対に逆らいません！」
+	PRINTFORML 「怎么样，怎么样……请原谅……嘿！」
+	;TranslatedMark 「どうかぁ、どうかっ……お許しください……っ！」
+
+;触手処刑→慈悲をかける
+ELSEIF ARG == 345
+	PRINTFORMW 「啊啊……嗯。不会被杀吧？没事吧？很好吧？」
+	;TranslatedMark 「あぁあ……っ。殺されないのね？　無事なのね？　元気よね？」
+	PRINTL 
+	PRINTFORML 「非常感谢！谢谢你救了这孩子」
+	;TranslatedMark 「ありがとうございます！　この子を助けてくださってありがとうございます」
+	PRINTFORMW 「我错了。是我不好。今后什么都做……嘿！」
+	;TranslatedMark 「私が間違っていました。私がいけなかったんです。これからは何でも致します……っ！」
+	PRINTL 
+	PRINTFORML 「我绝对不会再违背%ANAME(ID_TO_CHARA(FLAG:触手部屋管理者))%大人的话了！」
+	;TranslatedMark 「%ANAME(ID_TO_CHARA(FLAG:触手部屋管理者))%様の仰ることに、もう絶対に逆らいません！」
+	PRINTFORML 「怎么样，怎么样……请原谅……嘿！」
+	;TranslatedMark 「どうかぁ、どうかっ……お許しください……っ！」
+
+ENDIF
+
+;─────────────────────────────────────── 
+;●450～452_逆調教時
+;─────────────────────────────────────── 
+;主人公に対して忠誠を誓わせる
+IF ARG == 450
+	PRINTFORML 「喂。我发誓忠诚%POLITE_K9("くれないかしら", "はくださいませんか")%？」
+	;TranslatedMark 「ねえ。私に忠誠を誓って%POLITE_K9("くれないかしら", "はくださいませんか")%？」
+	PRINTFORML 「%CALLNAME_K9(咲夜_対象)%%POLITE_K9("の力が欲しいのだけど", "にお力添え頂きたいのです")%。合作%POLITE_K9("してちょうだい", "してください")%」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%%POLITE_K9("の力が欲しいのだけど", "にお力添え頂きたいのです")%。協力%POLITE_K9("してちょうだい", "してください")%」
+	PRINTFORML 「无论刀怎么干，都是单方面的无益杀戮」
+	;TranslatedMark 「いくらナイフが乾いても、一方的で無益な殺戮はした%POLITE_K9("くないのよ", "いと思いませんから")%」
+;主人公に対して忠誠を誓わせる/成功
+ELSEIF ARG == 451
+	PRINTFORML 「哎呀，真是%POLITE_K9("に", "ですか")%？　%POLITE_K9("言ってはみたけれど聞いてくれるなんて", "お誘いしてはみましたが、頷いて頂けるとは思っていませんでした")%。呵呵呵」
+	;TranslatedMark 「あら、本当%POLITE_K9("に", "ですか")%？　%POLITE_K9("言ってはみたけれど聞いてくれるなんて", "お誘いしてはみましたが、頷いて頂けるとは思っていませんでした")%。ふふっ」
+	PRINTFORML 「%POLITE_K9("思ったより嬉しいものね、下僕ができるって……こういう気持ちだったのね", "もちろんとても嬉しいです。どなたよりも頼りになる方ですから")%」
+	PRINTFORML 「%POLITE_K9("心配いらないわ。大事にするわよ", "ご心配には及びません。俸給はちゃんと支払われます")%」
+;主人公に対して忠誠を誓わせる/失敗
+ELSEIF ARG == 452
+	IF TALENT:咲夜_対象:自尊心高
+		PRINTFORML 「哎呀，真遗憾。嘛，是%POLITE_K9("言いそうな気はしていたわ", "仰るとは思っていました")%」
+		;TranslatedMark 「あら、残念%POLITE_K9("ね", "ですね")%。まぁそう%POLITE_K9("言いそうな気はしていたわ", "仰るとは思っていました")%」
+		PRINTFORML 「%CALLNAME_K9(咲夜_対象)%%POLITE_K9("ってプライドが高そうだもの", "は誇り高い方ですから")%。那样对我也有意义」
+		;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%%POLITE_K9("ってプライドが高そうだもの", "は誇り高い方ですから")%。そのほうが私も甲斐があるというもの%POLITE_K9("ね", "です")%」
+		PRINTFORML 「%POLITE_K9("じゃ、続きをしましょうか", "では、続きを致しましょう")%」
+	ELSE
+		PRINTFORML 「哎呀，真遗憾。%CALLNAME_K9(咲夜_対象)%是%POLITE_K9("誇りの問題かしら", "誇り高い方なのですね")%」
+		;TranslatedMark 「あら、残念%POLITE_K9("ね", "ですね")%。%CALLNAME_K9(咲夜_対象)%は%POLITE_K9("誇りの問題かしら", "誇り高い方なのですね")%」
+		PRINTFORML 「那样对我也有意义」
+		;TranslatedMark 「そのほうが私も甲斐があるというもの%POLITE_K9("ね", "です")%」
+		PRINTFORML 「%POLITE_K9("じゃ、続きをしましょうか", "では、続きを致しましょう")%」
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●終了
+;─────────────────────────────────────── 
+RESETCOLOR
+RETURN 0
+

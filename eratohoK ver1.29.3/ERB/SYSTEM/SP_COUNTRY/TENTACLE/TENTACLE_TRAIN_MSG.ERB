@@ -1,0 +1,496 @@
+﻿@TENTACLE_TRAIN_MSG(対象, 士官フラグ)
+#DIM 対象
+#DIM プレイ番号
+#DIM 勢力番号
+#DIM 士官フラグ
+
+
+勢力番号 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_触手)
+
+IF HAS_VAGINA(対象) && HAS_PENIS(対象)
+	SELECTCASE RAND:100
+		CASE IS < 10
+			プレイ番号 = 0
+		CASE IS < 50
+			プレイ番号 = 1
+		CASEELSE
+			プレイ番号 = 2
+	ENDSELECT
+ELSEIF HAS_VAGINA(対象)
+	プレイ番号 = 2
+ELSEIF HAS_PENIS(対象)
+	プレイ番号 = 1
+ELSE
+	RETURN
+ENDIF
+
+勢力番号 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_触手))
+
+
+
+LOCALS = 被寄生的\@ HAS_PENIS(対象) ? 女性 # 男性 \@
+FOR LOCAL, 0, CHARANUM
+	SIF COUNTRY_EVENT_ID:(CFLAG:LOCAL:所属) == SP_COUNTRY_ID:特殊勢力_触手 && !IS_SAMESEX(対象, LOCAL) && !IS_SP_CHARA(LOCAL) && !RAND:3
+		LOCALS = %ANAME(LOCAL)%
+NEXT
+
+SELECTCASE プレイ番号
+	;-------------------------ここからふたなり専用-------------------------
+	CASE 0
+		SELECTCASE RAND:3
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被觸手榨取著精液
+					PRINTFORML 被觸手寄生強化過的肉體、射出了驚人數量的白濁
+					PRINTFORML 僅僅是這樣還不夠滿足的觸手、同時還责弄著%ANAME(対象)%的膣穴和尻穴、強行增加%ANAME(対象)%的射精量
+					PRINTFORML 這份快感、讓%ANAME(対象)%不停扭動著身體
+					PRINTFORML 最後終於被解放的時候、%ANAME(対象)%的腰已經完全直不起來了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手榨取著精液
+					PRINTFORML 即使%PRONOUN(対象)%已經到達了極限、但還是被毫不在乎的觸手繼續榨取著白濁
+					PRINTFORML 僅僅是這樣還不夠滿足的觸手、同時還责弄著%ANAME(対象)%的膣穴和尻穴、強行增加%ANAME(対象)%的射精量
+					PRINTFORML 超過極限的射精的痛苦、讓%ANAME(対象)%不停扭動著身體
+					PRINTFORML 最後終於被解放的時候、%ANAME(対象)%的腰已經完全直不起來了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 射精, 精愛, Ｃ, Ｖ, Ａ, 触手, Ｖ性交, Ａ性交", "童貞喪失, 処女喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被觸手榨取著精液
+					PRINTFORML 被榨出的白濁通過纖細管狀的觸手、注入到了%ANAME(対象)%自身的膣穴內
+					PRINTFORML 這份快感、讓%ANAME(対象)%身體不停顫動
+					PRINTFORML 最後終於被解放的時候、%ANAME(対象)%的腰已經完全直不起來了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手榨取著精液
+					PRINTFORML 被榨出的白濁通過纖細管狀的觸手、注入到了%ANAME(対象)%自身的膣穴內
+					PRINTFORML 超過極限的射精的痛苦、讓%ANAME(対象)%身體不停顫動
+					PRINTFORML 最後終於被解放的時候、%ANAME(対象)%的腰已經完全直不起來了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 射精, 精愛, Ｃ, Ｖ, 触手, Ｖ性交", "処女喪失, 童貞喪失, 膣内射精", 勢力番号, GET_ID(対象), "触手", "触手", "触手", "強姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被觸手同時侵犯著嘴巴和兩穴
+					PRINTFORML 而且、還有刷子狀的觸手纏在肉棒之上、激烈的捋動著
+					PRINTFORML 這超強的快感、讓%ANAME(対象)%発狂般大聲嬌喘著
+					PRINTFORML 直到%ANAME(対象)%昏迷為止、侵犯一直在持續著……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手同時侵犯著兩穴
+					PRINTFORML 而且、還有刷子狀的觸手纏在肉棒之上、激烈的捋動著
+					PRINTFORML 這超強的快感、讓%ANAME(対象)%無法忍耐的高潮了
+					PRINTFORML 直到%ANAME(対象)%昏迷為止、侵犯一直在持續著……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 射精, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, 触手, Ｖ性交, Ａ性交", "処女喪失, 童貞喪失, 接吻喪失, Ａ処女喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+		ENDSELECT
+	;-------------------------ここから要ペニス-----------------------------
+	CASE 1
+		SIF HAS_VAGINA(対象)
+			LOCALS:0 = 寄生された女
+		SELECTCASE RAND:5
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被觸手榨取著精液
+					PRINTFORML 被觸手寄生強化過的肉體、射出了驚人數量的白濁
+					PRINTFORML 這份快感、讓%ANAME(対象)%不停扭動著身體
+					PRINTFORML 最後終於被解放的時候、%ANAME(対象)%的腰已經完全直不起來了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手榨取著精液
+					PRINTFORML 即使%PRONOUN(対象)%已經到達了極限、但還是被毫不在乎的觸手繼續榨取著白濁
+					PRINTFORML 超過極限的射精的痛苦、讓%ANAME(対象)%不停扭動著身體
+					PRINTFORML 最後終於被解放的時候、%ANAME(対象)%的腰已經完全直不起來了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 射精, Ｃ, 触手", "童貞喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%侵犯著被抓住的女性
+					PRINTFORML 按住哭喊的女性、把寄生在自己身上的觸手從肉棒和口中轉移了過去
+					PRINTFORML 過了一會之後女性老實了下來、開始変得順從了。寄生成功了
+					PRINTFORML %ANAME(対象)%立即、開始為了觸手的繁榮使用那女性……
+				ELSE
+					PRINTFORML %ANAME(対象)%被%LOCALS:0%推倒并侵犯了
+					PRINTFORML 她通過嘴巴和秘部、轉移了寄生在體內的觸手
+					PRINTFORML 雖然%ANAME(対象)%想要抵抗、但是在女性的腰技之下、讓%PRONOUN(対象)%身體微顫
+					PRINTFORML 結果%PRONOUN(対象)%、到結束為止在女性的膣内射精了一次又一次……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 性技, 奉仕, 射精, Ｃ, Ｖ挿入, Ａ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%接受了触手的肉体改造
+					PRINTFORML 体内寄生的触手從內部改造著%PRONOUN(対象)%的身体
+					PRINTFORML 筋力・精力都被増強了、但是意識也被改寫了
+					PRINTFORML 改造結束後的%ANAME(対象)%、馬上就為了觸手的繁榮而提高了自己的肉體……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手改造了肉體
+					PRINTFORML 進入體內的觸手、從內部改造著%ANAME(対象)%的肉體
+					PRINTFORML 隨著筋力・精力的増強、自我意識也漸漸変得順從他們了
+					PRINTFORML 改造結束後的%ANAME(対象)%、立即就被觸手束縛起來、榨取著精液……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 射精, Ｃ", "童貞喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%和%LOCALS:0%交合著
+					PRINTFORML 互相舌吻、互相交合、互相交換著體內寄生的觸手
+					PRINTFORML 隨著交換的進行、彼此的腰部動作也変得激烈起來
+					PRINTFORML 不久後%ANAME(対象)%、在%LOCALS:0%的膣内射出了大量精液……
+				ELSE
+					PRINTFORML %ANAME(対象)%被%LOCALS:0%侵犯著
+					PRINTFORML 她通過嘴巴和秘部、轉移了寄生在體內的觸手
+					PRINTFORML 雖然%ANAME(対象)%想要抵抗、但是在%LOCALS:0%的腰技之下、讓%PRONOUN(対象)%身體微顫
+					PRINTFORML 結果%PRONOUN(対象)%、到結束為止在她的膣内射精了一次又一次……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性技, 性交, 奉仕, 射精, Ｃ, Ｖ挿入, Ａ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 4
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作為觸手的下屬、襲撃了附近的村落
+					PRINTFORML 発現能成為出色母體的年輕姑娘時、強吻上去、侵犯她、把寄生于自己的觸手轉移過去
+					PRINTFORML 已經完全成為了觸手的尖兵的失去了自我的%ANAME(対象)%、完全不會受到良心的譴責
+					PRINTFORML 回到拠点的%ANAME(対象)%、侵犯著被抓住的少女們、把自己的觸手寄生在她們身上……
+				ELSE
+					PRINTFORML %ANAME(対象)%被強迫作為觸手的下屬、襲撃了附近的村落
+					PRINTFORML 発現能成為出色母體的年輕姑娘時就抓住她、送去拠点
+					PRINTFORML 即使受到了良心的譴責、但是被寄生的%ANAME(対象)%也無法違抗命令
+					PRINTFORML 回到拠点的%ANAME(対象)%、為了補充在戦闘中減少的觸手、被命令提供精液……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 性技, 奉仕, 射精, Ｃ, Ｖ挿入, Ａ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+		ENDSELECT
+	;-------------------------ここから要マンコ-----------------------------
+	CASE 2
+		SELECTCASE RAND:28
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被觸手倒吊了起來、張開了自己的大腿
+					PRINTFORML 顏色詭異的觸手、大聲的在裸露的秘部中出入著
+					PRINTFORML 明明是在被異形的東西侵犯著、但是已經順從于他們的%ANAME(対象)%顯得非常的高興
+					PRINTFORML 不久後當觸手射出白濁色的粘液時、%ANAME(対象)%瘋狂地淫叫了出來……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手倒吊了起來、掰開了大腿
+					PRINTFORML 顏色詭異的觸手、正侵犯著裸露的秘部
+					PRINTFORML 被異形侵犯的恐懼、讓%ANAME(対象)%不停顫抖
+					PRINTFORML 不久後當觸手射出白濁色的粘液時、%ANAME(対象)%発出了不成聲音的悲鳴……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被觸手纏住、抽插著兩穴
+					PRINTFORML 觸手頂到最深処的時候、%ANAME(対象)%発出了下流、淫亂的叫聲
+					PRINTFORML 二穴的最深処被注入白濁時、已經披頭散髮的%ANAME(対象)%迎來了高潮……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手纏住、抽插著兩穴
+					PRINTFORML 被觸手觸手頂到最深処、即使心裡覺得厭悪但是身體卻不由得感到了快感
+					PRINTFORML 二穴的最深処被注入白濁時、%ANAME(対象)%的身體違背了意志迎來了高潮……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ａ, Ｖ性交, Ａ性交", "処女喪失, 膣内射精, Ａ処女喪失, 腸内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被刷子狀的觸手、摩擦著全身
+					PRINTFORML 被特別仔細地摩擦著性感帯、讓%ANAME(対象)%発出了淫蕩的喘息聲
+					PRINTFORML 全身都被清淨干淨的%ANAME(対象)%、張開了自己的雙腿、央求著繼續這一行為……
+				ELSE
+					PRINTFORML %ANAME(対象)%被刷子狀的觸手、摩擦著全身
+					PRINTFORML 緊咬牙関想要忍耐、但是性感帯被摩擦的時候還是忍不住漏出了嬌喘
+					PRINTFORML 全身都被清淨干淨後、%ANAME(対象)%被「利用」在他們的繁殖中了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, Ｖ, Ａ, Ｂ, Ｃ, Ｍ", "", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被苦瓜状的觸手挿入了兩穴
+					PRINTFORML %ANAME(対象)%的兩穴都想要壞掉了一樣、但是本人卻発出了淫亂的嬌喘聲
+					PRINTFORML 在射出大量濃厚精子的觸手拔出去之後、%ANAME(対象)%的両穴已經鬆弛到合不上了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被苦瓜状的觸手挿入了兩穴
+					PRINTFORML 両穴被拡張所帯來的劇痛、讓%ANAME(対象)%只能不停悲鳴著
+					PRINTFORML 在射出大量濃厚精子的觸手拔出去之後、%ANAME(対象)%的両穴已經鬆弛到合不上了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ａ, Ｖ拡張, Ａ拡張, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 腸内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 4
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%一味地、央求著觸手的精子
+					PRINTFORML 能協助他們的繁殖、讓%ANAME(対象)%感到無比的喜悅
+					PRINTFORML 行為終於結束的時候、%PRONOUN(対象)%的腹部如同懷孕一般膨脹了起來……
+				ELSE
+					PRINTFORML %ANAME(対象)%一味地、被觸手授種著
+					PRINTFORML 被他們用來繁殖、讓%ANAME(対象)%発出了悲痛的哀嚎
+					PRINTFORML 行為終於結束的時候、%PRONOUN(対象)%的腹部如同懷孕一般膨脹了起來……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 性交, 精愛, Ｖ, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 5
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被触手在體內産卵了
+					PRINTFORML 每次挿入兩穴的觸手吐出卵的時候、%ANAME(対象)%都會扭動著身體
+					PRINTFORML 不久後觸手拔出去時、%PRONOUN(対象)%的腹部已經異常膨脹了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被触手在體內産卵了
+					PRINTFORML 每次挿入兩穴的觸手吐出卵的時候、%ANAME(対象)%的臉色就會愈発慘白
+					PRINTFORML 不久後觸手拔出去時、%PRONOUN(対象)%的腹部已經異常膨脹了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, Ｖ, Ｖ拡張, Ｖ性交", "処女喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 6
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被埋在肉壁之中、被侵犯著雌穴
+					PRINTFORML 作為触手的苗床、只顧著為了他們的繁殖而獻身
+					PRINTFORML 明明連行動的自由都沒有、但是%ANAME(対象)%看上去卻非常幸福……
+				ELSE
+					PRINTFORML %ANAME(対象)%被埋在肉壁之中、被侵犯著雌穴
+					PRINTFORML 作為触手的苗床、一味地被他們用來繁殖
+					PRINTFORML 抵抗也只是徒勞、%ANAME(対象)%的子宮被射入了大量粘液……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 7
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的耳中、有極細的触手鉆了進去
+					PRINTFORML 已進入腦中的触手、在%ANAME(対象)%的腦海中灌輸了自己是苗床的意識
+					PRINTFORML 同時、肉体也在被其他觸手责弄著。讓効果変成了二倍
+					PRINTFORML 「学習」結束時、%ANAME(対象)%已經獲得了完全把自己當做他們的繁殖苗床的自我……
+				ELSE
+					PRINTFORML %ANAME(対象)%的耳中、有極細的触手鉆了進去
+					PRINTFORML 已進入腦中的触手、灌輸了自己是苗床的意識
+					PRINTFORML 甚至就連屈服的意志、都被觸手奪走了
+					PRINTFORML 「学習」結束後、被灌輸了自己是繁殖苗床的意識的%ANAME(対象)%、已經再也不會抵抗他們了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望", "", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+				SP_TRAIN_COUNT:対象:特殊勢力_触手 ++
+			CASE 8
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被関在了巨大的肉繭中
+					PRINTFORML 在肉繭里、%ANAME(対象)%的肉体得到了觸手的改造
+					PRINTFORML 想要把肉體変得更適合作為苗床、是%ANAME(対象)%自身的志願
+					PRINTFORML 不久後從繭中被解放的時候、那身体已經更加適應他們的使用了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被関在了巨大的肉繭中
+					PRINTFORML 在肉繭里、%ANAME(対象)%的肉体被觸手改造了
+					PRINTFORML 把%ANAME(対象)%的肉體改変得更適合作為苗床
+					PRINTFORML 不久後從繭中被解放的時候、那身体已經更加適應他們的使用了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, Ｃ, Ｃ, Ｖ, Ｖ, Ａ, Ａ, Ｂ, Ｂ, Ｍ, Ｍ", "", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+				SP_TRAIN_COUNT:対象:特殊勢力_触手 ++
+			CASE 9
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%対男人們張開了大腿
+					PRINTFORML 正在対被觸手寄生并奪走了自我的男人們進行「維護」
+					PRINTFORML 每次被觸手增強過的肉棒貫穿的時候、%ANAME(対象)%都會発出淫亂的呻吟
+					PRINTFORML 結束的時候、兩穴中不停滴落著他們的那根源是觸手的精子……
+				ELSE
+					PRINTFORML %ANAME(対象)%被男人們侵犯著
+					PRINTFORML 作為母體被被觸手寄生并奪走了自我的男人們進行著「修整」
+					PRINTFORML 每次被觸手增強過的肉棒貫穿的時候、%ANAME(対象)%都會発出與意志無関的喘息聲
+					PRINTFORML 結束的時候、兩穴中不停滴落著他們的那根源是觸手的精子……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, 奉仕, Ａ, Ｖ, 輪姦, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "輪姦")
+			CASE 10
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%和男人交合著。但是這男人、也只是被觸手寄生并失去了自我的肉人偶而已
+					PRINTFORML 接吻時從嘴吧到胃中、或是交合是從肉棒到子宮、男人體內的觸手移動到%PRONOUN(対象)%的体内寄生了
+					PRINTFORML 能「得到」他們的寄生、令%ANAME(対象)%感到了深深的喜悅……
+				ELSE
+					PRINTFORML %ANAME(対象)%被男人侵犯著。但是這男人、也只是被觸手寄生并失去了自我的肉人偶而已
+					PRINTFORML 寄生在男人體內的觸手、從男人的口中、或是挿入體內的肉棒中、轉移到了%PRONOUN(対象)%的身体內
+					PRINTFORML 成為了正體不明的東西的住処、讓%ANAME(対象)%発出了悲鳴……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, 奉仕, Ｖ, Ｖ性交", "膣内射精, 処女喪失, 接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 11
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%睡在肉質水槽之中
+					PRINTFORML 水槽中積蓄的粘液、把%ANAME(対象)%的肉体改造的更適合作為苗床
+					PRINTFORML 即使是在睡著的時候被觸手用來繁殖、%PRONOUN(対象)%也沒有注意到
+					PRINTFORML 之後、醒來的%PRONOUN(対象)%、為了触手的繁栄、再次獻上了自己的身体……
+				ELSE
+					PRINTFORML %ANAME(対象)%被放在肉質水槽之中睡眠
+					PRINTFORML 水槽中積蓄的粘液、把%ANAME(対象)%的肉体改造為適合成為苗床了
+					PRINTFORML 即使是在睡著的時候被觸手用來繁殖、但是在粘液的作用下也無法醒來
+					PRINTFORML 之後總算是醒過來的%PRONOUN(対象)%、明白自己被做過什麼後臉色一片慘白……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 奉仕, 精愛, Ｃ, Ｖ, Ａ, Ｂ, Ｍ, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 12
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的耳中被極細的触手鉆了進去
+					PRINTFORML 然後進入了大腦、直接発出了電流、讓%ANAME(対象)%感到了普通方式完全不可能得到的莫大的快感
+					PRINTFORML 能稱之為至高無上的快感、讓%ANAME(対象)%流著淚高潮了
+					PRINTFORML 责弄直到%ANAME(対象)%昏迷之後還在持續……
+				ELSE
+					PRINTFORML %ANAME(対象)%的耳中被極細的触手鉆了進去
+					PRINTFORML 然後進入了大腦、直接発出了電流、讓%ANAME(対象)%感到了普通方式完全不可能得到的莫大的快感
+					PRINTFORML 被強行給予的暴力的快感、讓%ANAME(対象)%與意志無関直接高潮了
+					PRINTFORML 责弄直到%ANAME(対象)%昏迷之後還在持續……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, Ｃ, Ｃ, Ｖ, Ｖ, Ａ, Ａ, Ｍ, Ｍ, Ｂ, Ｂ", "", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 13
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的頭、粘著水母一樣的觸手
+					PRINTFORML 触手向%PRONOUN(対象)%的腦中発出了電流、操縱著肉体
+					PRINTFORML 讓%PRONOUN(対象)%掰開了自己的雌穴、然後觸手把自己的繁殖腕挿入其中、分離、寄生
+					PRINTFORML 成為非人存在的棲息地的喜悅、讓%ANAME(対象)%流出了淚水……
+				ELSE
+					PRINTFORML %ANAME(対象)%的頭、粘著水母一樣的觸手
+					PRINTFORML 触手向%PRONOUN(対象)%的腦中発出了電流、操縱著肉体
+					PRINTFORML 讓%PRONOUN(対象)%掰開了自己的雌穴、然後觸手把自己的繁殖腕挿入其中、分離、寄生
+					PRINTFORML 成為非人存在的棲息地的恐懼、讓%ANAME(対象)%流出了淚水……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 自慰, Ｖ, Ｖ性交", "膣内射精, 処女喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 14
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的頭、粘著水母一樣的觸手
+					PRINTFORML 触手向%PRONOUN(対象)%的腦中発出了電流、操縱著肉体
+					PRINTFORML 触手讓%PRONOUN(対象)%和同樣被寄生的男人交合著、然後用子宮接受了那射出的精液
+					PRINTFORML 子宮內被灼熱的精子射入的感覺、讓%PRONOUN(対象)%高潮了一次又一次……
+				ELSE
+					PRINTFORML %ANAME(対象)%的頭、粘著水母一樣的觸手
+					PRINTFORML 触手向%PRONOUN(対象)%的腦中発出了電流、操縱著肉体
+					PRINTFORML 触手讓%PRONOUN(対象)%和同樣被寄生的男人交合著、然後用子宮接受了那射出的精液
+					PRINTFORML 子宮內被灼熱的精子射入的感覺、讓%PRONOUN(対象)%無法抗拒的高潮了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, 奉仕, Ｖ, Ｖ性交", "膣内射精, 処女喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 15
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的尻穴、被触手鉆入了
+					PRINTFORML 觸手一邊食用%PRONOUN(対象)%的排泄物、一邊逆著内臓前進
+					PRINTFORML 然後在最後、從口中沖了出來
+					PRINTFORML 人類完全做不到的行為所帯來的喜悅、讓被串刺的%ANAME(対象)%迎來了高潮……
+				ELSE
+					PRINTFORML %ANAME(対象)%的尻穴、被触手鉆入了
+					PRINTFORML 觸手一邊食用%PRONOUN(対象)%的排泄物、一邊逆著内臓前進
+					PRINTFORML 然後在最後、從口中沖了出來
+					PRINTFORML 人類完全做不到的行為、讓%ANAME(対象)%在半癲半狂中忍耐著痛苦……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ａ, Ａ, Ａ拡張, Ａ拡張, Ａ性交", "Ａ処女喪失, 腸内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 16
+				IF 士官フラグ
+					PRINTFORML 犯錯的%ANAME(対象)%、正被觸手鞭打著作為懲罰
+					PRINTFORML 在銳利的破空聲後、響起了打在肉體上聽起來非常痛的聲音
+					PRINTFORML %ANAME(対象)%在那難以忍耐的痛苦下、卻因為快感而陷入恍惚不停扭動著身體……
+				ELSE
+					PRINTFORML 反抗的%ANAME(対象)%、正被觸手鞭打著作為懲罰
+					PRINTFORML 在銳利的破空聲後、響起了打在肉體上聽起來非常痛的聲音
+					PRINTFORML %ANAME(対象)%因為那難以忍耐的痛苦、只能不斷的発出悲鳴……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 苦痛快楽, 緊縛, 被虐", "", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 17
+				IF 士官フラグ
+					PRINTFORML 犯錯的%ANAME(対象)%、正被觸手電撃著作為懲罰
+					PRINTFORML 在噼啪聲響起後、周囲瀰漫起了肉燒焦的氣味
+					PRINTFORML %ANAME(対象)%在那難以忍耐的痛苦下、卻因為快感而陷入恍惚不停扭動著身體……
+				ELSE
+					PRINTFORML 犯錯的%ANAME(対象)%、正被觸手電撃著作為懲罰
+					PRINTFORML 在噼啪聲響起後、周囲瀰漫起了肉燒焦的氣味
+					PRINTFORML %ANAME(対象)%因為那難以忍耐的痛苦、只能不斷的発出悲鳴……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 苦痛快楽, 緊縛, 被虐", "", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 18
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的雌穴被觸手挿入了
+					PRINTFORML 那觸手甚至進入了%PRONOUN(対象)%的子宮内、侵犯著子宮內部
+					PRINTFORML 從人類対象那無法得到的快感、讓%PRONOUN(対象)%身體不停顫動
+					PRINTFORML 不久後被白濁內射之時、%ANAME(対象)%激烈高潮了……
+				ELSE
+					PRINTFORML %ANAME(対象)%的雌穴被觸手挿入了
+					PRINTFORML 那觸手甚至進入了%PRONOUN(対象)%的子宮内、侵犯著子宮內部
+					PRINTFORML 從人類対象那無法得到的快感、讓%PRONOUN(対象)%身體不停顫動
+					PRINTFORML 不久後被白濁內射之時、%ANAME(対象)%激烈高潮了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ｖ拡張, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 19
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的体内寄生著触手
+					PRINTFORML 那觸手在%ANAME(対象)%的子宮之內蠢動著、從内部給予著快感
+					PRINTFORML 提供自己的肉體作為觸手的棲息地所帯來的滿足感、讓%ANAME(対象)%因為快感而不停顫抖著……
+				ELSE
+					PRINTFORML %ANAME(対象)%的体内寄生著触手
+					PRINTFORML 那觸手在%ANAME(対象)%的子宮之內蠢動著、從内部給予著快感
+					PRINTFORML 自己的肉體被觸手當做棲息地使用所帯來的恐懼、讓%ANAME(対象)%渾身顫抖……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, Ｖ, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 20
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%嘴巴被觸手塞了進去
+					PRINTFORML 不只是喉嚨、連胃部都被侵犯的喜悅、讓%ANAME(対象)%非常滿足
+					PRINTFORML 不久後觸手分離了自己的前端部分、寄生了%ANAME(対象)%
+					PRINTFORML 提供自己的肉體作為觸手的棲息地所帯來的滿足感、讓%ANAME(対象)%因為快感而不停顫抖著……
+				ELSE
+					PRINTFORML %ANAME(対象)%嘴巴被觸手塞了進去
+					PRINTFORML 不只是喉嚨、連胃部都被侵犯的痛苦和屈辱、讓%ANAME(対象)%臉色扭曲
+					PRINTFORML 不久後觸手分離了自己的前端部分、寄生了%ANAME(対象)%
+					PRINTFORML 自己的肉體被當做棲息地所帯來的恐懼、讓%ANAME(対象)%渾身顫抖……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性技, Ｍ, 苦痛快楽, 被虐", "接吻喪失, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 21
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正要被花蕾状的觸手丸呑
+					PRINTFORML 在張開大口的觸手的內部、有無數的小觸手正在蠢動、急切地等待著猟物
+					PRINTFORML 対被當做餌食的期待、讓%ANAME(対象)%心跳不斷加速
+					PRINTFORML 不久後%ANAME(対象)%被觸手呑了下去、從那裡面傳出了淫亂的嬌喘聲
+				ELSE
+					PRINTFORML %ANAME(対象)%正要被花蕾状的觸手丸呑
+					PRINTFORML 在張開大口的觸手的內部、有無數的小觸手正在蠢動、急切地等待著猟物
+					PRINTFORML 被當做餌食所帯來的恐懼、讓%ANAME(対象)%不斷掙扎、想要脫離觸手
+					PRINTFORML 不久後%ANAME(対象)%被觸手呑了下去、從那裡面傳出了悲鳴……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性技, 奉仕, 精愛, Ｃ, Ｃ, Ｖ, Ｖ, Ｂ, Ｂ, Ｍ, Ｍ, Ａ, Ａ, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, 接吻喪失, Ａ処女喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 22
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作為觸手的下屬、襲撃了附近的村落
+					PRINTFORML 発現能成為出色母體的年輕姑娘和能成為士兵的男性後、就親吻上去讓自己體內的觸手寄生対方
+					PRINTFORML 已經完全成為了觸手的尖兵的成為了母體的%ANAME(対象)%、完全沒有良心這種東西了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被強迫作為觸手的下屬、襲撃了附近的村落
+					PRINTFORML 発現能成為出色母體的年輕姑娘和能成為士兵的男性後、就親吻上去讓自己體內的觸手寄生対方
+					PRINTFORML 即使受到了良心的譴責、但是被寄生的%ANAME(対象)%也無法違抗觸手……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性技, 奉仕, 百合", "", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 23
+				PRINTFORML %ANAME(対象)%的臉上、粘著風鏡一樣的觸手
+				PRINTFORML 触手讓%PRONOUN(対象)%觀看著洗脳用的影像、改寫%PRONOUN(対象)%的自我
+				PRINTFORML 改寫結束後、%PRONOUN(対象)%立即、就把身體獻給了他們
+				PRINTFORML 直到%ANAME(対象)%昏迷為止、授種一直在持續著……
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ｖ性交", "膣内射精, 処女喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 24
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%的脖子以下、都被埋在肉塊之中
+					PRINTFORML 在那其中、有數不清的觸手在愛撫著%PRONOUN(対象)%、然後抽插著兩穴
+					PRINTFORML 在身體完全無法動弾的情況下、%PRONOUN(対象)%一直露出著淫亂的高潮臉……
+				ELSE
+					PRINTFORML %ANAME(対象)%的脖子以下、都被埋在肉塊之中
+					PRINTFORML 在那其中、有數不清的觸手在愛撫著%PRONOUN(対象)%、然後抽插著兩穴
+					PRINTFORML 在身體完全無法動弾的情況下、%PRONOUN(対象)%只能不停的悲鳴著……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ａ, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 腸内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 25
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被觸手挿入了雌穴
+					PRINTFORML 敏感的肉襞被不停摩擦、讓%ANAME(対象)%因為快感而顯得発狂
+					PRINTFORML 不久後、觸手在%ANAME(対象)%的最深処射出了種子
+					PRINTFORML 當觸手拔出時、%PRONOUN(対象)%的腹部如同懷孕一般膨脹了起來……
+				ELSE
+					PRINTFORML %ANAME(対象)%被觸手挿入了雌穴
+					PRINTFORML 敏感的肉襞被不停摩擦、讓%ANAME(対象)%與意志無関感到了強烈快感
+					PRINTFORML 不久後、觸手在%ANAME(対象)%的最深処射出了種子
+					PRINTFORML 當觸手拔出時、%PRONOUN(対象)%的腹部如同懷孕一般膨脹了起來……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, Ｖ拡張, Ｖ, Ｖ, Ｖ性交", "膣内射精, 膣内射精, 処女喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 26
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%和%LOCALS:0%交合著
+					PRINTFORML 跨坐在他的身上扭動著腰、不停地榨取著白濁
+					PRINTFORML 由於%LOCALS:0%的肉体被触手強化過、所以像是無底洞般射出了大量的精子
+					PRINTFORML 行為終於結束的時候、%ANAME(対象)%的腹部已經膨脹地如同孕婦一般……
+				ELSE
+					PRINTFORML %ANAME(対象)%被%LOCALS:0%侵犯著
+					PRINTFORML 即使懇求道不要這樣、但是意識被觸手奪走的%LOCALS:0%完全充耳不聞
+					PRINTFORML 在激烈的抽插過程中、%ANAME(対象)%的身体漸漸地感到了快感
+					PRINTFORML 行為終於結束的時候、%ANAME(対象)%的腹部已經膨脹地如同孕婦一般……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, Ｖ, Ｍ, Ｃ, Ｂ, Ｖ性交", "膣内射精, 処女喪失, 接吻喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+			CASE 27
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%和%LOCALS:0%一邊接吻一邊交合著
+					PRINTFORML 互相從口中、秘部、交換著體內寄生的觸手
+					PRINTFORML 隨著交換的進行行為越発激烈起來、讓%ANAME(対象)%因快感而感到非常滿足
+					PRINTFORML 不久後在%LOCALS:0%授種的時候、已經披頭散髮的%ANAME(対象)%迎來了高潮了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被%LOCALS:0%強吻并侵犯著
+					PRINTFORML 從那口中、秘部、轉移著寄生在體內的觸手
+					PRINTFORML 隨著寄生的進行行為越発激烈起來、讓%ANAME(対象)%無法抗拒的感到了快感
+					PRINTFORML 不久後在%LOCALS:0%授種的時候、讓%ANAME(対象)%的身體違背了意志直接高潮了……
+				ENDIF
+				CALL FUCK_SP(対象, "触手, 欲望, 性交, 精愛, 奉仕, 性技, Ｖ, Ｍ, Ｃ, Ｂ, Ｖ性交", "膣内射精, 処女喪失, 接吻喪失", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "触手", "強姦")
+		ENDSELECT
+	;-------------------------ここから汎用---------------------------------
+	CASE 3
+ENDSELECT
+

@@ -1,0 +1,246 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@EVENT_DAILY_BANDIT_RELEASE_RATE()
+;対象キャラに依存するのでここでは絶対に通しておく
+RETURN 1000
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@EVENT_DAILY_BANDIT_RELEASE_DECISION()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+SIF 土匪 == -1
+	RETURN 0
+SIF CFLAG:MASTER:所属 == 土匪
+	RETURN 0
+RETURN 1
+
+;---------------------
+;特定の条件を満たすキャラをランダムに選択する場合に利用
+;他の関数は必須だが、これだけはなくてもよい　というかパフォーマンスへ影響するので不要なら作ってはならない
+;対象が存在せずデイリーを開始できない場合は0を返すことでデイリーの発生をキャンセルする
+;---------------------
+@EVENT_DAILY_BANDIT_RELEASE_SETTARGET()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+
+FOR LOCAL, 1, CHARANUM
+	IF CFLAG:LOCAL:所属 == CFLAG:MASTER:所属 && CFLAG:LOCAL:捕虜先 == 土匪 && IS_FEMALE(LOCAL) && SP_TRAIN_COUNT:LOCAL:特殊勢力_野盗 * 10 > RAND:100
+		DAILY_TARGET:DAILY_TARGET_NUM = LOCAL
+		DAILY_TARGET_NUM ++
+	ENDIF
+NEXT
+
+SIF DAILY_TARGET_NUM < 1
+	RETURN 0
+RETURN 1
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@EVENT_DAILY_BANDIT_RELEASE_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@EVENT_DAILY_BANDIT_RELEASE()
+#DIM 対象
+#DIM 土匪
+
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+
+
+対象 = DAILY_TARGET:(RAND:DAILY_TARGET_NUM)
+
+CALL BANDIT_RELEASE_MSG(対象)
+
+RETURN 1
+
+@BANDIT_RELEASE_MSG(対象)
+#DIM 対象
+PRINTFORML 被土匪捉住的%ANAME(対象)%好象被解放了！
+PRINTFORML 听到这个消息的%ANAME(MASTER)%慌忙地去迎接了……
+PRINTFORML ・
+PRINTFORML ・
+PRINTFORML ・
+
+SELECTCASE RAND:16
+	CASE 0
+		PRINTFORMW %ANAME(対象)%的生命才算平安，但看起来却很凄惨
+		PRINTFORMW 衣服被夺走不用说，身上带有項圈和手铐，脚枷
+		PRINTFORMW 可能是没有好好泡澡吧，全身散发着浓厚的精臭。
+		PRINTFORMW 不难想象受到了什么样的待遇
+		PRINTFORMW 对于应该怎么打招呼%ANAME(MASTER)%感到苦恼时，但是%ANAME(対象)%开始在他面前自慰
+		PRINTFORMW 一边说着淫秽的言词，一边要求%ANAME(MASTER)%的性行为
+		PRINTFORMW 好歹由于土匪们的调教，好象完全被色狂了……
+	CASE 1
+		PRINTFORMW 是被没有道德的人捉住的，相当遭受了残酷的遭遇吧
+		PRINTFORMW 是那样觉悟的%ANAME(MASTER)%,不过，在房间等候着的%ANAME(対象)%，意外地是普通的情况
+		PRINTFORMW %ANAME(MASTER)%一边放心一边说着打招呼的话，但是%ANAME(対象)%用空虚的眼睛看这边
+		PRINTFORMW 然后%ANAME(MASTER)%竟然露出自己的阴部，毫不犹豫地开始说话
+		PRINTFORMW 是发生什么之前打算组织的%ANAME(MASTER)%,不过，浮现出%ANAME(対象)%不能理解这样的脸
+		PRINTFORMW 我曾做过什么，很抱歉，%ANAME(対象)%对地道歉
+		PRINTFORMW 从那个异样的情况，%ANAME(MASTER)%推测她做了什么，无言以对……
+	CASE 2
+		PRINTFORMW 一打开房间的门，就闻到了浓烈性香味%ANAME(MASTER)%的鼻子
+		PRINTFORMW 看到、%ANAME(対象)%在和士兵们不是在SEX吗？
+		PRINTFORMW 不顾%ANAME(MASTER)%怀疑眼睛的事をよそに、%ANAME(対象)%的阴道内白浊被注入
+		PRINTFORMW %ANAME(対象)%她颤抖着身体，娇声尖叫着“受不了啦！”
+		PRINTFORMW 因为土匪们身心都被调教了的%ANAME(対象)%被解放还成为了寻求男人的淫乱的母狗……
+	CASE 3
+		PRINTFORMW 因为被土匪等捉住，说不定被做象承担深的心的伤一样的事
+		PRINTFORMW 是觉悟着的%ANAME(MASTER)%,不过，%ANAME(対象)%是意外普通的情况
+		PRINTFORMW ……但是，从那天开始，%ANAME(対象)%在夜晚的街上卖身这样的传言开始传播
+		PRINTFORMW 觉得可疑，便在夜晚的街道上巡回，没想到%ANAME(対象)%竟在娼馆里
+		PRINTFORMW 据说是在土匪那里作为妓女工作时的快感让人难以忘怀。
+		PRINTFORMW %ANAME(対象)%不买自己吗？甚至说出了这样的话
+		IF RAND:2
+			PRINTFORMW 虽然觉得不行，但%ANAME(対象)%的艳丽身姿，让人目不转睛
+			PRINTFORMW %ANAME(MASTER)%没有断绝诱惑，与%ANAME(対象)%一起度过了客人和妓女的夜晚……
+		ELSE
+			PRINTFORMW 虽然吞噬着那富有魅力的肢体，但%ANAME(MASTER)%总算断绝了诱惑
+			PRINTFORMW 离开娼馆的%ANAME(MASTER)%的背后，被投上了“甲斐性无”一词……
+		ENDIF
+	CASE 4
+		PRINTFORMW %ANAME(MASTER)%拜访她的房间，浓厚的性味扑鼻而来
+		PRINTFORMW 如果试着考虑发生了什么事，%ANAME(対象)%激烈地做着自慰
+		PRINTFORMW 秘所，吞下有小孩子的手臂那样大小的
+		PRINTFORMW %ANAME(対象)%非但不痛苦，反而散发出湿润而艳丽的声音
+		PRINTFORMW 不久%ANAME(対象)%迎来了顶峰，尽管如此激烈的自慰，却似乎完全无法满足
+		PRINTFORMW 然后又开始自慰的样子，%ANAME(MASTER)%发现她变了
+		PRINTFORMW 无法忘记土匪们带来的陵辱的快乐……
+	CASE 5
+		PRINTFORMW 回来的%ANAME(対象)%一看到%ANAME(MASTER)%就下跪了
+		PRINTFORMW 不顾对什么事感到困惑的%ANAME(MASTER)%说道
+		PRINTFORMW 我是期待被侵犯而弄湿胯股的淫乱的雌狗，请赐予主人恩惠吧……
+		PRINTFORMW 继续%ANAME(対象)%脱下衣服，变成一丝不挂的身姿
+		PRINTFORMW 当%ANAME(MASTER)%被其肢体的耀眼所吸引时，她向%ANAME(MASTER)%露出了阴部
+		PRINTFORMW 并且，以厉害地熟练的技术，开始进行口交……
+		PRINTFORMW 到那里去%ANAME(MASTER)%理解了，%ANAME(対象)%的精神，作为性奴隶被改造了……
+	CASE 6
+		PRINTFORMW 回来的%ANAME(対象)%明显不对劲
+		PRINTFORMW 嘿嘿地一边笑，瞳孔凝视着虚空
+		PRINTFORMW 全身沾满了白浊，散发着浓烈的味道
+		PRINTFORMW 尽管如此，她仍然坚持用自己的手指不断地搅拌着自己的双孔。
+		PRINTFORMW 直到%ANAME(MASTER)%察觉到土匪们使用了许多可疑的药，花了很长的时间……
+		CFLAG:対象:薬物依存 += 80
+	CASE 7
+		PRINTFORMW 回来的%ANAME(対象)%的身姿，是残酷的
+		PRINTFORMW 耳に鼻や両乳首、臍に陰部と、痛々しい穿孔道具が嵌められている
+		PRINTFORMW 的头部安装有家畜用的项圈，耳朵穿孔道具的标签上附有管理号码
+		PRINTFORMW %ANAME(対象)%是阴暗的表情，作为“家畜”被“饲养”的事实，陆陆续续开始讲述
+		PRINTFORMW 完全记住了他们凌辱的快乐，她的身体发情，让淫裂溢出汁液……
+	CASE 8
+		PRINTFORMW 据说土匪留下的她的身姿，是残酷的
+		PRINTFORMW 带着眼罩和口枷，穿的衣服全部露出秘部，惩戒她的绑缚
+		PRINTFORMW 在乳头和秘部穿孔道具被安上，两个孔被螺钉附着的极大振动棒震动
+		PRINTFORMW %ANAME(MASTER)%慌了，把眼罩和嘴套都拆下来
+		PRINTFORMW %ANAME(対象)%竟然开始要求用谄媚的声音来要求侵犯
+		PRINTFORMW %ANAME(MASTER)%得知，她受到的调教的惨烈性……
+	CASE 9
+		PRINTFORMW 那里没有她的身姿。取而代之的是，放着一个让人完全进入的大箱子。
+		PRINTFORMW %ANAME(MASTER)%一边感到讨厌的预感一边打开箱子。然后，怀疑自己的眼睛
+		PRINTFORMW 箱中放入%ANAME(対象)%
+		PRINTFORMW その%STR_BODY("身体：修飾", 対象)%肉体は縄によって戒められ、眼罩に口枷、手枷足枷、項圈、痛々しい穿孔道具、両穴には太い張型……
+		PRINTFORMW 全身被白色污染，两洞中混入了爱液和精液的东西纷纷洒落。
+		PRINTFORMW 对张型的刺激，%ANAME(対象)%发出着含蓄的艳丽的声音
+		PRINTFORMW 仔细一看，箱子里装着便条上面写着“变得无聊又厌倦了就还给你吧☆接下来就拜托了!”
+		PRINTFORMW 是打算作为礼物吗？%ANAME(対象)%的头上还装有丝带装束……
+		PRINTFORMW プレゼントのつもりなのか、%ANAME(対象)%の頭には、ラッピングリボンが取り付けられていた……
+	CASE 10
+		PRINTFORMW 去了%ANAME(対象)%在的地方的%ANAME(MASTER)%但是，没找到她的身姿
+		PRINTFORMW 作为代替男人们聚集在树的附近
+		PRINTFORMW 有种讨厌的预感，%ANAME(MASTER)%赶走他们，果然发现了%ANAME(対象)%
+		PRINTFORMW 被捆在树上的她被白浊和尿沾满，很过分的姿态
+		PRINTFORMW 对她厌烦了的土匪们，在这里把她作为便器设置了……
+		PRINTFORMW 从被散落性处理使用的%ANAME(対象)%的两个孔，白色的东西不停地溢出
+		PRINTFORMW 当%ANAME(MASTER)%接近时，%ANAME(対象)%开始说请使用这个马桶
+		PRINTFORMW 由于长期的调教，似乎完全觉醒了轮奸的快乐……
+	CASE 11
+		PRINTFORMW %ANAME(対象)%平安返回了。但是，她好像有什么不满的样子。
+		PRINTFORMW 一定是心里受伤了吧%ANAME(MASTER)%悄悄地想了,不过，某日她消失了身姿
+		PRINTFORMW 慌忙寻找的%ANAME(MASTER)%在她的房间里找到了笔记本
+		PRINTFORMW 我不会忘记被土匪们欺负。我再去他们那里。留下了那样的意思
+		PRINTFORMW %ANAME(MASTER)%终于注意到她的心还是被土匪一起囚禁着。但是已经晚了……
+		SETCOLOR カラー_注意
+		PRINTFORMW %ANAME(対象)%自己被土匪囚禁
+		RESETCOLOR
+		RETURN
+	CASE 12
+		PRINTFORMW 是被土匪捉住的，%ANAME(対象)%大概做了相当厉害的事
+		PRINTFORMW 觉悟着的%ANAME(MASTER)%,不过，%ANAME(対象)%意外普通
+		PRINTFORMW 在抚摸胸口安心的%ANAME(MASTER)%的面前，%ANAME(対象)%突然开始脱衣服
+		PRINTFORMW 穿上衣服，这样说的%ANAME(MASTER)%但是，%ANAME(対象)%不为所动
+		PRINTFORMW 「被那些人」做了的事不能忘记，身体疼痛不得已。%ANAME(MASTER)%的话可以让我平静下来
+		PRINTFORMW %ANAME(対象)%的下腹部烧毁了三字形的“性奴隶”，直截了当地表示她已经做过了……
+	CASE 13
+		PRINTFORMW 去了%ANAME(対象)%被解放了这样的地方的%ANAME(MASTER)%,不过，那里大量的土匪在！
+		PRINTFORMW % ANAME(MASTER )%抵抗了，不过毕竟寡不敌众，一转眼就被逮捕了
+		PRINTFORMW 在挣扎的%ANAME(MASTER)%的面前，他们开始侵犯带来的%ANAME(対象)%
+		IF RAND:2
+			PRINTFORMW 最初是讨厌的%ANAME(対象)%,不过，长的调教生活，确实改造着她的身体，心
+			PRINTFORMW 那个身体只是稍微被责弄整理准备，一转眼弄湿了胯股
+			PRINTFORMW 土匪将肉棒拧进那个湿透的秘穴后，%ANAME(対象)%一脸淫荡的脸，自己开始挥动腰部……
+			PRINTFORMW 陵辱剧在土匪们一阵种子给她之前，在%ANAME(MASTER)%的面前进行……
+		ELSE
+			PRINTFORMW 最初是讨厌的%ANAME(対象)%,不过，被低声私语要杀%ANAME(MASTER)%
+			PRINTFORMW 被迫以%ANAME(MASTER)%的生命为要挟，说些淫秽的话，使其自己挥动腰部为肉棒服务
+			PRINTFORMW 甚至被强迫索取阴道内射精，宣言成为他们的奴隶……
+			PRINTFORMW 直到男士们全体使用%ANAME(対象)%为止，%ANAME(MASTER)%都被看作是这样的……
+		ENDIF
+		PRINTFORMW 不久%ANAME(MASTER)%被解放，土匪们又把%ANAME(対象)%带走了……
+		SETCOLOR カラー_注意
+		PRINTFORMW %ANAME(対象)%再次被土匪囚禁
+		RESETCOLOR
+		RETURN
+	CASE 14
+		PRINTFORMW 返回了的%ANAME(対象)%，那个是悲惨的身姿
+		PRINTFORMW 全身被白色的物体弄脏，从所有的洞里滴落着种子
+		PRINTFORMW 更加那个身体的到处都是，「免费」啦「淫乱」啦♥记号啦，猥亵的涂鸦被写入
+		PRINTFORMW 绝句的%ANAME(MASTER)%,不过，更加听象怀疑耳朵一样的言词
+		PRINTFORMW %ANAME(対象)%是自己扭腰，用手指打开阴部，排列着嫉妒男人根的言词……
+		PRINTFORMW 从这句话中了解到%ANAME(MASTER)%是因为她受到了惨烈的凌辱，心灵和身体都被改造了……
+	CASE 15
+		PRINTFORMW 前往现场的%ANAME(MASTER)%，在那里看到了难以置信的东西
+		PRINTFORMW 竟然是%ANAME(対象)%一边和野狗交尾一边摇着腰
+		PRINTFORMW 土匪们，一边愤怒如何卑劣的仿效一边%ANAME(MASTER)%赶走野狗的话，%ANAME(対象)%发出了不满的声音
+		PRINTFORMW 据说是她自己希望与狗交
+		PRINTFORMW 开始说他是很重要的“老爷”，另外还让猪和牛嫁给他……
+		PRINTFORMW 土匪们已经把她的人格破坏到无法修复的地步……
+		EXP:対象:獣姦経験 += 10
+ENDSELECT
+SETCOLOR カラー_警告
+IF !GETBIT(TALENT:対象:淫乱系, 素質_淫乱_淫乱)
+	PRINTFORML %ANAME(対象)%は＜淫乱＞を得た
+ENDIF
+CALL TALENT_LOSE_PRIDE(対象, 1)
+CALL TALENT_LOSE_TEISOU(対象, 1)
+IF !TALENT:対象:合意
+	PRINTFORML %ANAME(対象)%の＜合意＞を得た
+ENDIF
+RESETCOLOR
+CALL CAPTURE(対象, 0)
+CFLAG:対象:従属度 = MAX(CFLAG:対象:従属度, 700)
+CFLAG:対象:依存度 = MAX(CFLAG:対象:依存度, 50)
+SETBIT TALENT:対象:淫乱系, 素質_淫乱_淫乱
+TALENT:対象:合意 = 1
+TALENT:対象:チョロイン = 1
+PRINTFORML 長い調教生活が、%ANAME(対象)%の実力を鈍らせてしまったようだ……
+SETCOLOR カラー_注意
+PRINTFORM %ANAME(対象)%の武闘と知略と政治が、それぞれ5ずつ下がった
+RESETCOLOR
+ABL:対象:武闘 = MAX(ABL:対象:武闘 - 5, 1)
+ABL:対象:知略 = MAX(ABL:対象:知略 - 5, 1)
+ABL:対象:政治 = MAX(ABL:対象:政治 - 5, 1)
+RESETCOLOR
+PRINTW

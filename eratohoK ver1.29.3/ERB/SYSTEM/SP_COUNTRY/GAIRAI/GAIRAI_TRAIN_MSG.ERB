@@ -1,0 +1,407 @@
+﻿@GAIRAI_TRAIN_MSG(対象, 士官フラグ)
+#DIM 対象
+#DIM プレイ番号
+#DIM 勢力番号
+#DIM 士官フラグ
+
+勢力番号 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_外来人)
+
+IF HAS_VAGINA(対象) && HAS_PENIS(対象)
+	SELECTCASE RAND:100
+		CASE IS < 10
+			プレイ番号 = 0
+		CASE IS < 20
+			プレイ番号 = 1
+		CASEELSE
+			プレイ番号 = 2
+	ENDSELECT
+ELSEIF HAS_VAGINA(対象)
+	SELECTCASE RAND:100
+		CASE IS < 10
+			プレイ番号 = 3
+		CASEELSE
+			プレイ番号 = 2
+	ENDSELECT
+ELSEIF HAS_PENIS(対象)
+	プレイ番号 = RAND_POCKET(4, 0, 2)
+ELSE
+	プレイ番号 = 3
+ENDIF
+
+SELECTCASE プレイ番号
+	;-------------------------ここからふたなり専用-------------------------
+	CASE 0
+		SELECTCASE RAND:4
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在亲身协助着进行中的生殖实验
+					PRINTFORML %ANAME(対象)%的肉棒被安装了一个飞机杯、正在毫不留情地榨取着精液
+					PRINTFORML 肉棒吐出的白浊液流经一条细细的管道、往%ANAME(対象)%自己的%STR_BODY("膣：感度", 対象)%倾倒着
+					PRINTFORML 因为白浊而膨胀的小腹、如同怀孕的快感让%ANAME(対象)%的身体因痛苦而扭动着……
+				ELSE
+					PRINTFORML %ANAME(対象)%被要求躺在生殖用的实验台上
+					PRINTFORML %ANAME(対象)%的肉棒被安装了一个飞机杯、正在毫不留情地榨取着精液
+					PRINTFORML 肉棒吐出的白浊液流经一条细细的管道、往%ANAME(対象)%自己的%STR_BODY("膣：感度", 対象)%倾倒着
+					PRINTFORML 因为白浊而膨胀的小腹、如同怀孕的快感让%ANAME(対象)%的身体因痛苦而扭动着……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 射精, Ｃ, Ｖ, Ｖ性交", "膣内射精, 処女喪失", 勢力番号, GET_ID(対象), "", "実験器具", "", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在协助进行身体敏感程度的测试
+					PRINTFORML %STR_BODY("乳首：欲情", 対象)%的乳头上有乳头夹、双穴都被振动棒塞满了、肉棒上还安装了飞机杯、以这样一种状态被拘束着
+					PRINTFORML 以最高强度运作着的各种器具、毫不留情的责弄着%ANAME(対象)%的身体、%PRONOUN(対象)%被激烈运作的器具引导到绝顶了……
+					PRINTFORML 等到终于被解放下来时、%ANAME(対象)%已经在绝顶中晕了过去
+				ELSE
+					PRINTFORML %ANAME(対象)%被要求进行了身体敏感程度的测试
+					PRINTFORML %STR_BODY("乳首：欲情", 対象)%的乳头上有乳头夹、双穴都被振动棒塞满了、肉棒上还安装了飞机杯、以这样一种状态被拘束着
+					PRINTFORML 以最高强度运作着的各种器具、毫不留情的责弄着%ANAME(対象)%的身体、%PRONOUN(対象)%被激烈运作的器具引导到绝顶了……
+					PRINTFORML 等到终于被解放下来时、%ANAME(対象)%已经在绝顶中晕了过去
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 欲望, 射精, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, 緊縛, 被虐", "処女喪失, Ａ処女喪失", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "振動棒", "", "強姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在亲自测试着新型的头部装置
+					PRINTFORML 从头部装置中流出的电流正操纵着%ANAME(対象)%的肉体、毫不留情地责弄着秘部和肉棒
+					PRINTFORML 虽然是算自慰但被肉体强迫着进行自慰的全新感觉、让%ANAME(対象)%反复地绝顶射精了
+				ELSE
+					PRINTFORML %ANAME(対象)%被当作新型头部装置的试验台进行了使用测试
+					PRINTFORML 从头部装置中流出的电流正操纵着%ANAME(対象)%的肉体、毫不留情地责弄着秘部和肉棒
+					PRINTFORML 虽然是算自慰但被肉体强迫着进行自慰的全新感觉、让%ANAME(対象)%反复地绝顶射精了
+				ENDIF
+				PRINTFORML 不久之后、%ANAME(対象)%虽然被解放了、但还是留下了后遗症、手指还在不停地责弄着自己的身体……
+				CALL FUCK_SP(対象, "欲望, 自慰, 自慰, 射精, Ｃ, Ｖ, Ｂ", "", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉配合着进行对新型生物的试验
+					PRINTFORML 在触手生物吐出的黏液中、体内也被污染、%ANAME(対象)%的眼睛变成心❤形、啜吸着
+					PRINTFORML 当文胸状的触手开始捋动肉棒时、%ANAME(対象)%被摆弄的乱七八糟的射精了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被作为了新型生物的试验台
+					PRINTFORML 触手生物吐出的粘液中沾染在肌肤上、连体内都被污染了、厌恶中的%ANAME(対象)%身体颤抖着
+					PRINTFORML 尽管如此、当文胸状的触手开始捋动肉棒时、%ANAME(対象)%还是乱七八糟地射精了
+				ENDIF
+				PRINTFORML 被解放的时候、%ANAME(対象)%从脚尖到头顶都被粘稠覆盖了
+				CALL FUCK_SP(対象, "欲望, 精愛, 奉仕, 性技, 性交, 射精, Ｖ, Ａ, Ｂ, Ｃ, Ｍ, 触手, 口淫, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), "触手", "触手", "", "強姦")
+
+		ENDSELECT
+	;-------------------------ここから要ペニス-------------------------
+	CASE 1
+		SELECTCASE RAND:2
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲自配合着进行生殖功能的测试
+					PRINTFORML 被安装了飞机杯、%ANAME(対象)%正被毫不留情地榨取着精液
+					PRINTFORML 吐出的白浊液经过一条细细的管子、流向一瓶写着「实验动物」的瓶子里储存起来
+					PRINTFORML 超越界限的射精、让%ANAME(対象)%的身体在痛苦中扭动起来……
+				ELSE
+					PRINTFORML %ANAME(対象)%正在接受生殖功能测试
+					PRINTFORML 被安装了飞机杯、%ANAME(対象)%正被毫不留情地榨取着精液
+					PRINTFORML 吐出的白浊液经过一条细细的管子、流向一瓶写着「实验动物」的瓶子里储存起来
+					PRINTFORML 超越界限的射精、让%ANAME(対象)%的身体在痛苦中扭动起来……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 射精, Ｃ", "", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲自协助进行了生殖实验
+					PRINTFORML 被烙下「实验动物」印记的的少女被束缚着、%ANAME(対象)%正在从体内击打着她的腰腹
+					PRINTFORML 少女的膣道紧紧地收缩着、%ANAME(対象)%挥动着腰身、数次对少女进行了播种
+					PRINTFORML 变成了优秀「实验动物」的%ANAME(対象)%哪怕超过了极限也依然在继续射精……
+				ELSE
+					PRINTFORML %ANAME(対象)%正在进行生殖功能的测试
+					PRINTFORML 被打上了「实验动物」烙印的少女、与%ANAME(対象)%交缠在一起
+					PRINTFORML 虽然试图抵抗、但最终还是因为少女的妙曼的腰肢而数次射精
+					PRINTFORML 在作为优秀的「实验动物」的少女体内、%ANAME(対象)%被重复地榨取着……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 射精, Ｃ, 性交, Ｖ挿入, Ａ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "少女", "強姦")
+
+		ENDSELECT
+	;-------------------------ここから要Ｖ-------------------------
+	CASE 2
+		SELECTCASE RAND:19
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉协助了这次生殖功能的测试
+					PRINTFORML %STR_BODY("膣", 対象)%从被插入的管子中、将不知道谁的精液直接注入了子宫
+					PRINTFORML 这是异常的无性交的强迫怀孕经历、%ANAME(対象)%的兴奋无法掩饰
+					PRINTFORML 注入结束了之后、%ANAME(対象)%的子宫被精液撑得如同孕妇一样膨胀了起来……
+				ELSE
+					PRINTFORML %ANAME(対象)%正在进行生殖功能的测试
+					PRINTFORML %STR_BODY("膣", 対象)%从被插入的管子中流淌着、不知道谁的精液直接注入了子宫
+					PRINTFORML 在连性交这种行为都没有的恐惧中、%ANAME(対象)%脸色苍白
+					PRINTFORML 直到精液注入结束、%ANAME(対象)%的子宫被精液撑起、小腹如同孕妇一样膨胀了起来……	
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, Ｖ", "膣内射精, 処女喪失", 勢力番号, GET_SPERM_ID("不明"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲自协助了这次生殖实验
+					PRINTFORML 被打上「实验动物」的烙印、在被束缚着的男人身上、%ANAME(対象)%正在摇晃着腰肢
+					PRINTFORML 坐在男人的东西上%ANAME(対象)%的腰如同波浪一样扭动着、一次又一次地榨取着精液
+					PRINTFORML 成为了优秀「实验动物」的%ANAME(対象)%继续着超越界限的性交……
+				ELSE
+					PRINTFORML %ANAME(対象)%正在进行生殖功能的测试
+					PRINTFORML 打上「实验动物」烙印的男人压在她身上、%STR_BODY("膣", 対象)%正被侵犯着
+					PRINTFORML 虽然想要去抵抗、但毕竟是男人的肉棒、最后只能一次又一次地被撞击到绝顶
+					PRINTFORML 被优秀的「实验动物」的男人播种着、%ANAME(対象)%一次又一次地被注入了精液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ｖ, Ｖ性交", "膣内射精, 処女喪失", 勢力番号, GET_SPERM_ID("「実験動物」"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "「実験動物」", "", "強姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲自协助了这次生殖实验
+					PRINTFORML 被狠狠地侵犯过后%ANAME(対象)%被装上了带有阳具的贞操带
+					PRINTFORML 往子宫里固定精液、是否能提高受精概率呢、正在继续着这样的调查
+					PRINTFORML 意识到无处可逃、只能老老实实地怀孕后%ANAME(対象)%欣喜若狂地颤抖着……
+				ELSE
+					PRINTFORML %ANAME(対象)%正在进行生殖的实验
+					PRINTFORML 被狠狠地侵犯之后%ANAME(対象)%被装上了带有阳具的贞操带
+					PRINTFORML 往子宫里固定精液、是否能提高受精概率呢、正在继续着这样的调查
+					PRINTFORML 意识到无处可逃、只能老老实实地怀孕后%ANAME(対象)%在恐惧之中颤抖着……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ｖ, 輪姦, Ｖ性交", "膣内射精, 処女喪失", 勢力番号, GET_SPERM_ID("「実験動物」"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "「実験動物」", "", "強姦")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在配合着进行身体敏感程度的测试
+					PRINTFORML %STR_BODY("乳首：欲情", 対象)%和%STR_BODY("クリ：感度", 対象)%的外面被装上瓶盖一样的机械、两穴之中都被固定了振动棒、在这种姿态下被拘束着
+					PRINTFORML 以最强强度运作着的器具、毫不留情地责弄着%ANAME(対象)%的身体、%PRONOUN(対象)%在高速运作的机械引导下、逐渐绝顶……
+					PRINTFORML 被解放出来的时候、%ANAME(対象)%已经在绝顶的冲击下晕倒了
+				ELSE
+					PRINTFORML %ANAME(対象)%正在进行身体敏感度的测试
+					PRINTFORML %STR_BODY("乳首：欲情", 対象)%和%STR_BODY("クリ：感度", 対象)%的外面被装上瓶盖一样的机械、两穴之中都被固定了振动棒、在这种姿态下被拘束着
+					PRINTFORML 用最高强度运作着的器具、毫不留情地责弄着%ANAME(対象)%的身体、%PRONOUN(対象)%被疯狂运作的机械引导着逐渐绝顶……
+					PRINTFORML 被解放出来的时候、%ANAME(対象)%已经被责弄到昏倒了
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 欲望, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, 緊縛, 被虐", "処女喪失, Ａ処女喪失", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "振動棒", "", "強姦")
+			CASE 4
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲自参与了这次体能测试
+					PRINTFORML 被打上「实验动物」烙印的一大群男人们、一个接替着一个地、无法休息地被他们侵犯着
+					PRINTFORML 最开始还能发出喜悦的娇声、但%ANAME(対象)%在经历了连续三日三夜未曾停歇的侵犯后、也已经没有什么叫喊的精力了
+					PRINTFORML 可即使是这样、实验却依然在继续、直到一周之后才终于结束了……
+				ELSE
+					PRINTFORML %ANAME(対象)%正在进行体能测试
+					PRINTFORML 被打上「实验动物」烙印的一大群男人们、一个接替着一个地、无法休息地被他们侵犯着
+					PRINTFORML 最开始还在抵抗着、但%ANAME(対象)%在经历了连续三日三夜未曾停歇的侵犯后、已经变成一个任人责弄的麻木人偶了
+					PRINTFORML 可即使是这样、实验却依然在继续、直到一周之后才终于结束了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｃ, Ｖ, Ｂ, Ａ, Ｍ, 輪姦, 輪姦, Ｖ性交, Ａ性交", "膣内射精, 膣内射精, 膣内射精, 接吻喪失, 処女喪失, Ａ処女喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("「実験動物」"), @"「実験動物」の\@ RAND:2 ? 唇 # 肉棒 \@", "「実験動物」", "", "輪姦")
+			CASE 5
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉配合了这次对痛苦耐性的测试
+					PRINTFORML 像成年人手臂一样粗大的假阳具、往%ANAME(対象)%的双穴中塞了进去
+					PRINTFORML 它给予的过量压力与痛楚、让%ANAME(対象)%弯着腰记住了这种快乐
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的身体已经在测试中迎来了体能的极限
+				ELSE
+					PRINTFORML %ANAME(対象)%正在被进行对痛苦耐性的测试实验
+					PRINTFORML 像成年人手臂一样粗大的假阳具、往%ANAME(対象)%的双穴中塞了进去
+					PRINTFORML 它给予的过量压力与痛楚、让%ANAME(対象)%哭着发出了可怜的悲鸣……
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的娇躯被折磨到了体能的极限
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, Ｖ, Ａ, Ｖ拡張, Ａ拡張, 緊縛, 苦痛快楽, 被虐", "処女喪失, Ａ処女喪失", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "振動棒", "", "強姦")
+			CASE 6
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲身配合着这次测试生殖功能
+					PRINTFORML 被固定在分娩台上的%PRONOUN(対象)%那裸露着被剥开的%STR_BODY("陰唇", 対象)%上、伫立着一个巨大的注射器
+					PRINTFORML 在注射器里面、是将各种不同生物的精液混合而成的、可怕的白色浑浊液体……
+					PRINTFORML 因为被迫怀上了未知生物而心醉神迷、%ANAME(対象)%不断发出高昂的娇声
+				ELSE
+					PRINTFORML %ANAME(対象)%正在被要求配合进行这次生殖能力测试
+					PRINTFORML 被固定在分娩台上的%PRONOUN(対象)%那裸露着被剥开的%STR_BODY("陰唇", 対象)%上、伫立着一个巨大的注射器
+					PRINTFORML 在注射器里面、是将各种不同生物的精液混合而成的、可怕的白色浑浊液体……
+					PRINTFORML 得知自己将要怀上完全未知的生物后、%ANAME(対象)%发出了可怜的悲鸣……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, Ｖ, 緊縛, 被虐", "処女喪失, 膣内射精, 膣内射精, 膣内射精", 勢力番号, GET_SPERM_ID("不明"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "実験器具", "", "強姦")
+			CASE 7
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在亲自参与着一次对药物抗性的测试
+					PRINTFORML 被注射了可疑药物后%ANAME(対象)%的身体突然发情了、她的%STR_BODY("膣：処女確認", 対象)%逐渐快速湿润起来
+					PRINTFORML 虽然一直在哀求研究人员侵犯自己、但%ANAME(対象)%被拒绝了、因为这次测试与生殖功能无关
+					PRINTFORML %ANAME(対象)%只能独自一人凄惨地继续自慰……
+				ELSE
+					PRINTFORML %ANAME(対象)%正在被进行对药物抗性的测试
+					PRINTFORML 被注射了可疑药物后%ANAME(対象)%的身体突然发情了、她的%STR_BODY("膣：処女確認", 対象)%逐渐快速湿润起来
+					PRINTFORML  在藥物的作用下、終於向研究員提出了想被侵犯的意願、但最終%ANAME(対象)%被拒絕了、因為這次測試與生殖功能無關
+					PRINTFORML %ANAME(対象)%只能独自一人凄惨地继续自慰……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 自慰, 自慰, Ｃ, Ｖ, Ａ, Ｂ, 薬物依存", "", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+			CASE 8
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲身参与了与犬类的异种交配实验
+					PRINTFORML 往雌穴上涂满了费洛蒙的%ANAME(対象)%对狗来说充满了吸引力、狗的眼中只剩下这只看起来像是发情的雌性了……
+					PRINTFORML 为招待畜生而准备的、作为方便好用的雌性处理器、%ANAME(対象)%为作为母狗而感到喜悦……
+					PRINTFORML 直到被解放出来、%ANAME(対象)%的腹中已经填满了这只野兽的子種
+				ELSE
+					PRINTFORML %ANAME(対象)%进行了和犬类的异种交配实验
+					PRINTFORML 雌穴上被涂满了费洛蒙的%ANAME(対象)%对狗来说充满了吸引力、狗的眼中只剩下这只看起来像是发情的雌性了……
+					PRINTFORML 为招待畜生而准备的、作为方便好用的雌性处理器、%ANAME(対象)%为作为母狗而感到悲苦……
+					PRINTFORML 直到被解放出来、%ANAME(対象)%的腹中已经填满了这只野兽的子種
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, Ｖ, Ａ, Ｍ, 輪姦, 獣姦, Ｖ性交, Ａ性交", "処女喪失, 膣内射精, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("犬"), "犬のペニス", "犬", "", "強姦")
+			CASE 9
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%亲身参与了与猪的异种交配实验
+					PRINTFORML 往雌穴上涂满了费洛蒙的%ANAME(対象)%对猪来说充满了吸引力、猪的眼中只剩下这只看起来像是发情的雌性了……
+					PRINTFORML 为招待畜生而准备的、作为方便好用的雌性处理器、%ANAME(対象)%为作为母猪而感到喜悦……
+					PRINTFORML 直到被解放出来、%ANAME(対象)%的腹中已经填满了这只野兽的子種
+				ELSE
+					PRINTFORML %ANAME(対象)%进行了和猪的异种交配实验
+					PRINTFORML 往雌穴上涂满了费洛蒙的%ANAME(対象)%对猪来说充满了吸引力、猪的眼中只剩下这只看起来像是发情的雌性了……
+					PRINTFORML 为招待畜生而准备的、作为方便好用的雌性处理器、%ANAME(対象)%为作为母猪而感到悲苦……
+					PRINTFORML 直到被解放出来、%ANAME(対象)%的腹中已经填满了这只野兽的子種
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, Ｖ, Ａ, Ｍ, 輪姦, 獣姦, Ｖ性交, Ａ性交", "処女喪失, 膣内射精, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("豚"), "豚のペニス", "豚", "", "強姦")
+			CASE 10
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在亲身配合新型设备的使用测试
+					PRINTFORML 被机械装置盖住了头部的%ANAME(対象)%、她的身体正在被男性「实验动物」激烈地侵犯着
+					PRINTFORML 但是%ANAME(対象)%完全不知道外界发生的一切。她的精神沉浸在头部装置带来的快乐幻觉之中……
+					PRINTFORML 被解放下来时、%ANAME(対象)%的身体已经沾满了白浊液
+				ELSE
+					PRINTFORML %ANAME(対象)%正在被要求协助新型设备的使用测试
+					PRINTFORML 被机械装置盖住了头部的%ANAME(対象)%、其娇躯正在被男性「实验动物」激烈地侵犯着
+					PRINTFORML 但是%ANAME(対象)%并没注意到身体的异样。因为她已经沉浸在头部装置带来的幸福幻觉之中……
+					PRINTFORML 被解放下来时、%ANAME(対象)%的身体已经被白浊液覆盖了
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ, Ａ, Ｍ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("「実験動物」"), @"「実験動物」の\@ RAND:2 ? 唇 # 肉棒 \@", "「実験動物」", "", "強姦")
+			CASE 11
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在亲自协助新型头部装置的使用测试
+					PRINTFORML 从头部装置流出的电流将%ANAME(対象)%的身体支配了、手指毫不留情地责弄着秘所和胸部
+					PRINTFORML 虽然在自慰但被肉体强迫着进行自慰的全新感觉%ANAME(対象)%被自己责弄到一次又一次地绝顶了
+				ELSE
+					PRINTFORML %ANAME(対象)%被作为新型头部装置的试验台进行了使用测试
+					PRINTFORML 从头部装置流出的电流操纵了%ANAME(対象)%的身体、手指开始毫不留情地责弄着秘所和胸部
+					PRINTFORML 虽然不想自慰但被肉体强迫着进行自慰的全新感觉、%ANAME(対象)%被自己责弄到一次又一次地绝顶了
+				ENDIF
+				PRINTFORML 不久之后、%ANAME(対象)%虽然被解放了、但还是留下了后遗症、手指一直在不停地责弄着自己的身体……
+				CALL FUCK_SP(対象, "欲望, 自慰, 自慰, Ｃ, Ｖ, Ｂ", "", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+			CASE 12
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉配合着进行对新型生物的试验
+					PRINTFORML 在触手生物吐出的黏液中、体内也被污染了、%ANAME(対象)%的眼睛变成心❤形、啜吸着
+					PRINTFORML 在子宫内被注入了粘液的感觉、让%ANAME(対象)%激烈地绝顶了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被作为新型生物的试验台
+					PRINTFORML 触手生物吐出的粘液中沾染在肌肤上、连体内都被污染了、在厌恶中%ANAME(対象)%身躯颤抖着
+					PRINTFORML 可是、在子宫内被注入了粘液的感觉、让%ANAME(対象)%相当激烈地绝顶了……
+				ENDIF
+				PRINTFORML 解放されるころには、%ANAME(対象)%は爪先から頭頂までどろどろになっていた
+				CALL FUCK_SP(対象, "欲望, 精愛, 奉仕, 性技, 性交, Ｖ, Ａ, Ｂ, Ｃ, Ｍ, 触手, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("触手"), @"触手の\@ RAND:2 ? 唇 # 肉棒 \@", "触手", "", "強姦")
+			CASE 13
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉地作为新型头部装置的试验台
+					PRINTFORML 从装置内流动播放的、是几天前自己接受「测试」的影像
+					PRINTFORML 看着自己被侵犯的影像、%ANAME(対象)%的身体也正在被研究者侵犯着
+					PRINTFORML 很快%ANAME(対象)%和影像中放映着的自己一起绝顶了、身体还被注入了白浊液……
+				ELSE
+					PRINTFORML %ANAME(対象)%被作为新型头部装置的试验台
+					PRINTFORML 从装置内流动播放的、是几天前自己被要求参与的「测试」的影像
+					PRINTFORML 看着自己被侵犯的影像、%ANAME(対象)%的身体也正在被研究者侵犯着
+					PRINTFORML 很快%ANAME(対象)%和影像中放映着的自己一起绝顶了、身体还被注入了白浊液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, Ｖ, Ｖ性交", "処女喪失, 膣内射精", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "", "強姦")
+			CASE 14
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在受到催眠之后、开始认为自己是一条母狗
+					PRINTFORML 露出了%STR_BODY("膣：欲情", 対象)%并扭动着腰的%ANAME(対象)%作为母狗显得十分兴奋
+					PRINTFORML 若是能得到「主人」的「爱」、对于%ANAME(対象)%来说无疑是最开心的事情了……
+					PRINTFORML 就算催眠已经被解开了、但%PRONOUN(対象)%依然在作为母狗持续着性交
+				ELSE
+					PRINTFORML %ANAME(対象)%在受到催眠之后、开始认为自己是一条母狗
+					PRINTFORML 露出了%STR_BODY("膣：欲情", 対象)%并扭动着腰的%ANAME(対象)%作为母狗显得十分兴奋
+					PRINTFORML 若是能得到「主人」的「爱」、对于%ANAME(対象)%来说无疑是最开心的事情了……
+					PRINTFORML 等到解除了催眠之后、%ANAME(対象)%因为对自己所做的事情感到难以置信而陷入了即将发狂的状态……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, Ｖ, Ａ, Ｍ, 獣姦, Ｖ性交, Ａ性交", "処女喪失, 膣内射精, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("犬"), "犬のペニス", "犬", "", "強姦")
+			CASE 15
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%在接受了催眠之后、开始认为自己是一只母猪
+					PRINTFORML 露出了%STR_BODY("膣：欲情", 対象)%并扭动着腰的%ANAME(対象)%作为母猪显得十分兴奋
+					PRINTFORML 若是能得到「主人」的「爱」、对于%ANAME(対象)%来说无疑是最开心的事情了……
+					PRINTFORML 就算催眠已经被解开了、但%PRONOUN(対象)%依然在作为母猪持续着性交
+				ELSE
+					PRINTFORML %ANAME(対象)%在接受了催眠之后、再次确认了自己只不过是一只母猪
+					PRINTFORML 露出了%STR_BODY("膣：欲情", 対象)%并扭动着腰的%ANAME(対象)%作为母猪显得十分兴奋
+					PRINTFORML 若是能得到「主人」的「爱」、对于%ANAME(対象)%来说无疑是最开心的事情了……
+					PRINTFORML 等到解除了催眠之后、%ANAME(対象)%因为对自己所做的事情感到难以置信而陷入了即将发狂的状态……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 奉仕, 精愛, Ｖ, Ａ, Ｍ, 獣姦, Ｖ性交, Ａ性交", "処女喪失, 膣内射精, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("豚"), "豚のペニス", "豚", "", "強姦")
+			CASE 16
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%接受了催眠之后、再次确认了自己只不过是「实验动物」的事实
+					PRINTFORML 露出了%STR_BODY("膣：欲情", 対象)%并扭动着腰的%ANAME(対象)%将身体坐在了同样作为实验动物的男人身上
+					PRINTFORML 能为科学的发展做出贡献、对%ANAME(対象)%来说无疑是最开心的事情了……
+					PRINTFORML 就算催眠已经被解开了、但%PRONOUN(対象)%依然在持续与他们交合着
+				ELSE
+					PRINTFORML %ANAME(対象)%受到了催眠之后、开始认为自己只不过是「实验动物」而已
+					PRINTFORML 露出了%STR_BODY("膣：欲情", 対象)%并扭动着腰的%ANAME(対象)%将身体坐在了同样作为实验动物的男人身上
+					PRINTFORML 能为科学的发展做出贡献、对%ANAME(対象)%来说无疑是最开心的事情了……
+					PRINTFORML 就算催眠已经被解开了、但%PRONOUN(対象)%还在与他们进行着交合
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, 奉仕, 性技, Ｖ, Ａ, Ｃ, Ｂ, Ｍ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 輪姦, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("「実験動物」"), @"「実験動物」の\@ RAND:2 ? 唇 # 肉棒 \@", "「実験動物」", "", "輪姦")
+			CASE 17
+				PRINTFORML %ANAME(対象)%与外来人没有任何关系、今天也和往常一样的%PRONOUN(対象)%正在过着自己以往的平静生活……
+				PRINTFORML ……然而这是外来人特制的设备所映射的幻觉
+				PRINTFORML 实际上、%PRONOUN(対象)%的身体正在承受男性「实验动物」们惨不忍睹的轮奸……
+				PRINTFORML 通过人体改造而变得异常浓厚的子種一发又一发地注入着、即使如此%ANAME(対象)%也只是沉醉在虚幻的安宁幻境中、不会醒来……
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, 奉仕, 性技, Ｖ, Ａ, Ｃ, Ｂ, Ｍ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 輪姦, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("「実験動物」"), @"「実験動物」の\@ RAND:2 ? 唇 # 肉棒 \@", "「実験動物」", "", "喪失_輪姦")
+			CASE 18
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%将自己作为实验材料提供给了科学家
+					PRINTFORML 喝下沉睡药后快速入睡、%ANAME(対象)%的肉体被科学家们进行着淫乱的改造……
+					PRINTFORML 在改造途中入睡的%ANAME(対象)%充分地享受着这个过程……
+					PRINTFORML 醒来后、作为改造的「致谢」、%ANAME(対象)%为他们全身心地进行了奉仕
+				ELSE
+					PRINTFORML %ANAME(対象)%被作为实验材料提供给了科学家
+					PRINTFORML 被喂下沉睡药后快速入睡、%ANAME(対象)%的肉体却被科学家们进行着淫乱的改造……
+					PRINTFORML 在改造途中入睡的%ANAME(対象)%充分地享受着这个过程……
+					PRINTFORML 醒来后的%ANAME(対象)%由于完全无法忍耐已经变得淫荡的肉体所传来的淫痛、为他们进行了奉仕
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 精愛, 奉仕, 性技, Ｖ, Ａ, Ｃ, Ｂ, Ｍ, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("「実験動物」"), @"「実験動物」の\@ RAND:2 ? 唇 # 肉棒 \@", "「実験動物」", "", "強姦")
+		ENDSELECT
+	;-------------------------ここから汎用-------------------------
+	CASE 3
+		SELECTCASE RAND:4
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉协助了对痛觉耐性的测试
+					PRINTFORML %ANAME(対象)%从被安装了的机械装置中，突然感受到了装置发出的猛烈电击
+					PRINTFORML 电击实在是太痛了、%ANAME(対象)%忍不住发出了悲鸣和娇声……
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的身体在测试中迎来了体能的极限
+				ELSE
+					PRINTFORML %ANAME(対象)%被要求配合对痛觉耐性的测试
+					PRINTFORML %ANAME(対象)%从被安装了的机械装置中，突然感受到了装置发出的猛烈电击
+					PRINTFORML 电击实在是太痛了、%ANAME(対象)%忍不住发出了痛苦的悲鸣……
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的娇躯被折磨到了体能的极限
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 緊縛, 苦痛快楽, 被虐", "", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉协助了对痛觉耐性的测试
+					PRINTFORML %ANAME(対象)%的关节被安装在四肢上的机械装置扭曲到不可能的方向上
+					PRINTFORML 因为太痛了、%ANAME(対象)%忍不住发出了悲鸣和娇声……
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的身体在测试中迎来了体能的极限
+				ELSE
+					PRINTFORML %ANAME(対象)%被要求配合对痛觉耐性的测试
+					PRINTFORML %ANAME(対象)%的关节被安装在四肢上的机械装置扭曲到不可能的方向上
+					PRINTFORML 因为太痛了、%ANAME(対象)%忍不住发出了痛苦的悲鸣……
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的娇躯被折磨到了体能的极限
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 緊縛, 苦痛快楽, 被虐", "", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%自觉协助了对痛觉耐性的测试
+					PRINTFORML 被束缚的%ANAME(対象)%被关在了一个正在注水的小房间中、%PRONOUN(対象)%溺水了
+					PRINTFORML 由于即将溺水死亡的痛苦、%ANAME(対象)%感觉变得神志不清了……
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的身体在测试中迎来了体能的极限
+				ELSE
+					PRINTFORML %ANAME(対象)%被要求配合对痛觉耐性的测试
+					PRINTFORML 被束缚的%ANAME(対象)%被关在了一个正在注水的小房间中、%PRONOUN(対象)%溺水了
+					PRINTFORML 由于即将溺水死亡的痛苦、%ANAME(対象)%拼命挣扎着……
+					PRINTFORML 一直到测试结束、%ANAME(対象)%的娇躯被折磨到了体能的极限
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 緊縛, 苦痛快楽, 被虐", "", 勢力番号, GET_SPERM_ID("外来人"), @"外来人的\@ RAND:2 ? 唇 # 肉棒 \@", "外来人", "")
+			CASE 3
+				PRINTFORML %ANAME(対象)%被戴上了耳机
+				PRINTFORML 从耳机里传出的声波、将自己只是一只「实验动物」的信息印刻在%ANAME(対象)%的意识当中……
+				SP_TRAIN_COUNT:対象:特殊勢力_外来人 ++
+		ENDSELECT
+ENDSELECT

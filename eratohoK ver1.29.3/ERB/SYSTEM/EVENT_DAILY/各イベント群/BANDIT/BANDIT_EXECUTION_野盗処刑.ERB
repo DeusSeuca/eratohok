@@ -1,0 +1,197 @@
+﻿;---------------------
+;発生確率(1000分率 100で10%)
+;---------------------
+@EVENT_DAILY_BANDIT_EXECUTION_RATE()
+RETURN 15
+
+;---------------------
+;確率以外の発生判定
+;---------------------
+@EVENT_DAILY_BANDIT_EXECUTION_DECISION()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+SIF 土匪 == -1
+	RETURN 0
+SIF CFLAG:MASTER:所属 == 土匪
+	RETURN 0
+SIF DAY < 12
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;---------------------
+@EVENT_DAILY_BANDIT_EXECUTION_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;---------------------
+@EVENT_DAILY_BANDIT_EXECUTION
+#DIM 対象
+
+PRINTFORMW 貌似部下在领土内发现了土匪集团
+PRINTFORML 怎麼辦？
+CALL ASK_YN("加强警备", "前去捉拿")
+IF RESULT == 0
+	PRINTFORMW 加强周边警备防备袭击
+	PRINTFORMW 多亏了，土匪的受害没有发生
+ELSE
+	PRINTFORML 是至今为止大闹一场的家伙
+	PRINTFORMW 只是踢散还不够满足，决定捕捉
+	PRINTFORML 让谁去面对呢？
+	CALL SELECT_CHARA_LIST_SLG()
+	対象 = RESULT 
+	IF RESULT < 0
+		PRINTFORMW 还是算了吧
+		PRINTFORMW 加强周边警备防备袭击
+		PRINTFORMW 多亏了，土匪的受害没有发生
+		RETURN
+	ELSEIF 対象 == MASTER
+		PRINTFORMW %ANAME(対象)%决定亲自前往
+	ELSE
+		PRINTFORMW 面向%ANAME(対象)%
+	ENDIF
+	PRINTFORML ・
+	PRINTFORML ・
+	PRINTFORMW ・
+	IF ((ABL:対象:武闘 + ABL:対象:防衛) / 2) * (RAND:8 + 1) < (40 + (DAY / 2)) * (RAND:7 + 1)
+		PRINTFORML 可是被埋伏！
+		PRINTFORMW 部队被反击了……
+		PRINTFORMW %ANAME(対象)%虽然变得破烂不堪但总算逃走了
+		CALL ADD_COOLTIME(対象, 3)
+	ELSE
+		PRINTFORMW 成功了!
+		PRINTFORML %ANAME(対象)%成功击破了土匪集团
+		PRINTFORML 捕捉到了近半数的土匪
+		PRINTFORMW 让见识处刑吧
+		PRINTFORMW 可是，里面也混杂着土匪少女
+		PRINTFORML 怎麼辦？
+		CALL ASK_MULTI_JUDGE("归并处刑", 1,"授予士兵", 1,"侵犯", HAS_PENIS(対象))
+		IF RESULT == 0
+			PRINTFORML 可是土匪是土匪，没有慈悲
+			PRINTFORMW 将总结处刑，晒脖子
+			CALL COLOR_PRINT("那个严厉的处分多少产生了赞成和反对,不过、大体上是好意地接住了", カラー_注意)
+			PRINTFORMW 
+			FOR LOCAL, 1, MAX_COUNTRY
+				CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, 40, 20)
+			NEXT
+		ELSEIF RESULT == 1
+			PRINTFORML 反正要比处刑更有效地利用
+			PRINTFORMW 土匪少女为了安慰士兵们
+			CALL COLOR_PRINT(@"她们在兵间大受好评、风闻志愿兵增加了", カラー_注意)
+			PRINTFORMW 
+			COUNTRY_SOLDIER:(CFLAG:MASTER:所属) += (50 + RAND:50) * DAY
+		ELSE
+			PRINTFORML 因为是折角请让我使用
+			PRINTFORMW %ANAME(対象)%决定让土匪少女带回家去享受
+			PRINTFORML 
+			SELECTCASE RAND:10
+				CASE 0
+					PRINTFORML 剥下服饰，肉体比想象中更加丰满，不由得露出了笑容
+					PRINTFORML 拼命抵抗的她粗暴地趴在性器上，敏感地颤动着身体
+					PRINTFORMW 她一边发出娇声夹杂的悲鸣，一边将身体向后仰
+					PRINTFORML 一边享受紧紧地紧紧地缠上的蜜罐和她看起来不甘心的表情一边激烈地打到腰
+					PRINTFORML 不久，忍不住向阴道内射精，她发出极大的娇声让全身痉挛
+					PRINTFORMW 对于意想不到的上等球%ANAME(対象)%心情愉快地度过了一整晚
+				CASE 1
+					PRINTFORML 让她把手贴在墙上，把屁股伸出，从背后用力猛刺着
+					PRINTFORML 每当腰碰到柔软的屁股时！巴恩！她的呻吟声此起彼伏
+					PRINTFORMW 阴道肉超出想象的绝品，每扎一次使之溢出爱液，增加对肉棒的勒紧
+					PRINTFORML 忍无可忍地放开了一枪，她大大地弯下身子露出了近乎悲鸣的娇声
+					PRINTFORML 媚肉咕嘟咕嘟地蠢动着收紧杆子，贪欲地一滴不剩地榨取
+					PRINTFORMW 在那个极好的蜜罐里%ANAME(対象)%变得入迷，忘记时间好多次使之满足了
+				CASE 2
+					PRINTFORML 本想粗暴地撕下衣服，到处都露出了伤痕累累的皮肤
+					PRINTFORML 看到她流着的眼泪在颤抖的脸，我突然产生了同情心，%ANAME(対象)%)，她温柔地抚摸着自己的皮肤。
+					PRINTFORMW 直到她冷静做好准备为止，花时间反复细心地爱抚她
+					PRINTFORML 渐渐地将身体交给%ANAME(対象)%的爱抚，从颤抖的喉咙中露出甜蜜的呼吸
+					PRINTFORML 温柔地让她睡着，将肉棒推到秘所后，紧紧地抓住她的手抬头仰望
+					PRINTFORMW 预想外的形式一边也和善地爱她，以二人汗流浃背一边互相缠绕了
+				CASE 3
+					PRINTFORML 在佩戴着眼罩的基础上，束缚着无法动弹的她
+					PRINTFORML 粗暴地推上dosudosu和子宫，她hihihi和瑜伽利全身痉挛
+					PRINTFORMW 她为了逃跑而扭动着身体，但反而%ANAME(対象)%舒适地刺激了肉棒
+					PRINTFORML 大大地举起一个，她吓了一跳！身体向后仰，发出了难看的喘息声
+					PRINTFORML 即使询问是否已经绝顶了，她也拼命地否定。
+					PRINTFORMW %ANAME(対象)%花费一晚充分调教了预想以上的极品手淫
+				CASE 4
+					PRINTFORML 把她绑在床上，强迫她吃献媚药，反复犯下
+					PRINTFORML 开始抵抗的她也几度迎来绝顶的时候已经只是快乐地让身体颤抖了
+					PRINTFORMW 媚肉不断变好，像生物一样缠着肉棒，腰都快要浮起来了
+					PRINTFORML 痉挛着给瑜伽女朋友接吻，突然手被脖子转动，舌头被缠住了
+					PRINTFORML 吃惊地窥视眼的话完全成为快乐的俘虏的那样的表情浮现着♥
+					PRINTFORMW 与可爱的喘息的她一起享受种种的游戏，被嫉妒好多次放出了精力
+				CASE 5
+					PRINTFORML 强暴的她推倒在床上，以四肢爬行的姿势强奸
+					PRINTFORML 那个阴道孔确实是名器，与肉棒全体缠绕，不能停止更激烈地深深地扭进腰
+					PRINTFORMW 被侵犯的她四肢颤抖着，紧紧抓住床单咬紧牙关
+					PRINTFORML 但是%ANAME(対象)%将天花板摩擦上去，就像电流流过似的，身体被震动了
+					PRINTFORML 无视辩解的她，挖出弱点之后每次痉挛逐渐露出了甜蜜的哮喘
+					PRINTFORMW 在的里面她打出合腰，预告射精也不抵抗变得接受
+				CASE 6
+					PRINTFORML 从%ANAME(対象)%的房间中传来少女无可救药的喘息声
+					PRINTFORML 她不怎么抵抗，刚开始犯就练起瑜伽，自己一拍腰打得乱七八糟
+					PRINTFORMW 无法忍受而放开第一发，她紧紧地抱住%ANAME(対象)%共同达到了顶峰
+					PRINTFORML 一口气抱住她一边进行着pirotalk，一边流着泪诉说着自己的身世
+					PRINTFORML 曰，被土匪抢走后一直被当做性奴隶对待，现在被侵犯的人更安定。
+					PRINTFORMW 现在只其他什么都没考虑的那样，沉溺在%ANAME(対象)%与她一起灼热的那样的肉欲
+				CASE 7
+					PRINTFORML %ANAME(対象)%为了让她理解立场，裸体剥下项圈出去散步了
+					PRINTFORML 每次在宫殿内遇到士兵们都会在他们面前粗暴地侵犯她，毫不留情地重复阴道出入
+					PRINTFORMW 开始注视的她也几次恳求，一边流泪一边也停止
+					PRINTFORML 作为替代停止忠诚的证据拿出肉棒的话，她一边踌躇一边也亲吻了龟头
+					PRINTFORML 满足于的%ANAME(対象)%把她带回房间让她躺在床上，温柔地抚摸着她抱着她
+					PRINTFORMW 她已经接受了%ANAME(対象)%的全部
+				CASE 8
+					PRINTFORML %ANAME(対象)%在狠狠地犯了她之后，滚到床上喘了一口气
+					PRINTFORML 大概是因为平时习惯了土匪们的对手吧，那个身体虽然很小，但却很开心。
+					PRINTFORMW 少女一边喘着粗气一边从秘所滴出精液，再次耸立起胯股间的一物
+					PRINTFORML %ANAME(対象)%命令下面的话，她一边踌躇一边也恳求希望打开身体和善地做
+					PRINTFORML 同情了那个态度的%ANAME(対象)%和善地抱的话，她这次露出了撒娇的那样的喘息声
+					PRINTFORMW 对年一边使之颤抖身体一边可爱的喘息的她，忘记当初的目的入迷了
+				CASE 9
+					PRINTFORML %ANAME(対象)%一边被她遮住，一边深深地向肉棒里头扭动腰
+					PRINTFORML 她意外地是处女，痛苦地使之歪曲脸一边呻吟一边握住%ANAME(対象)%的的双臂
+					PRINTFORMW 一边享受那个表情和闭合的蜜罐，一边蹂躏还谁都没进入过的她的深奥
+					PRINTFORML 在最里面止住了腰之后，一边宽敞地爱抚一边低声私语爱的言词，她颤抖着背脊
+					PRINTFORML 暂且持续的话她的紧张也解除，撒娇的那样的喘息声音从喉咙微微地听见了
+					PRINTFORMW 中意她的%ANAME(対象)%，花费一夜时间慢慢地对身心和自己爱好进行调教
+			ENDSELECT
+			CALL FUCK(対象, "性技, 性交, Ｃ, 射精", "童貞喪失, 接吻喪失", 0, "野盗の少女の唇", "", @"野盗の少女の膣", "強姦")
+			PRINTFORML 
+			PRINTFORMW 尽情享受之后，解放了她
+			IF ABL:対象:性技 + RAND:4 >= 7
+				PRINTFORML 可是她好象变得糟糕透顶了，恳求着让我侍奉
+				PRINTFORMW 对这个样子满足的%ANAME(対象)%决定让她成为部下
+				IF DVAR:野盗処刑_少女部下フラグ == 0
+					CALL CREATE_RANDOM_CHARA(0,0,1)
+					LOCAL = RESULT
+					SIF LOCAL == -1
+						GOTO CREATE_MISS
+					CALL CHANGE_COUNTRY(LOCAL, CFLAG:MASTER:所属, 1)
+					CALL VIRGINIZE_LOST(対象, 初体験_処女)
+					CALL VIRGINIZE_LOST(対象, 初体験_キス)
+					TALENT:LOCAL:合意 = 1
+					CFLAG:LOCAL:好感度 = 1000
+					CFLAG:LOCAL:依存度 = 500
+					CFLAG:LOCAL:従属度 = 1000
+					CALL COLOR_PRINT(@"%ANAME(LOCAL)%が仲間に加わりました", カラー_注意) 
+					PRINTFORMW 
+					DVAR:野盗処刑_少女部下フラグ = 1
+				ELSE
+					$CREATE_MISS
+					PRINTFORMW 多亏了她热心工作，才有了%ANAME(対象)%的力量
+					CALL PRINT_ADD_EXP(対象, "武闘経験値", RAND:10 + 6, 1)
+					CALL PRINT_ADD_EXP(対象, "防衛経験値", RAND:10 + 6, 1)
+					CALL TRAIN_AUTO_ABLUP(対象)
+					PRINTFORMW 
+				ENDIF
+			ELSE
+				PRINTFORMW 彼女は一度%ANAME(対象)%を振り返ったが、何も言わずにそのまま逃げ去って行った
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+RETURN 1

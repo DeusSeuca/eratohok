@@ -1,0 +1,75 @@
+﻿;-------------------------------------------------
+;定期イベント
+;-------------------------------------------------
+@CULTIST_REV_TRAIN_REGULAR_EVENT(勢力)
+#DIM 勢力
+
+SIF FLAG:逆調教回数 == 0 || FLAG:逆調教回数 % 4 != 0
+	RETURN 0
+
+PRINTFORML 调教的日子越来越近了、%ANAME(MASTER)%像往常一样被拘束在「仪式之间」中、
+PRINTFORMW 只能等待邪教徒们过来之后被随心所欲的对待
+PRINTFORMW 但是、走过来的邪教徒却说出令人意外的话语
+PRINTFORMW 你虽然身为异端却很懂教诲、实在令人吃惊
+PRINTFORMW 如果你能加入我们的话，就会作为信徒被承认吧……
+PRINTFORML 即使一直拒絶、這些傢伙也肯定会継續玷汚自己吧
+PRINTFORML 点頭的話、肯定会変得軽鬆很多
+PRINTFORMW 該怎麼辦……
+CALL ASK_YN("諦めて受け入れる", "こんなやつらの仲間なんてごめんだ")
+IF RESULT == 0
+	PRINTFORML %ANAME(MASTER)%点了点头、他们立刻满意地笑了
+	IF RAND:3
+		CALL SET_PIERCE_RANKED(MASTER, 0, ピアス_ラビア, ピアス_ペニス, ピアス_クリトリス, ピアス_乳首, ピアス_へそ, ピアス_耳, ピアス_舌, ピアス_鼻)
+		SIF RESULT != -1
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%の%GET_PIERCE_NAME(RESULT)%被装上了身为信徒一员的证明的环……", カラー_ピンク)
+	ELSE
+		CALL SET_TATTOO_RANKED(MASTER, "神の贄", 0, タトゥー_秘部, タトゥー_尻, タトゥー_頬, タトゥー_額, タトゥー_肩, タトゥー_胸, タトゥー_背, タトゥー_腹, タトゥー_腿, タトゥー_足首)
+		SIF RESULT != -1
+			CALL COLOR_PRINTW(@"%ANAME(MASTER)%の%GET_TATTOO_NAME(RESULT)%被刻上了作为信徒一员的证明的纹身…", カラー_ピンク)
+	ENDIF
+	PRINTFORMW 他们为%ANAME(MASTER)%准备好了法衣、以及避免吸入讨厌的污秽尘世之气的面具
+	SETCOLOR カラー_注意
+	PRINTFORMW %ANAME(MASTER)%成为了狂信徒的一员
+	RESETCOLOR
+	SETBIT TALENT:MASTER:特殊勢力陥落系, 特殊勢力_狂信者
+	CALL CHANGE_COUNTRY(MASTER, 勢力, 1)
+	CALL PLAYER_FALLEN_TO_SP_COUNTRY(勢力)
+	RETURN 1
+ELSE
+	PRINTFORML 是吗、对%ANAME(MASTER)%的拒绝早有准备的狂信徒们并不是太在意地接受了这个答复
+	PRINTFORML 我们的教导似乎还不够、%ANAME(MASTER)% 被他們包圍了起來 …………
+ENDIF
+
+;-------------------------------------------------
+;知り合いがきたときのイベント
+;-------------------------------------------------
+@CULTIST_REV_TRAIN_MSG(勢力, 知り合い参加者, 知り合い参加数)
+#DIM 勢力
+#DIM REF 知り合い参加者
+#DIM 知り合い参加数
+
+CALL SINGLE_DRAWLINE
+PRINTFORML 调教的日子越来越接近了、%ANAME(MASTER)%像往常一样被拘束在「仪式之间」中、
+PRINTFORMW 剩下的就只是等着被男人們玷汚了
+PRINTFORMW 走了过来的狂信徒、%ANAME(MASTER)%带着曾经认识的对象来了
+PRINTFORMW 虽然身着法衣、戴着面具、但从身材上可以看出
+PRINTFORMW %ANAME(知り合い参加者:0, 知り合い参加数)%…
+PRINTFORMW 脸上已经看不出曾经熟悉的面貌了、似乎从内心深处染上了他们的思想
+PRINTFORMW 以性交为第一要义是他们的教诲、似乎谁都没有想过其中有什么问题
+IF IS_FEMALE(知り合い参加者:0)
+	PRINTFORMW 很快她们就把自己的衣服脱掉了
+	PRINTFORMW 或许是事先被充分的侵犯过了吧、两个洞都已被爱液和精液浸湿了
+	IF HAS_PENIS(MASTER)
+		PRINTFORMW 充满性欲的视线、没有看向%ANAME(MASTER)%、只是将目光一直集中在%ANAME(MASTER)%那根直立的肉棒之上…
+	ELSE
+		PRINTFORMW 充满性欲的视线、没有看向%ANAME(MASTER)%、只是对%ANAME(MASTER)%的娇躯进行着毫不掩饰的注视……
+	ENDIF
+ELSE
+	PRINTFORMW 不久他们就把自己的衣服脱掉了
+	PRINTFORMW 可能是事先被充分侵犯了吧、全身沾满了白色的污液
+	IF HAS_PENIS(MASTER)
+		PRINTFORMW 充满性欲的视线、没有看向%ANAME(MASTER)%、只是将目光一直集中在%ANAME(MASTER)%那根直立的肉棒之上…
+	ELSE
+		PRINTFORMW 充满性欲的视线、没有看向%ANAME(MASTER)%、只是对%ANAME(MASTER)%的娇躯进行着毫不掩饰的注视……
+	ENDIF
+ENDIF

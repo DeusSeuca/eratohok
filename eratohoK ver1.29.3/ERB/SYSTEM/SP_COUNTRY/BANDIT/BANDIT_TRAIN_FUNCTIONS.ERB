@@ -1,0 +1,49 @@
+﻿;-------------------------------------------------
+;調教関数存在判定
+;-------------------------------------------------
+@BANDIT_DOES_TRAIN()
+
+;-------------------------------------------------
+;調教陥落時メッセージ
+;-------------------------------------------------
+@BANDIT_FALLEN_MSG(対象)
+#DIM 対象
+IF !GETBIT(TALENT:対象:特殊勢力陥落系, 特殊勢力_野盗)
+	PRINTFORMW ……長時間的調教生活、讓%ANAME(対象)%的心理屈服了
+	PRINTFORMW %ANAME(対象)%成為了土匪的奴隸、無法翻身了
+	IF TALENT:(対象):自尊心高
+		PRINTL
+		PRINTFORMW 露出自卑表情的%ANAME(対象)%、再也看不到過去的影子了
+		PRINTFORMW 被土匪們強迫進行着各種各樣屈辱的行為、讓%ANAME(対象)%的自尊心完全被打碎了……
+		CALL TALENT_LOSE_PRIDE(対象, 1, 1)
+	ENDIF
+ELSE
+	PRINTFORMW ……收到了土匪的調教、%ANAME(対象)%想起了過去自己的身份是他們的奴隸
+	PRINTFORMW %ANAME(対象)%重新変成了土匪的奴隸
+ENDIF
+
+;-------------------------------------------------
+;調教陥落時にピアシングしたりする場合の処理
+;-------------------------------------------------
+@BANDIT_FALLEN_LEAVE_MARK(対象)
+#DIM 対象
+SELECTCASE RAND:10
+	CASE IS < 4
+		CALL SET_PIERCE_RANDOM(対象, 0)
+		SIF RESULT != -1
+			CALL COLOR_PRINTW(@"%ANAME(対象)%的%GET_PIERCE_NAME(RESULT)%、被安上了象征着服從的環……", カラー_ピンク)
+	CASE IS < 7
+		CALL SET_TATTOO_RANDOM(対象, STR_FOR_TATTOO(-1), 0)
+		SIF RESULT != -1
+			CALL COLOR_PRINTW(@"%ANAME(対象)%的%GET_TATTOO_NAME(RESULT)%、被刻上了「%TATTOO:対象:RESULT%」的紋身……", カラー_ピンク)
+	CASEELSE
+		IF GET_INMOU(対象) >= 陰毛_標準
+		CALL COLOR_PRINTW(@"作為服從的證明、%ANAME(対象)%的陰毛被修整成了心型……", カラー_ピンク)
+		TALENT:対象:陰毛目標値 = 陰毛_ハート型
+		TALENT:対象:陰毛現在値 = 陰毛_ハート型
+	ELSE
+		CALL COLOR_PRINTW(@"作為服從的證明、%ANAME(対象)%的陰毛被永久脱毛了……", カラー_ピンク)
+		TALENT:対象:陰毛目標値 = 陰毛_パイパン
+		TALENT:対象:陰毛現在値 = 陰毛_パイパン
+	ENDIF
+ENDSELECT

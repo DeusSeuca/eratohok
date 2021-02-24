@@ -1,0 +1,60 @@
+﻿;-------------------
+;存在判定
+;なにもさせないこと
+;-------------------
+@TERRITORY_EVENT_H_BOOK_DANGER_EXISTS()
+#DIM 対象
+RETURN 1
+
+;-------------------
+;発生判定
+;-------------------
+@TERRITORY_EVENT_H_BOOK_DANGER_DECISION(対象)
+#DIM 対象
+RETURN 1
+
+;-------------------
+;本体
+;-------------------
+@TERRITORY_EVENT_H_BOOK_DANGER(対象)
+#DIM 対象
+
+PRINTFORML 傍晚時分、在河灘上撿到了一本舊書
+PRINTFORML 在意裡面什麼内容読了一下、是色情雜誌
+PRINTFORMW 女性被戴上了項圈、像狗一樣被侵犯著
+
+IF IS_MALE(対象)
+	PRINTFORML 開心地把撿到的好東西帯回去了
+	PRINTFORML 在自己房間仔細地讀著
+	CALL FUCK(対象, "性技")
+	RETURN 1
+ENDIF
+
+PRINTFORML 不由得沈浸其中埋頭閲読、從背後傳来了招呼声
+PRINTFORML 慌忙地轉過身去、有一個嘿嘿笑着的男人站在那裡
+PRINTFORML 男人逼近了%ANAME(対象)%、邀請道不想試試那書裡面的事情麼
+
+CALL ASK_YN("接受邀請", "逃走")
+
+IF RESULT == 1
+	PRINTFORML 不可能做那樣的事情
+	PRINTFORML 趕緊逃走了
+	RETURN 1
+ENDIF
+
+PRINTFORML 像那本書一樣……想到写真中女性的痴態、不由得呑了口口水
+PRINTFORML 有所期待的%ANAME(対象)%、対男人的話慢慢點頭
+PRINTFORMW %ANAME(対象)%被男人拉著手、帯回了他的老巣
+PRINTFORML
+PRINTFORML 在深夜的公園中有兩個人
+PRINTFORMW 戴著項圈、被装上了帯著肛門拉珠的尾巴的%ANAME(対象)%、趴在地上被男人牽著
+PRINTFORMW 完全変成了母狗的%ANAME(対象)%、在男人的命令下掰開了自己的%STR_BODY("陰唇：欲情", 対象)%、用服從的姿勢央求着挿入
+PRINTFORMW 男人掏出了肉棒、讓%ANAME(対象)%先用那可愛的小嘴奉仕一會、做好挿入的準備
+PRINTFORMW 滿意的男人圧住了%ANAME(対象)%、從後面把肉棒猛地挿了進去、讓%ANAME(対象)%後仰著身体発出了喜悅的嬌喘
+PRINTFORMW %ANAME(対象)%身心都屈服于他、之後也被「主人」教育調教了好幾次……
+CALL FUCK(対象, "欲望, 奉仕, 精愛, 性技, 性交, Ｃ, Ｖ, Ｂ, Ｍ, Ａ, 接吻, 口淫, 露出, 露出, Ｖ性交", "処女喪失, 膣内射精, 接吻喪失, 口内射精", GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@RAND:2 ? 肉棒 # 嘴唇\@", "偶遇的男人", "", "在野外的調教")
+PRINTFORML 
+PRINTFORML 接受了一整晚的雌犬調教的%ANAME(対象)%、
+PRINTFORMW 被他下達了以後再来的命令後、眼含春水、流着口水激烈的点着頭
+
+RETURN 1

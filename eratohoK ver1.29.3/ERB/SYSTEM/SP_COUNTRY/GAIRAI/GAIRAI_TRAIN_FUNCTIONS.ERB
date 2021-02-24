@@ -1,0 +1,57 @@
+﻿;-------------------------------------------------
+;調教関数存在判定
+;-------------------------------------------------
+@GAIRAI_DOES_TRAIN()
+
+;-------------------------------------------------
+;調教陥落時メッセージ
+;-------------------------------------------------
+@GAIRAI_FALLEN_MSG(対象)
+#DIM 対象
+IF !GETBIT(TALENT:対象:特殊勢力陥落系, 特殊勢力_外来人)
+	PRINTFORMW 在外来人的过度研究下、%ANAME(対象)%的意识崩坏了
+	PRINTFORMW 现在%PRONOUN(対象)%已经彻底成为了他们的实验动物……
+	IF TALENT:対象:烙印
+		PRINTFORML 在%ANAME(対象)%身上表明%ANAME(MASTER)%専用身份的烙印之上、
+		PRINTFORMW 研究用实验动物的标识通过烙印永远的印刻在身上
+		TALENT:対象:烙印 = 0
+	ELSE
+		PRINTFORMW %ANAME(対象)%的身体上、被烙上了标识着研究用实验动物的烙印
+	ENDIF
+	IF TALENT:(対象):自尊心高
+		PRINTL
+		PRINTFORMW 用空虚的表情跟随着外来人%ANAME(対象)%已经没有过去的身影了
+		PRINTFORMW 在不被当作人对待的日子里、%ANAME(対象)%的自尊心被彻底碾成粉碎了……
+		CALL TALENT_LOSE_PRIDE(対象, 1, 1)
+	ENDIF
+ELSE
+	PRINTFORMW 最初还在抵抗着、但是%ANAME(対象)%那已经屈服于外来人的那个肉体，对给予的快乐反应非常敏感
+	PRINTFORMW 每一次被触摸、每一次被侵犯、都在强调着你不过是只实验动物的事、%ANAME(対象)%回想了起来
+	PRINTFORMW 被持续不断地进行着凌辱、很快%ANAME(対象)%接受了快感、一脸幸福的开始了自主的奉仕……
+ENDIF
+
+;-------------------------------------------------
+;調教陥落時にピアシングしたりする場合の処理
+;-------------------------------------------------
+@GAIRAI_FALLEN_LEAVE_MARK(対象)
+#DIM 対象
+SELECTCASE RAND:10
+	CASE IS < 3
+		CALL SET_PIERCE_RANDOM(対象, 0)
+		SIF RESULT != -1
+			CALL COLOR_PRINTW(@"%ANAME(対象)%的%GET_PIERCE_NAME(RESULT)%装上作为实验动物的证明的环……", カラー_ピンク)
+	CASE IS < 7
+		CALL SET_TATTOO_RANDOM(対象, "実験動物", 0)
+		SIF RESULT != -1
+			CALL COLOR_PRINTW(@"%ANAME(対象)%的%GET_TATTOO_NAME(RESULT)%、被刻上了「%TATTOO:対象:RESULT%」的紋身……", カラー_ピンク)
+	CASEELSE
+		IF GET_INMOU(対象) >= 陰毛_標準
+		CALL COLOR_PRINTW(@"作為服從的證明、%ANAME(対象)%的陰毛被修整成了心型……", カラー_ピンク)
+		TALENT:対象:陰毛目標値 = 陰毛_ハート型
+		TALENT:対象:陰毛現在値 = 陰毛_ハート型
+	ELSE
+		CALL COLOR_PRINTW(@"作為服從的證明、%ANAME(対象)%的陰毛被永久脱毛了……", カラー_ピンク)
+		TALENT:対象:陰毛目標値 = 陰毛_パイパン
+		TALENT:対象:陰毛現在値 = 陰毛_パイパン
+	ENDIF
+ENDSELECT

@@ -1,0 +1,329 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@EVENT_DAILY_BANDIT_PILLAGE_RATE()
+RETURN 40
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@EVENT_DAILY_BANDIT_PILLAGE_DECISION()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+SIF 土匪 == -1
+	RETURN 0
+
+SIF CFLAG:MASTER:所属 != 土匪
+	RETURN 0
+
+SIF !HAS_PENIS(MASTER)
+	RETURN 0
+RETURN 1
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@EVENT_DAILY_BANDIT_PILLAGE_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@EVENT_DAILY_BANDIT_PILLAGE
+#DIM 土匪
+#DIM お金
+#DIM 兵数
+#DIM 対象
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+
+PRINTFORMW 最近物资不足
+PRINTFORMW 一般是从商人那里收购的，但%ANAME(MASTER)%是土匪
+PRINTFORMW 与其买，还不如抢夺……以那样的理由，到附近的村也来了
+PRINTFORML 那麼、怎麼辦……
+CALL ASK_MULTI("瞄准上等", "狙击无力的村民", "瞄准钱财", "现在就老实一点吧")
+IF RESULT == 3
+	$CANCEL
+	PRINTFORMW ……不，仔细想想，如果从村子里进行掠夺当然会留下祸根。
+	PRINTFORMW 自己增加敌人不能说是明智的行为
+	PRINTFORMW %ANAME(MASTER)%带着手下共回到了基地……
+ELSEIF RESULT == 2
+	PRINTFORMW 这里是盗贼般的金钱目标
+	PRINTFORMW %ANAME(MASTER)%率领部下袭击村庄……
+	PRINTFORML ・
+	PRINTFORML ・
+	PRINTFORMW ・
+	IF !RAND:10
+		PRINTFORML 村民们的反抗比%ANAME(MASTER)%的想象中激烈
+		PRINTFORMW 部队全军落马，%ANAME(MASTER)%则因以下几点被逮捕
+		PRINTFORMW 作为土匪的%ANAME(MASTER)%不可能得到救济
+		PRINTFORMW %ANAME(MASTER)%被解雇……
+		FLAG:強制エンドフラグ = 1
+		DAILY_CANCEL = 1
+		RETURN 1
+	ELSE
+		お金 = ((ABL:MASTER:武闘 + ABL:MASTER:知略) * 5 * (RAND:5 + 1))
+		PRINTFORMW 进行了掠夺！
+		PRINTFORMW 抢走了{お金}的财物！
+		MONEY += お金
+		CALL COLOR_PRINT(@"引起了各国的反感", カラー_注意)
+		PRINTFORMW
+		FOR LOCAL, 1, MAX_COUNTRY
+			SIF IS_COUNTRY(LOCAL)
+				CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, -70, 70)
+		NEXT
+	ENDIF
+ELSEIF RESULT == 1
+	PRINTFORMW %ANAME(MASTER)%的部队是男性家庭
+	PRINTFORMW 为了做“慰安”的年轻女性……奴隶是不可缺少的
+	PRINTFORMW 不用命令去取那样的女人，部下们开始争先恐后地追赶女人们……
+	PRINTFORML ・
+	PRINTFORML ・
+	PRINTFORMW ・
+	IF !RAND:10
+		PRINTFORML 村民们的反抗比%ANAME(MASTER)%的想象中激烈
+		PRINTFORMW 部队全军落马，%ANAME(MASTER)%则因以下几点被逮捕
+		PRINTFORMW 作为土匪的%ANAME(MASTER)%不可能得到救济
+		PRINTFORMW %ANAME(MASTER)%被解雇……
+		FLAG:強制エンドフラグ = 1
+		DAILY_CANCEL = 1
+		RETURN 1
+	ELSE
+		PRINTFORMW 袭击了附近的村落，抓住了几个合适的村姑
+		PRINTFORMW 拿着战利品回到基地后，手下们立刻聚集到她们的身边
+		PRINTFORMW %ANAME(MASTER)%也找到了喜欢的一个女儿，强行带进了被窝
+		PRINTFORML 
+		SELECTCASE RAND:10
+			CASE 0 
+				PRINTFORMW 将女儿束缚起来，用嚼子嚼着口子，从背后激烈地侵犯着。
+				PRINTFORMW 每次取出肉棒，从结合部与生女证明的纯血和精液混在一起垂下
+				PRINTFORMW 受到紧绷的刺激，再次射精后，女儿发出呻吟声，扑通一声跳了起来
+				PRINTFORMW 对一边流着眼泪一边请求原谅的她的表情兴奋，继续新的凌辱
+			CASE 1 
+				PRINTFORMW 推倒闹腾的女儿撕下衣服的话，前戏也马马虎虎地在那里扭进肉棒
+				PRINTFORMW 忽视了她发出一阵呻吟，激烈地抽出腰
+				PRINTFORMW 想办法逃跑用全身压住闹腾的她，享受紧贴的阴道的刺激
+				PRINTFORMW 不久，走近极限，在女儿最深处释放出精力，她违背了初次品尝的热度，大声疾呼
+			CASE 2 
+				PRINTFORMW 一边骑着女儿一边激烈地拍着腰
+				PRINTFORMW 她不抵抗，嘿嘿浮起空虚的笑容%ANAME(MASTER)%抱住
+				PRINTFORMW 好歹是对药中意的那样，口交使之喝下面的一粒的话更加勒紧了阴道
+				PRINTFORMW 向她的子宫放出精液的话，提高了成为漂亮地雌的证的喘息声
+			CASE 3 
+				PRINTFORMW 把女儿摔倒在床上，一边流着泪一边咯噔咯噔地颤抖着
+				PRINTFORMW 一边慢慢地爱抚害怕的她的全身，一边低声私语不伤害如果老实做着
+				PRINTFORMW 虽然她还很兴奋，但是慢慢地花了点时间慢慢地露出了悲伤的叹息
+				PRINTFORMW 一边握着颤抖的她的手，一边慢慢地将腰沉入湿漉漉的雌洞里
+				PRINTFORMW 一边窥视疼痛的她的情况，一边一夜之间踏踏实实地开发了
+			CASE 4 
+				PRINTFORMW 女儿一边邋遢地垂下舌头一边在%ANAME(MASTER)%上摇着腰
+				PRINTFORMW 由于给她喝了媚药的效果，她的头脑中似乎已经充满了快感
+				PRINTFORMW %ANAME(MASTER)%在不经意间从下往上顶的话，会发出娇声愉悦
+				PRINTFORMW 不久，将%ANAME(MASTER)%射精至她的顶峰，一边大大地弯腰一边发出娇声响
+			CASE 5 
+				PRINTFORMW 在她中放出第几次射精，大大地喘息，无力地突然倒下了
+				PRINTFORMW 在床上一边痉挛一边喘气，从雌孔%ANAME(MASTER)%放出的精液溢出
+				PRINTFORMW 看着她颤抖的脸，一边流着泪一边瞪着我
+				PRINTFORMW 好像还很健康，%ANAME(MASTER)%无法很好地抵抗的她埋伏在一起再次开始侵犯
+			CASE 6 
+				PRINTFORMW 虽然女儿快要被侵犯了，但她却没有哭也没有闹，是下定决心了吗？
+				PRINTFORMW 虽然是乐，但是没有反应也很无聊。%ANAME(MASTER)%想在她的身体上涂抹带媚药的润滑液
+				PRINTFORMW 并且踏踏实实地持续爱抚的话，逐渐无表情的脸带红，露出了甜的呼吸
+				PRINTFORMW 把包在她身上的肉棒在裂缝中擦了几次，她害羞地微微点了点头
+			CASE 7 
+				PRINTFORMW 使散乱地闹腾的她用力量老实
+				PRINTFORMW 被遮盖的样子硬插入的话，她流眼泪呼喊，挣扎逃跑
+				PRINTFORMW 把腰狠狠地砸到她深处，吓得直哆嗦，直眨巴着眼睛呻吟
+				PRINTFORMW 不久，一边抽泣一边恳求温柔的她，一边亲吻一边温柔地侵犯了
+			CASE 8 
+				PRINTFORMW 将肉棒扭进她的深处，由于过度疼痛而使嘴巴一张一合的
+				PRINTFORMW 看着流着泪的她停止了腰部的动作，在熟悉之前给予她轻轻的亲吻和爱抚
+				PRINTFORMW 一边安慰一边哭一边批评的她，与爱抚持续缓慢的抽送的话，一点点喘息声音开始露出
+				PRINTFORMW 是不是原本就有天赋，在你走向极限的时候，她也亲自摆动着腰
+			CASE 9 
+				PRINTFORMW 狠狠地侵犯她疲劳了的%ANAME(MASTER)%，突然倒在床上
+				PRINTFORMW 她被你抱在怀里，一边大声呼吸一边有时痉挛
+				PRINTFORMW 偶然与她目光相对，忽然转移了视线,不过，也不打算逃跑
+				PRINTFORMW 再次为她那可爱的举止而兴奋不已，她不再反抗
+			CASE 10 
+				PRINTFORMW 当问她为什么不抵抗她时，她回答说，她和以前一样不会改变。好象有什么原因似的
+				PRINTFORMW 停止更多的探索，在那里的爱抚后，把肉棒插入她的雌穴
+				PRINTFORMW 象擦上蠢动的阴道肉一样地持续活塞的话，不久从她抱紧了
+				PRINTFORMW 毫不隐瞒地一边发出喘息声，一边接受你的她中，放出了决心高涨
+			CASE 11
+				PRINTFORMW 对恳求拜托返回家的她，告诉如果使之满足自己返回
+				PRINTFORMW 她用恐怖的表情凝视着%ANAME(MASTER)%的肉棒，但不久就胆怯地伸出手
+				PRINTFORMW 虽然是笨拙的动作，但与生女特有的害羞动作相结合反而促使%ANAME(MASTER)%的兴奋
+				PRINTFORMW 不久%ANAME(MASTER)%射精了,不过，女儿还看肉棒硬的现实一边哭一边请求原谅
+				PRINTFORMW 可是%ANAME(MASTER)%哭喊着压制讨厌的她，强行扭进了肉棒
+			CASE 12
+				PRINTFORMW 给女儿加上项圈，用后背狠狠地钉着腰
+				PRINTFORMW 最初是讨厌的女儿,不过，明白现在拼命咬下唇打算压住娇声的
+				PRINTFORMW 用手掌啪啪地拍打屁股，那个每次紧紧地勒紧阴道发出难过的喘息声
+				PRINTFORMW 不久，屈服于%ANAME(MASTER)%攻势的她，不再抵抗，坦率地开始娇声笑语
+			CASE 13
+				PRINTFORMW 精心地责弄着超乎想象的肥胖女儿的身体
+				PRINTFORMW 她因为恐惧而不能很好地抵抗，一直被她欺负着
+				PRINTFORMW 虽然露出了厌恶的表情，但是那脸颊却一点一点的上气
+				PRINTFORMW 不久%ANAME(MASTER)%小声嘟囔道，肉棒被割破，再三次擦拭，请温柔一点
+				PRINTFORMW 我轻轻地吻了她一口，为了缓解疼痛而花时间慢慢地插入了肉棒
+			CASE 14
+				PRINTFORMW %ANAME(MASTER)%将女儿抱到肉棒上强行横跨
+				PRINTFORMW 由于深深地刺入了的肉棒的疼痛女儿%ANAME(MASTER)%一边抱住一边哭
+				PRINTFORMW 象安慰孩子一样地一边摇动腰，脖子和胸一边使之爬舌头和手指的话，时常使之颤动身体
+				PRINTFORMW 在其内混入哭声变得能听见喘息声，一点点加快腰的运动以二人高处登上了
+		ENDSELECT
+		CALL FUCK(MASTER, "Ｃ, 性交, 射精, 奉仕", "接吻喪失, 童貞喪失", 0, @"%ANAME(対象)%の\@ RAND:2 ? 秘貝 # 唇\@", "", @"%ANAME(対象)%の膣")
+		PRINTFORML 
+		PRINTFORMW 成功地掠夺了！
+		PRINTFORMW 听说了这个传闻之后、要被流放的流氓们来入伙了
+		兵数 = ((RAND:9 * 500) + 500)
+		COUNTRY_SOLDIER:(CFLAG:MASTER:所属) += 兵数
+		PRINTFORML 兵数が{兵数}増えた！
+		CALL COLOR_PRINT("引起了其他国家的反感", カラー_注意)
+		PRINTFORMW
+		FOR LOCAL, 1, MAX_COUNTRY
+			SIF IS_COUNTRY(LOCAL)
+				CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, -70, 70)
+		NEXT
+	ENDIF
+ELSE
+	PRINTFORMW 虽然有危险，但还是想瞄准上半球
+	PRINTFORMW 那么，瞄准谁呢……
+	CALL SINGLE_DRAWLINE
+	CALL SELECT_CHARA_LIST_ONLY_LOGIC_SLG("BANDIT_PILLAGE", "BANDIT_PILLAGE")
+	対象 = RESULT
+	IF 対象 == -1
+		GOTO CANCEL
+	ELSE
+		PRINTFORMW 瞄准%ANAME(対象)%吧……
+		PRINTFORMW 听说村子被袭击而赶过来的%ANAME(対象)%，被%ANAME(MASTER)%连同部下一起袭击了
+		PRINTFORML ・
+		PRINTFORML ・
+		PRINTFORMW ・
+		;対象と主人公それぞれの武闘と知略の合計値で判定、対象は2倍から6倍、主人公は1倍から5倍の補正がつく、負けた場合処刑
+		IF ((ABL:対象:武闘 + ABL:対象:知略) * (RAND:5 + 2)) >= ((ABL:MASTER:武闘 + ABL:MASTER:知略) * (RAND:5 + 1))
+			PRINTFORMW %ANAME(対象)%的实力超出想象
+			PRINTFORMW 败北了……
+			PRINTFORML %ANAME(対象)%的人问我是否还有剩下的话语。
+			CALL ASK_MULTI("祈求活命", "声称是被手下威胁才做的", "杀一个手下，冒充自己")
+			IF RESULT == 0
+				PRINTFORMW %ANAME(MASTER)%是擦头、乞求生命
+				PRINTFORMW 虽然，但是不干脆的态度，反而损害了%ANAME(対象)%的心理
+				PRINTFORMW 恳求也没用，%ANAME(MASTER)%被斩首了……
+			ELSEIF RESULT == 1
+				PRINTFORMW 只要自己得救就好
+				PRINTFORMW 这样考虑的%ANAME(MASTER)%决定出售部下
+				PRINTFORMW ……但是，部下是部下，好象卖了%ANAME(MASTER)%
+				PRINTFORMW 结果，%ANAME(MASTER)%的部下都被处刑了……
+			ELSE
+				PRINTFORMW 已经
+				PRINTFORMW 这样领悟了的%ANAME(MASTER)%，悄悄地使之砍自己的头的那样传达
+				PRINTFORMW 对于那种干脆的态度%ANAME(対象)%似乎很佩服，但是没有免除处刑……
+			ENDIF
+			FLAG:強制エンドフラグ = 1
+			DAILY_CANCEL = 1
+			RETURN 1
+		ELSE
+			IF RAND:2 == 0
+				PRINTFORMW 被目标逃走了……
+			ELSE
+				PRINTFORMW 抓住了目标！
+				PRINTFORMW 回到的巢穴后，立刻将%ANAME(対象)%带入睡床
+				PRINTFORML 
+				SELECTCASE RAND:12
+					CASE 0 
+						PRINTFORMW 将%ANAME(対象)%束缚起来塞上嚼子口，从背后激烈地侵犯着。
+						PRINTFORMW 每次取出肉棒，从结合部溢出无法收纳的精液
+						PRINTFORMW 被紧绷刺激，再次射精的话，%ANAME(対象)%一边发出呻吟声一边使之跳跃了身体
+						PRINTFORMW 对一边流眼泪一边请求宽恕的%ANAME(対象)%的表情兴奋，持续了新的凌辱
+					CASE 1 
+						PRINTFORMW 推倒闹腾的%ANAME(対象)%撕下衣服的话，前戏也草草地在那里扭进肉棒
+						PRINTFORMW 忽视了她发出一阵呻吟，激烈地抽出腰
+						PRINTFORMW 想办法逃跑用全身压住%ANAME(対象)%，享受紧固起来的阴道的刺激
+						PRINTFORMW 不久临近极限，当在%ANAME(対象)%的最深处释放出精力时，%ANAME(対象)%对下腹部的热度大声疾呼
+					CASE 2 
+						PRINTFORMW 一边乘着%ANAME(対象)%一边激烈地打着腰
+						PRINTFORMW 她不抵抗，嘿嘿浮起空虚的笑容%ANAME(MASTER)%抱住
+						PRINTFORMW 好歹是对药中意的那样，口交使之喝下面的一粒的话更加勒紧了阴道
+						PRINTFORMW 向%ANAME(対象)%的子宫放出精液的话，提高了成为漂亮地雌的证的喘息声
+					CASE 3 
+						PRINTFORMW 将%ANAME(対象)%摔倒在床上，微微颤抖着，全身僵硬
+						PRINTFORMW 一边慢慢地爱抚害怕的她的全身，一边低声私语不伤害如果老实做着
+						PRINTFORMW %ANAME(対象)%一开始是闭着嘴,不过，踏踏实实地花时间做的话逐渐露出难过的叹息
+						PRINTFORMW 一边握着颤抖的%ANAME(対象)%的手，一边慢慢地将腰沉入湿润的雌洞里
+						PRINTFORMW 一边窥视气喘吁吁的她的情况，一边一夜之间踏踏实实地开发了
+					CASE 4 
+						PRINTFORMW %ANAME(対象)%一边散漫地垂下舌头一边在%ANAME(MASTER)%上摇着腰
+						PRINTFORMW 由于给她喝了媚药的效果，她的头脑中似乎已经充满了快感
+						PRINTFORMW %ANAME(MASTER)%在不经意间从下往上顶的话，会发出娇声愉悦
+						PRINTFORMW 不久%ANAME(対象)%的顶峰合起%ANAME(MASTER)%也射精的话，很大地一边弯腰一边使之响起了娇声
+					CASE 5 
+						PRINTFORMW 好几次在%ANAME(対象)%中放射精的话，很大地喘息，没有力量突然倒下了
+						PRINTFORMW 在床上一边痉挛一边喘气，从雌孔%ANAME(MASTER)%放出的精液溢出
+						PRINTFORMW 看着她颤抖的脸，一边流着泪一边瞪着我
+						PRINTFORMW 看起来好像还很精神，%ANAME(MASTER)%是不能很好地反抗的%ANAME(対象)%的结合再次开始犯
+					CASE 6 
+						PRINTFORMW %ANAME(対象)%的人，眼看就要遭到侵犯，却没有哭泣，也没有发狂，似乎已有心理准备，闭上眼睛还在等待时机。
+						PRINTFORMW 虽然快乐，但是没有反应，所以%ANAME(MASTER)%想在她的身体上涂抹带有媚药的润滑液
+						PRINTFORMW 并且踏踏实实地持续爱抚的话，逐渐无表情的脸带红，露出了甜的呼吸
+						PRINTFORMW 把包在她身上的肉棒在裂缝中擦了几次，她害羞地微微点了点头
+					CASE 7 
+						PRINTFORMW 使散乱地闹腾的%ANAME(対象)%用力量使之老实
+						PRINTFORMW 被覆盖的样子硬插入的话，%ANAME(対象)%流眼泪喊，挣扎逃跑
+						PRINTFORMW 把腰狠狠地砸到她深处，吓得直哆嗦，直眨巴着眼睛呻吟
+						PRINTFORMW 不久，一边抽泣一边恳求温柔的%ANAME(対象)%，一边接吻一边温柔地犯了
+					CASE 8 	
+						PRINTFORMW 突然扭进到%ANAME(対象)%深处的肉棒，由于疼痛使之嘴巴啪嗒啪嗒地做
+						PRINTFORMW 看着流着泪的她停止了腰部的动作，在熟悉之前给予她轻轻的亲吻和爱抚
+						PRINTFORMW 一边安慰一边哭一边批评的她，与爱抚持续缓慢的抽送的话，一点点喘息声音开始露出
+						PRINTFORMW 原本是喜欢的东西吗，在你走向极限的时候她也亲自摆动着腰
+					CASE 9
+						PRINTFORMW 对恳求拜托返回家的她，告诉如果使之满足自己返回
+						PRINTFORMW 她用恐怖的表情凝视着%ANAME(MASTER)%的肉棒，但不久就胆怯地伸出手
+						PRINTFORMW 虽然是笨拙的动作，但与生女特有的害羞动作相结合反而促使%ANAME(MASTER)%的兴奋
+						PRINTFORMW 不久%ANAME(MASTER)%射精了,不过，女儿还看肉棒硬的现实一边哭一边请求原谅
+						PRINTFORMW 可是%ANAME(MASTER)%哭喊着压制讨厌的她，强行扭进了肉棒
+					CASE 10
+						PRINTFORMW %ANAME(対象)%加上项圈，背部用力地钉着腰
+						PRINTFORMW 最初讨厌的%ANAME(対象)%，现在知道了拼命咬下唇打算压住娇声的事
+						PRINTFORMW 用手掌啪啪地拍打屁股，那个每次紧紧地勒紧阴道发出难过的喘息声
+						PRINTFORMW 不久，屈服于%ANAME(MASTER)%攻势的她，不再抵抗，坦率地开始娇声笑语
+					CASE 11	
+						PRINTFORMW %ANAME(MASTER)%抱着%ANAME(対象)%强行横跨在肉棒上
+						PRINTFORMW 由于深深地扎了的肉棒的压迫感，%ANAME(対象)%一边抱住%ANAME(MASTER)%一边呻吟着
+						PRINTFORMW 象安慰孩子一样地一边摇动腰，脖子和胸一边使之爬舌头和手指的话，时常使之颤动身体
+						PRINTFORMW 那内混杂着呻吟声变得能听见喘息声，一点点加快腰的运动，二人登上了高处
+				ENDSELECT
+				CALL FUCK_RAPE(対象, GET_ID(MASTER), @"%ANAME(MASTER)%の\@ RAND:2 ? 肉棒 # 唇\@", @"%ANAME(MASTER)%")
+				CALL FUCK(MASTER, "Ｃ, 性交, 射精, 奉仕", "接吻喪失, 童貞喪失", 0, @"%ANAME(対象)%の\@ RAND:2 ? 秘貝 # 唇\@", "", @"%ANAME(対象)%の膣")
+				PRINTFORML 
+				PRINTFORMW 掠夺成功了！
+				PRINTFORMW %ANAME(対象)%被抓了！
+				CALL CAPTURE(対象, 土匪)
+				CALL COLOR_PRINT("引起了其他国家的反感", カラー_注意)
+				PRINTFORMW
+				FOR LOCAL, 1, MAX_COUNTRY
+					SIF IS_COUNTRY(LOCAL)
+						CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, -70, 70)
+				NEXT
+			ENDIF
+		ENDIF
+	ENDIF
+ENDIF
+RETURN 1
+
+
+@SELECT_CHARA_LIST_SHOW_LOGIC_BANDIT_PILLAGE(対象)
+#DIM 対象
+RETURN CFLAG:対象:行動不能状態 != 行動不能_子供 && !IS_ANIMAL(対象) && CFLAG:対象:所属 != CFLAG:MASTER:所属 && GET_COUNTRY_BOSS(CFLAG:対象:所属) != 対象 && IS_COUNTRY(CFLAG:対象:所属) && !IS_SP_CHARA(対象) && !IS_MALE(対象)
+
+@SELECT_CHARA_LIST_SELECT_LOGIC_BANDIT_PILLAGE(対象)
+#DIM 対象
+RETURN CFLAG:対象:捕虜先 == 0

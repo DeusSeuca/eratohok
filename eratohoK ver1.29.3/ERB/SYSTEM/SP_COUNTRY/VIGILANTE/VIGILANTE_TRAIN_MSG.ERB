@@ -1,0 +1,276 @@
+﻿@VIGILANTE_TRAIN_MSG(対象, 士官フラグ)
+#DIM 対象
+#DIM プレイ番号
+#DIM 勢力番号
+#DIM 士官フラグ
+
+勢力番号 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_自警団)
+
+IF HAS_VAGINA(対象) && HAS_PENIS(対象)
+	SELECTCASE RAND:100
+		CASE IS < 15
+			プレイ番号 = 1
+		CASEELSE
+			プレイ番号 = 2
+	ENDSELECT
+ELSEIF HAS_VAGINA(対象)
+	IF RAND:100 < 90
+		プレイ番号 = 2
+	ELSE
+		プレイ番号 = 3
+	ENDIF
+ELSEIF HAS_PENIS(対象)
+	IF RAND:100 < 70
+		プレイ番号 = 1
+	ELSE
+		プレイ番号 = 3
+	ENDIF
+ELSE
+	プレイ番号 = 3
+ENDIF
+
+
+
+SELECTCASE プレイ番号
+	;-------------------------ここからふたなり専用-------------------------
+	CASE 0
+
+	;-------------------------ここから要ペニス-------------------------
+	CASE 1
+		SELECTCASE RAND:3
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%致力于“劝诱活动”
+					PRINTFORML 巧妙地引诱上街的女性，据点带入，以复数的男性团员「说服」注入思想
+					PRINTFORML 看到经过多次轮奸后在思想上脱胎换骨的女性，%ANAME(対象)%满足地点了点头……
+				ELSE
+					PRINTFORML %ANAME(対象)%受到女性团员的“劝诱”
+					PRINTFORML 被绑起来多次被侵犯，精力被榨取，%ANAME(対象)%是体力的极限
+					PRINTFORML 终于%ANAME(対象)%提高了声音,不过，女性团员还是没有停止陵辱……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 射精, Ｃ, Ｖ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("自警団員"), "", "", "自警団員の膣", "調教")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%对新来的女性团员进行指导
+					PRINTFORML 执拗地反复挖洞，反复教导自警团的思想
+					PRINTFORML 指导结束的时候，新入手也闪耀着光芒，接受了自警团的思想……
+				ELSE
+					PRINTFORML %ANAME(対象)%被女性团员指导
+					PRINTFORML 多次精疲力尽，%ANAME(対象)%已经到了极限
+					PRINTFORML %ANAME(対象)%被解放是在那个肉棒不勃起的时候……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 射精, Ｃ, Ｖ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("自警団員"), "", "", "自警団員の膣", "調教")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%参加了自警团内的研修
+					PRINTFORML 一边强迫女性团员轮奸，一边反复教导自警团的思想
+					PRINTFORML 指导结束时，忠实于组织的团员诞生了……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫参加自警团内的研修
+					PRINTFORML 被女性团员聚集，一边被绞尽脑汁一边被思想擦入
+					PRINTFORML 在研修结束的时候，%ANAME(対象)%已经精疲力尽了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 性交, 性技, 射精, Ｃ, Ｖ挿入", "童貞喪失", 勢力番号, GET_SPERM_ID("自警団員"), "", "", "自警団員の膣", "調教")
+		ENDSELECT
+	;-------------------------ここから要Ｖ-------------------------
+	CASE 2
+		SELECTCASE RAND:16
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%对新来的男性团员进行指导
+					PRINTFORML 用两穴好多次接受年轻的精神，实施思想教育
+					PRINTFORML 指导结束的时候，出现了忠实于团队的战士……
+				ELSE
+					PRINTFORML %ANAME(対象)%被男性团员指导
+					PRINTFORML 多次两次被犯，被施行思想教育
+					PRINTFORML 教育结束的时候，全身沾满了精液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%接受了自警团内的慰安业务
+					PRINTFORML 取代几个团员作为对手，慰劳平日的辛苦
+					PRINTFORML 工作结束的时候两孔完全松弛着,不过，尽管如此%ANAME(対象)%满足……
+				ELSE
+					PRINTFORML %ANAME(対象)%被自警团员轮奸
+					PRINTFORML 几个团员粗暴地陵辱%ANAME(対象)%，打算做成忠实的团员
+					PRINTFORML 消耗得连一根手指都动不了，终于%ANAME(対象)%被解放了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 2
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%正在进行自警团员的劝诱活动
+					PRINTFORML 把路过的男性带入据点，用那个身体迫近入团
+					PRINTFORML 多亏了 %ANAME(対象)%的性技，一天团员增加了很多……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫参加自警团员的劝诱活动
+					PRINTFORML 工作就是让其他团员带来的男性感到性满足
+					PRINTFORML 工作结束的时候，%ANAME(対象)%的经验人数增加了很多……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@ RAND:2 ? 唇 # 肉棒 \@", "偶遇的男人", "", "輪姦")
+			CASE 3
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%与当地的痞子们举行了聚会
+					PRINTFORML 为了守护幻想乡的治安，为他们做性服务，用肉穴接住精力
+					PRINTFORML 用身体满足了他们的%ANAME(対象)%，取而代之取得了维持治安的约定……
+				ELSE
+					PRINTFORML %ANAME(対象)%被派往当地的痞子们
+					PRINTFORML 为了守护幻想乡的治安，被作为交易的材料
+					PRINTFORML 团员来领取时，%ANAME(対象)%已经破烂不堪……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("地痞"), @"地痞的\@ RAND:2 ? 唇 # 肉棒 \@", "地痞", "", "輪姦")
+			CASE 4
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%参加了自警团内的研修
+					PRINTFORML 让其他的团员批评自己的行动，更加根据「教育」请纠正
+					PRINTFORML 研修结束时，%ANAME(対象)%虽然沾满了精液，但脸上却非常满足……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫参加自警团内的研修
+					PRINTFORML 根据自己的行动被批判，更加称呼「更生」被陵辱
+					PRINTFORML 研修结束的时候，%ANAME(対象)%从所有的孔中流出精液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 5
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为自警团员致力于治安维持活动
+					PRINTFORML 向做坏事的人打招呼，使之发散那个欲望，防御事件于未然
+					PRINTFORML 向好几个男人打招呼充分工作的%ANAME(対象)%的胯下，微微泛出白浊……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫作为自警团员参加治安维持活动
+					PRINTFORML 向那些会干坏事的人伸出手，让他们在身体上服务
+					PRINTFORML 被好几个男人做对手，工作结束的时候，两洞完全松弛了……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("地痞"), @"地痞的\@ RAND:2 ? 唇 # 肉棒 \@", "地痞", "", "輪姦")
+			CASE 6
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%参加了自警团内的交流会
+					PRINTFORML 以“很了解其他团员”的名义，与好几个团员发生性关系
+					PRINTFORML 交流会结束时，%ANAME(対象)%全身沾满精液……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫参加自警团内的交流会
+					PRINTFORML “很了解其他团员”的名目下，被多人代替团员被侵犯
+					PRINTFORML 交流会结束时，%ANAME(対象)%全身沾满精液……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 7
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为自警团员进行着治安维持
+					PRINTFORML 出现在地痞堆积场，许下性感满足，不做坏事的约定
+					PRINTFORML 工作结束时%ANAME(対象)%沾满精液，对于有意义的活动露出满足的表情……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫参加自警团的治安维持活动
+					PRINTFORML 被派到地痞们身上，被迫承诺不做坏事
+					PRINTFORML 其他团员来领取时，%ANAME(対象)%已经破烂不堪……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("地痞"), @"地痞的\@ RAND:2 ? 唇 # 肉棒 \@", "地痞", "", "輪姦")
+			CASE 8
+				IF 士官フラグ
+					PRINTFORML 在自警团工作中失败的%ANAME(対象)%正在接受“再教育”
+					PRINTFORML 被几个男人团员包围，轮奸，他们的思想再次被磨入
+					PRINTFORML 教育结束的时候，%ANAME(対象)%变得破烂,不过，那个眼异样的那样闪耀着……
+				ELSE
+					PRINTFORML 试图逃出自警团而失败的%ANAME(対象)%实施了“再教育”
+					PRINTFORML 被几个男人团员包围，轮奸，他们的思想再次被磨入
+					PRINTFORML 教育结束的时候，%ANAME(対象)%变得破烂不堪……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 9
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%是自警团员接受“教育”
+					PRINTFORML 几个男性团员凌辱%ANAME(対象)%直至体力的极限，将思想融入其中
+					PRINTFORML 接受了顽固的洗脑的%ANAME(対象)%变得破烂,不过，那个眼异样的那样闪耀着……
+				ELSE
+					PRINTFORML %ANAME(対象)%的自警团员接受了“教育”
+					PRINTFORML 几个男性团员凌辱%ANAME(対象)%直至体力的极限，将思想融入其中
+					PRINTFORML 接受了顽固的洗脑的%ANAME(対象)%变得破烂不堪……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 10
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%是自警团员进行宣传活动
+					PRINTFORML 把路过的男性作为据点带入，与性行为以组套思想擦进
+					PRINTFORML 由于一日的工作，自警团的思想好象相当传播了……
+				ELSE
+					PRINTFORML %ANAME(対象)%是自警团员被迫进行宣传活动
+					PRINTFORML 其他团员带来的男性，作为宣传活动的一部分被迫性服务
+					PRINTFORML 由于一天的工作，%ANAME(対象)%的经验人数增加了很多……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@ RAND:2 ? 唇 # 肉棒 \@", "偶遇的男人", "", "輪姦")
+			CASE 11
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%为当地的掌权者服务
+					PRINTFORML 这是获得自警团的活动认可、获得资金支援的活动的一环。
+					PRINTFORML 根据 %ANAME(対象)%的热情的服务，权力者约定了对团队的支援……
+				ELSE
+					PRINTFORML %ANAME(対象)%为当地的掌权者服务
+					PRINTFORML 这是获得自警团的活动认可、获得资金支援的活动的一环。
+					PRINTFORML 在权力者满意的时候，%ANAME(対象)%的身体变得粘糊糊的……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("富豪"), @"富豪の\@ RAND:2 ? 唇 # 肉棒 \@", "富豪", "", "輪姦")
+			CASE 12
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%为地痞头目服务
+					PRINTFORML 虽然做的是幕后交易，但重要的是能保证治安就好
+					PRINTFORML 用%ANAME(対象)%的身体充分享受了的头目，接受了跟自警团员的交易……
+				ELSE
+					PRINTFORML %ANAME(対象)%为地痞头目服务
+					PRINTFORML 作为自警团与地痞们的幕后交易的交易材料
+					PRINTFORML 头目满意的时候，%ANAME(対象)%的身体变得粘糊糊的……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("地痞"), @"地痞的\@ RAND:2 ? 唇 # 肉棒 \@", "地痞", "", "輪姦")
+			CASE 13
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为自警团员接受教育
+					PRINTFORML 一边被其他的团员执拗地侵犯，到体力的极限思想被擦进
+					PRINTFORML 洗脑结束时，%ANAME(対象)%已经完全成为忠实于团队的道具……
+				ELSE
+					PRINTFORML %ANAME(対象)%作为自警团员被迫接受教育
+					PRINTFORML 一边被其他的团员执拗地侵犯，到体力的极限思想被擦进
+					PRINTFORML 洗脑结束时，%ANAME(対象)%变得破烂不堪……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 14
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为自警团员接受教育
+					PRINTFORML “教育室”中，好几个男性团员轮流着灌输思想
+					PRINTFORML %ANAME(対象)%一边流泪一边感激，一边接受他们的精力和教育……
+				ELSE
+					PRINTFORML %ANAME(対象)%作为自警团员接受教育
+					PRINTFORML “教育室”中，好几个男性团员轮流着灌输思想
+					PRINTFORML %ANAME(対象)%虽然流下了眼泪，但是他们还是执拗地凌辱了%ANAME(対象)%
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+			CASE 15
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%作为自警团员接受研修
+					PRINTFORML 女性团员的工作就是活用身体，和多名男性团员做伴侣
+					PRINTFORML 培训结束的时候，%ANAME(対象)%的身体被染成雪白……
+				ELSE
+					PRINTFORML %ANAME(対象)%是自警团员被迫接受研修
+					PRINTFORML 女性团员的工作就是要活用身体，让多名男性团员成为对手
+					PRINTFORML 培训结束的时候，%ANAME(対象)%的身体被染成雪白……
+				ENDIF
+				CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 勢力番号, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+		ENDSELECT
+	;-------------------------ここから汎用-------------------------
+	CASE 3
+		SELECTCASE RAND:2
+			CASE 0
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%致力于治安维持活动
+					PRINTFORML 虽然是无偿的服务，但只要有当地人们的笑容就能够努力……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫参加治安维持活动
+					PRINTFORML 以“笑脸和感谢”为关键词，被迫从事无偿残酷的活动……
+				ENDIF
+			CASE 1
+				IF 士官フラグ
+					PRINTFORML %ANAME(対象)%被迫参加自警团内的研修
+					PRINTFORML 根据不眠不休到深夜进行的思想教育，%ANAME(対象)%更加忠实于团队……
+				ELSE
+					PRINTFORML %ANAME(対象)%被迫参加自警团内的研修
+					PRINTFORML 由于不眠不休一直进行到深夜的思想教育，%ANAME(対象)%的自我动摇着……
+				ENDIF
+		ENDSELECT
+ENDSELECT
+

@@ -1,0 +1,3 @@
+﻿#DIM CONST 燐_発情期 = 0
+#DIM CONST 燐_死体旅行 = 1
+#DIM CONST 燐_死体旅行_彩蛋 = 2

@@ -1,0 +1,405 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@EVENT_DAILY_BANDIT_REQUIRE_RANSOM_RATE()
+RETURN 1000
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@EVENT_DAILY_BANDIT_REQUIRE_RANSOM_DECISION()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+
+SIF 土匪 == -1
+	RETURN 0
+
+SIF IS_SP_COUNTRY(CFLAG:MASTER:所属)
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@EVENT_DAILY_BANDIT_REQUIRE_RANSOM_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;特定の条件を満たすキャラをランダムに選択する場合に利用
+;他の関数は必須だが、これだけはなくてもよい　というかパフォーマンスへ影響するので不要なら作ってはならない
+;対象が存在せずデイリーを開始できない場合は0を返すことでデイリーの発生をキャンセルする
+;---------------------
+@EVENT_DAILY_BANDIT_REQUIRE_RANSOM_SETTARGET()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+
+FOR LOCAL, 1, CHARANUM
+	IF CFLAG:LOCAL:所属 == CFLAG:MASTER:所属 && CFLAG:LOCAL:捕虜先 == 土匪 && IS_FEMALE(LOCAL) && RAND:100 < SP_TRAIN_COUNT:LOCAL:特殊勢力_野盗 * 5
+		DAILY_TARGET:DAILY_TARGET_NUM = LOCAL
+		DAILY_TARGET_NUM ++
+	ENDIF
+NEXT
+
+SIF DAILY_TARGET_NUM < 1
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@EVENT_DAILY_BANDIT_REQUIRE_RANSOM()
+#DIM 対象
+#DIM 身代金
+#DIM 土匪
+VARSET 対象, -1
+VARSET 身代金
+
+対象 = DAILY_TARGET:(RAND:DAILY_TARGET_NUM)
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_野盗)
+
+;身代金は各種能力合計の500倍かプレイヤーの給料5ターンぶんのうち高い方を採用
+身代金 = ABL:対象:Ｃ感 + ABL:対象:Ｂ感 + ABL:対象:Ａ感 + ABL:対象:Ｖ感 + ABL:対象:Ｍ感 + ABL:対象:欲望 + ABL:対象:性技 + ABL:対象:奉仕 + ABL:対象:性交 + ABL:対象:露出 + ABL:対象:精愛
+身代金 *= 500
+身代金 = MAX(GET_SUM_ECONOMY(CFLAG:MASTER:所属) * (ABL:MASTER:武闘 + ABL:MASTER:防衛 + ABL:MASTER:知略 + ABL:MASTER:政治 + 100) / 40000 * 5, 身代金)
+
+PRINTFORML %ANAME(MASTER)%正在工作的时候，侍从通知有客人来访
+PRINTFORML 听说有个自称是使者的男人来了，但他不知道是从哪里来的
+PRINTFORMW 感到惊讶的%ANAME(MASTER)%暂且决定试着见面……
+PRINTFORML
+PRINTFORML
+PRINTFORML
+;初対面
+IF DVAR:野盗身代金要求_発生フラグ == 0
+	PRINTFORML “嘿嘿，你是%ANAME(MASTER)%吗？”
+	PRINTFORMW 自称是使者，像是地痞一般，显然是不正当的男人
+;前回払った
+ELSEIF DVAR:野盗身代金要求_発生フラグ == 1
+	PRINTFORML “哟，又来请我付钱了”
+	PRINTFORMW 在房间等待着的，是那个土匪的使者。微微露出卑鄙的笑容。
+	PRINTFORML “哦，没有粗暴的模仿。这里有%ANAME(対象)%。是吧？
+	PRINTFORMW 非常生气，就是那样。%ANAME(MASTER)%不得不收缴武器
+;前回調教
+ELSEIF DVAR:野盗身代金要求_発生フラグ == 2
+	PRINTFORML “哟，你又来了？这次一定要付钱啊？”
+	PRINTFORMW 在房间等待着的，是那个土匪的使者。微微露出卑鄙的笑容。
+	PRINTFORML “哦，没有粗暴的模仿。这里有%ANAME(対象)%。是吧？
+	PRINTFORMW 非常生气，就是那样。%ANAME(MASTER)%不得不收缴武器
+;前回身代わり
+ELSEIF DVAR:野盗身代金要求_発生フラグ == 3
+	PRINTFORML “哟，你来了”
+	PRINTFORMW 在房间等待着的，是那个土匪的使者。微微露出卑鄙的笑容。
+	PRINTFORML “嘿嘿，你，中々‘使用感觉也不错啊”
+	PRINTFORMW “怎么样?你还会再来我们这里吗?你真的很可爱吗?”
+	PRINTFORMW 野卑的视线被身体爬行。仅此%ANAME(MASTER)%的身体就想起了曾经的陵辱，孕育了热量……
+ENDIF
+SELECTCASE RAND:5
+	CASE 0
+		PRINTFORMW 有什么事，我这边没空。如果冷淡地对待，男人就会用恶心的抚摸猫的声音说话
+		PRINTFORML “喂喂，不要说那种话啊。今天给你带来了好东西”
+		PRINTFORML 男人递出的是一张照片
+		PRINTFORMW 一边感到惊讶一边窥视了%ANAME(MASTER)%，怀疑了眼睛
+		PRINTFORML 下落不明的%ANAME(対象)%，用空虚的眼睛咬住男人的东西，被侵犯
+		PRINTFORMW  %ANAME(対象)%受到了怎样的待遇，不难想象
+	CASE 1
+		PRINTFORMW “比起这个。这个女的你不认识吗？”
+		PRINTFORML 打开脚坐在椅子上的男子下，有人在跪着
+		PRINTFORML 从响彻的潮湿的水声来看，大概在是为男人的肉棒口交吧
+		PRINTFORMW 确实那个身姿有印象—那是%ANAME(対象)%！
+		PRINTFORML “嘿嘿嘿，一开始哭喊叫嚷、大声嚷嚷、大声嚷嚷，这点很重要，现在已经完全是母狗了。”
+		PRINTFORML “再加上身体也非常好……嘿，我射精了！”
+		PRINTFORML 男人轻轻地抬起腰、%ANAME(対象)%的喉咙鸣叫，喝干被放出的白浊
+		PRINTFORMW 直到最后的最后，一物吸入后解放了东西，他喃喃自语道“多谢款待”。
+	CASE 2
+		PRINTFORML “今天哟，我有想让你看的东西”
+		PRINTFORML 男人一响手，屋外就进来一个人
+		PRINTFORMW 不是%ANAME(対象)%吗，在与土匪战斗中失踪了！
+		PRINTFORML 那个身姿，看起来也变得凄惨
+		PRINTFORML 被施给了猥亵的涂鸦的全身沾满白浊，项圈以外什么都没让我穿
+		PRINTFORML 瞳孔空虚，从嘴口流下子种的嘴唇，嘟嘟哝哝，要求男人根的言词
+		PRINTFORML 也许是无意识地想要得到快乐吧，那只手在流淌着白浊的两个洞里不停地搅动。
+		PRINTFORMW 不难想象她做了怎样的事
+	CASE 3
+		PRINTFORML “今天哟，我有想让你看的东西”
+		PRINTFORML 男人一响手，屋外就进来一个人
+		PRINTFORML 不是%ANAME(対象)%吗，在与土匪战斗中失踪了！
+		PRINTFORMW 穿着的衣服，像是强调身体曲线，多么猥亵
+		PRINTFORML 母猪，赶紧准备吧！
+		PRINTFORML 男人的命令%ANAME(対象)%没有一句怨言、将手伸向墙壁%STR_BODY("臀部", 対象)%を突き出す
+		PRINTFORMW 被做完的裙子中没有内衣等，被期待濡湿了的秘部成为裸露
+		PRINTFORML 嘿嘿，真是受不了啊！
+		PRINTFORML 还没有准备好，那个男人把东西塞进去，%ANAME(対象)%发出不得了的声音
+		PRINTFORML 就那样抽送合起自己挥动腰，持续曝晒散漫的头发脸
+		PRINTFORMW 最后，行为结束后，是他经过三次阴道内射精后的事
+	CASE 4
+		PRINTFORML “今天哟，我有想让你看的东西”
+		PRINTFORML 男人一响手，屋外就进来一个人
+		PRINTFORML 不是%ANAME(対象)%吗，在与土匪战斗中失踪了！
+		PRINTFORMW 在一丝不缠的裸体的乳房和秘部，痛楚的金色的穿孔工具悬挂着
+		PRINTFORML “看，打招呼”
+		PRINTFORML 男这样嘟哝着，%ANAME(対象)%头贴在地板上，跪在地上
+		PRINTFORML 然后，开始详细报告自己是怎么做的
+		FOR LOCAL:0, 0, 4
+			PRINTDATA
+				DATAFORM 向流浪汉卖身行走，
+				DATAFORM 在娼馆接待客人，赚钱，
+				DATAFORM 接受了好几个男人的物品，令他高兴的事，
+				DATAFORM 自己完全变成了疯狂的母猪，
+				DATAFORM 有时也和野狗交往过，
+				DATAFORM 不知道已经种了多少人，
+				DATAFORM 已经不能没有性生活了，
+				DATAFORM 作为他们的家畜被饲养，
+				DATAFORM 作为脱衣舞者工作的事，
+				DATAFORM 被其他囚犯安慰的事情，
+				DATAFORM 曾多次作为肉便器使用，
+				DATAFORM 作为他们专用的被虐猪转世，
+				DATAFORM 现在这样的期间也想自慰没有办法的事，
+				DATAFORM 露出基地附近走转的事
+				DATAFORM 请偶然的男人打招呼，抱了的事，
+				DATAFORM 他们的一员有多好，
+				DATAFORM 他们的性爱有多好，
+				DATAFORM 对自己来说，精液便女到底有多适合任职呢？
+				DATAFORM 已经无法回到没有性感的生活，
+				DATAFORM 一夜被拍卖，被不认识的男人抱着，
+				DATAFORM 做过各种各样的道具屋药物的实验
+				DATAFORM 已经无法满足于“有爱的性爱”了，
+				DATAFORM 作为家畜被饲养，
+				DATAFORM 偶遇的男人吃一东西被转动，
+				DATAFORM 如果没有被强奸的话，子宫会疼痛得不得了，
+				DATAFORM 像胳膊一样粗的肉棒，至今仍令人怀念，
+				DATAFORM 轮奸以外变得不能了的事
+				DATAFORM 关于作为奴隶的自己的分际，
+				DATAFORM 侵犯作为奴隶的自己的他们有多好，
+				DATAFORM 马上弄湿了胯的自己的卑鄙，
+				DATAFORM 有时让他们当厕所使用，
+				DATAFORM 被挖了二孔是多么舒服啊，
+				DATAFORM 自己是天性的性奴隶，
+				DATAFORM 日常受到的调教是怎样的东西？
+				DATAFORM 让肉棒涮肉的时候是多么幸福啊，
+				DATAFORM 被侵犯才是作为女性的生存价值，
+				DATAFORM 今天之后也要让这个人犯，
+				DATAFORM 据说来这里之前好几发也请了阴道内射精，
+				DATAFORM 关于至今为止都不知道的菊穴的快乐，
+				DATAFORM 用肉棒挖肛门的事多少心情舒畅，
+				DATAFORM 自己的乳房不是为了喂奶而是为了乳交，
+				DATAFORM 自己的嘴是为了吸小鸡而存在的，
+				DATAFORM 自己的头发是为了处理小鸡鸡而存在的，
+				DATAFORM 自己的阴道被侵犯，是为了被阴道内射精而存在的，
+				DATAFORM 自己只不过是可恶、淫荡的母狗，
+			ENDDATA
+		NEXT
+		PRINTFORML 等……
+		PRINTFORMW 对于不堪入耳的连续故事，%ANAME(MASTER)%咬紧嘴唇忍耐着
+ENDSELECT
+PRINTFORML “情况已经察觉到了吧？这家伙成了我们的肉便器”
+PRINTFORML 但是我们也变得相当宽松了，我们也已经厌倦了，还给主人吧。”
+IF GETBIT(TALENT:対象:淫乱系, 素質_淫乱_精液便女)
+	PRINTFORML “……嘛，这样腐烂的马桶，可能根本不需要”
+	PRINTFORML “真是的，不只是大腿，头也很宽松啊？嘿！”
+
+ENDIF
+PRINTFORMW 男人坦然的说着。即使现在马上想斩杀、%ANAME(MASTER)%拼命压抑着
+PRINTFORML
+PRINTFORML 「就是这么回事，钱
+CALL COLOR_PRINT(@"{身代金}", カラー_注意)
+PRINTFORMW 我就还给你。怎么样？不坏吧？”
+PRINTFORML 什么不好，别开玩笑了
+PRINTFORMW 可是，如果在这里拒绝这个男人说的话%ANAME(対象)%的身体危险吧
+PRINTFORML 那么，到底怎么了……
+CALL SINGLE_DRAWLINE
+PRINTFORML 現在の金:{MONEY}
+CALL ASK_MULTI_JUDGE("支付", MONEY >= 身代金, "不支付", 1, "自己代替成为俘虏", IS_FEMALE(MASTER) && GET_COUNTRY_BOSS(CFLAG:MASTER:所属) != MASTER, "斩了男人", 1)
+;払う
+IF RESULT == 0 && MONEY >= 身代金
+	PRINTFORML “嘿嘿，每次都有啊”
+	PRINTFORMW “放心吧，%ANAME(対象)%我会负责送回的，嘿嘿嘿嘿！
+	PRINTFORML 交了钱之后，男子立刻就离开了
+	PRINTFORMW 虽然让部下追踪，但却巧妙地被散布，未能抓住他们的基地……
+	CALL CAPTURE(対象, 0)
+	DVAR:野盗身代金要求_発生フラグ = 1
+	PRINTFORML
+	IF RAND:100 < 80
+		SETCOLOR カラー_注意
+		PRINTFORMW %ANAME(対象)%返回了
+		CALL TALENT_LOSE_PRIDE(対象)
+		RESETCOLOR
+		RETURN 1
+	ENDIF
+
+	CALL SINGLE_DRAWLINE
+	CALL BANDIT_RELEASE_MSG(対象)
+;自分が身代わり（分岐短いのでこっちを先に書く）
+ELSEIF RESULT == 2 && IS_FEMALE(MASTER) && GET_COUNTRY_BOSS(CFLAG:MASTER:所属) != MASTER
+	IF DVAR:野盗身代金要求_発生フラグ != 3
+		PRINTFORML “是？”你呢？”
+		PRINTFORMW %ANAME(MASTER)%的回答很意外吧。他愣了一会儿。
+		PRINTFORML “哼？哼？原来是你啊？哼，哼，原来如此，原来如此”
+		PRINTFORMW 下贱的视线，在身体上爬行。
+		PRINTFORML “好吧，反正对那个女人已经厌倦了，要是能买到新品那也不坏。……嘻嘻，坏了也不知道啊？”
+		PRINTFORML 男人摇头。然后，将%ANAME(MASTER)%捆绑起来，带回基地……
+		PRINTFORMW 在路上，被男人使用了好几次……
+	ELSE
+		PRINTFORML 嘿嘿，不来不行啊？
+		PRINTFORML 虽然觉得必须采取毅然的态度，但身体还是很疼痛。。%ANAME(MASTER)%同意把自己交出去
+		PRINTFORMW 为了帮助同伴。说到底是为了让自己来调教……
+		PRINTFORML “好啊，你啊，还真是不错呢。ひひひ、たぁあっぱり疼爱你吧？……首先是开始，这家伙”
+		PRINTFORML 男生笑眯眯地露出了自己的肉棒
+		PRINTFORMW %ANAME(MASTER)%无法对抗，自己动了起来……
+		PRINTFORMW 使用了好几次%ANAME(MASTER)%的口和阴道孔之后，他束缚%ANAME(MASTER)%，带去了自己的基地……
+	ENDIF
+	DVAR:野盗身代金要求_発生フラグ = 3
+	CALL CAPTURE(対象, 0)
+	CALL CAPTURE(MASTER, 土匪)
+;払わない
+ELSEIF RESULT == 1
+	PRINTFORML 没有钱付给你们，我们用我们自己的双手去救出%ANAME(対象)%。
+	PRINTFORMW 毅然地告诉他，男子冷笑了
+	PRINTFORML “啊，这样啊，算了，没什么关系吧？那样的话，我也有我的想法”
+	PRINTFORML 随即吐弃，男子迅速离去
+	PRINTFORMW 虽然让部下追踪，但却巧妙地被散布，未能抓住他们的基地……
+;斬り捨て
+ELSEIF RESULT == 3
+	PRINTFORML 吵闹。不容置疑地把使者斩掉了
+	PRINTFORML 让部下检查尸体，但却没有找到能够抓住他们基地的线索
+	PRINTFORMW 这个男人不管怎样都是能替换的下流人物吧。今后也会发生类似的事情……
+ENDIF
+;払わないか斬り捨てた場合
+IF GROUPMATCH(RESULT, 1, 3)
+	LOCAL:1 = RESULT
+	DVAR:野盗身代金要求_発生フラグ = 2
+	CFLAG:対象:解放カウンタ = 0
+
+	IF RAND:100 < 25 || LOCAL:1 == 3
+		CALL SINGLE_DRAWLINE
+		PRINTFORML
+		SETCOLOR カラー_警告
+		PRINTFORMW 对坦率不付钱的%ANAME(MASTER)%的泄愤，
+		PRINTFORMW 土匪向%ANAME(対象)%含着比平时更凄惨的陵辱……
+		RESETCOLOR
+		PRINTFORMW 
+		SELECTCASE RAND:5
+			CASE 0
+				PRINTFORML 昏暗的房间中，传来男人们的骂声和女人的淫乱的喊声。
+				PRINTFORMW 利用%ANAME(対象)%的身份赚钱的他们，现在还在奸污%ANAME(対象)%
+				PRINTFORML 她的眼睛空虚，嘿嘿地笑着。好像被使用了大量的药物。
+				PRINTFORMW 证据就是，排卵诱发剂、媚药等所有种类的药瓶都随处可见……
+				PRINTFORMW 穿过她的阴道孔的男人呻吟着，哆嗦着。在那肉穴中，解放出自己的精子
+				PRINTFORML 当肉棒被拔出时，已经被侵犯了几十次的雌孔中，种子会滴落下来
+				PRINTFORML 尽管如此，男人们似乎还不满足，马上又有别的男人开始侵犯她的雌穴
+				PRINTFORMW 被贯穿的快乐忘记发出娇声的嘴唇，刚刚为了阴道内射精了的肉棒的扫除开始使用……
+				PRINTFORML 此后，%ANAME(対象)%也被射精到无法计数的程度
+				PRINTFORML 作为对执拗地，执拗地，%ANAME(MASTER)%的不好的态度的愤怒，打算使之孕育她
+				PRINTFORML 她大腿上刻着的正字，已经是用双手数也不够的个数。
+				PRINTFORML 于是，男人又被她蒙上，想要种下她
+				PRINTFORML 在其口中注入了额外的排卵诱发剂
+				PRINTFORMW 由于药物的功效和快乐前后陷入不知不觉的她，一个劲地摇动腰，中出，持续喊出，想要妊娠……
+				CFLAG:(対象):薬物依存 += 150
+			CASE 1
+				PRINTFORML 流浪汉们的聚集地，响起了女人的淫乱的声音
+				PRINTFORMW 土匪将%ANAME(対象)%廉价卖给了流浪汉
+				PRINTFORML 缺乏女人的他们，都争先恐后的% ANAME(対象)%上聚集，包皮垢沾满全身的那个棒，高不可攀ねじ込ん到。
+				PRINTFORMW 虽然是极其酸鼻的陵辱风景，但%ANAME(対象)%却不仅不讨人厌，还亲自挥动腰部，勒索着肉棒。
+				PRINTFORML 理由是，她的胳膊上还残留着几个注射痕迹
+				PRINTFORMW 对于现在的她来说，就连使鼻子弯曲的他们的恶臭，都只能成为推动快乐的调味品
+				PRINTFORML 然后又有几十本肉棒的精液洒到她的雌孔里
+				PRINTFORMW 在阴道，感到子宫的热度，她背向后翘，披散头发疯狂
+				PRINTFORML 肉棒从淫口被拔出的话，变黄的精液出来
+				PRINTFORML 也许是受孕了，她却毫不理睬，用嘴清洁自己刚刚在阴道内射精的肉棒。
+				PRINTFORMW 在这段时间里，别的男人接二连三地侵犯她的阴道孔、屁股孔，从体内将她弄得洁白无瑕……
+				PRINTFORMW 在底层的存在，以纸张左右的舒适度被使用，到骂声一边也使之沐浴，还一边她漂布着头发瑜伽持续着……
+			CASE 2
+				PRINTFORML 畜舍里有个穿婚纱的女人
+				PRINTFORMW 土匪正试图让%ANAME(対象)%和猪结婚
+				PRINTFORMW 是偏离了常轨的构想,不过，%ANAME(対象)%不哭也不叫唤。因为药物已经什么都分不清了
+				PRINTFORML 穿着纯白的女礼服的公主，就那样被猪肉棒，发誓一生的爱的接吻
+				PRINTFORML 对于现在的她来说，不管是肉棒还是人的东西，还是兽的东西都无所谓
+				PRINTFORMW 与其说是不如说是充满口腔的兽臭刺激雌性，她比平时更加热心地为猪服务着……
+				PRINTFORML 一阵口淫结束后，她自己将女礼服的裙子卷了起来，爬了起来，举起了%STR_BODY("臀部", 対象)%四肢爬得高高的
+				PRINTFORML 没穿内衣，断然被露出秘裂。那里对快乐的期待，已经被泥泞濡湿了
+				PRINTFORML %ANAME(対象)%用指头展开秘密裂缝，对丈夫说了要吃肉棒的话，猪兴奋地撞到她
+				PRINTFORMW 用和那个钻头一样扭曲了的肉棒，一击贯穿了%ANAME(対象)%的雌孔
+				PRINTFORML 即使被畜生侵犯这样的事实，对于%ANAME(対象)%来说只是支援快乐的东西
+				PRINTFORMW 她激烈地XXOO，作为妻子好几次接受了丈夫的精神……
+				EXP:(対象):獣姦経験 += 20
+			CASE 3
+				PRINTFORMW 土匪好像把%ANAME(対象)%当成了肉便器
+				PRINTFORML 在墙上打开的洞穴穿过身体，只露出下半身，她被放置在那里
+				PRINTFORMW 男子一个接一个地从走过来，侵犯了被暴露的她的女孔，在里面放出子种
+				PRINTFORML 不用说没有会话，就连彼此的脸也不知道状态，作为女人最重要的地方，以飞机杯左右的感觉被使用
+				PRINTFORMW 虽然是一种没有尊严的行为，但%ANAME(対象)%却发出甜美的声音，接受了抽送
+				PRINTFORML 是事前土匪们被打了的规定量的几倍的药品，从她夺走理性，小鸡狂的雌孔做完的
+				PRINTFORML 还有一个面目全非的人，在她身上释放出卑鄙的欲望
+				PRINTFORMW 以杂乱的方法被践踏尊严再者，%ANAME(対象)%快乐苦闷，好多次对流入子宫的热度绝顶
+				PRINTFORML 客人满足，从肉孔抽出棒子的话，从字面那样数不尽被下了的阴道口，白的东西咕嘟咕嘟地洒下
+				PRINTFORMW 尽管如此，还是没有解放，马上下一位客人用了%ANAME(対象)%的下半身，她沉溺于快乐
+				PRINTFORMW 不允许清醒过来。土匪一个接一个地追加药物……
+			CASE 4
+				PRINTFORML %ANAME(対象)%与野狗相交
+				PRINTFORMW 在接受细致的训练的同时留下了野性的活塞使她没有宽恕地高潮，使之提高散漫的喘息声
+				PRINTFORML 土匪似乎把%ANAME(対象)%卖给了某个富豪
+				PRINTFORML 但是从富豪的角度来看，虽然很贵，但是就算再怎么上等也不打算抱
+				PRINTFORMW 他本来就是为了给宠物买%ANAME(対象)%
+				PRINTFORML 要说宠物，好像非常中意新的“嫁”
+				PRINTFORML 用做了狗特有的形式的肉棒，好多次挖%ANAME(対象)%的雌孔
+				PRINTFORMW %ANAME(対象)%的尾巴从尾孔长出雌狗的样子，多次接受来自雄性的健壮的抽送，发出来快乐的声音
+				PRINTFORMW 二人确实是相配的一对，每天、几个小时、几十分钟的交配持续着……
+				EXP:(対象):獣姦経験 += 20
+		ENDSELECT
+
+		CALL SINGLE_DRAWLINE
+		IF LOCAL:1 == 3
+			PRINTFORML
+			PRINTFORML
+			PRINTFORML
+			FOR LOCAL, 0, 3
+				CALL SET_TATTOO_RANDOM(対象, STR_FOR_TATTOO(-1))
+				CALL SET_PIERCE_RANDOM(対象)
+			NEXT
+			PRINTFORML
+			PRINTFORML
+			PRINTFORML
+		ENDIF
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML
+		PRINTFORML 记录了从头到尾的一连串的照片，日后，%ANAME(MASTER)%下送交了
+		PRINTFORMW 根据添加了的信件显示，“坏了”的%ANAME(対象)%，好像被扔到某处原野……
+		SETCOLOR カラー_注意
+		PRINTFORMW %ANAME(対象)%が解放されましたが、行方知らずになりました
+		RESETCOLOR
+		FOR LOCAL, 0, RAND(5, 8)
+			CALL FUCK_GANGBANG(対象, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 肉棒 # 唇\@", "土匪")
+		NEXT
+		CALL CHANGE_COUNTRY(対象, 0, 1)
+		SETCOLOR カラー_警告
+		IF !GETBIT(TALENT:対象:淫乱系, 素質_淫乱_淫乱)
+			PRINTFORML %ANAME(対象)%は＜淫乱＞を得た
+			SETBIT TALENT:対象:淫乱系, 素質_淫乱_淫乱
+		ENDIF
+		IF IS_LOVER(対象)
+			SETCOLOR カラー_警告
+			PRINTFORML 在%ANAME(対象)%中，比起对ANAME(MASTER)的爱情，土匪等人使用的快乐更胜一筹
+			RESETCOLOR
+			CALL LOSE_RELATION_TALENT(対象)
+		ENDIF
+		IF IS_SLAVE(対象)
+			SETCOLOR カラー_警告
+			PRINTFORML 在%ANAME(対象)%中，比起对ANAME(MASTER)的忠诚，土匪等人使用的快乐更胜一筹
+			RESETCOLOR
+			CALL LOSE_RELATION_TALENT(対象)
+			TALENT:(対象):烙印 = 0
+		ENDIF
+		CALL TALENT_LOSE_PRIDE(対象, 1)
+		CALL TALENT_LOSE_TEISOU(対象, 1)
+		RESETCOLOR
+	ENDIF
+ENDIF
+RETURN 1

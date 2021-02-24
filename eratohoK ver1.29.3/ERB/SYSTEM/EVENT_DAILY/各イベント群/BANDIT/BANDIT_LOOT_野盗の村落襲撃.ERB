@@ -1,0 +1,220 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@EVENT_DAILY_BANDIT_LOOT_RATE()
+RETURN 30
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@EVENT_DAILY_BANDIT_LOOT_DECISION()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_野盗)
+SIF 土匪 == -1
+	RETURN 0
+SIF CFLAG:MASTER:所属 == 土匪
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@EVENT_DAILY_BANDIT_LOOT_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@EVENT_DAILY_BANDIT_LOOT()
+#DIM 都市
+#DIM 金額
+
+CALL DAILY_EVENT_RAND_CITYSELECT(0)
+都市 = RESULT
+SIF 都市 < 0
+	RETURN 0
+
+金額 = 3000 + (2000 * (DAY / 5))
+
+PRINTFORML 听说在领土内见到了土匪集团
+PRINTFORML 虽然可以派出巡回的士兵，但作为经费会花钱{金額}吧
+PRINTFORML 只是看错了的话会吃力不讨好
+PRINTFORMW 怎麼辦？
+CALL ASK_MULTI_JUDGE("派出巡回部队", MONEY >= 金額,"置之不理", 1)
+IF RESULT == 1
+	PRINTFORML 没有那样的报告，恐怕是看错了吧。
+	PRINTFORMW 决定不理睬了
+	PRINTFORML ・
+	PRINTFORML ・
+	PRINTFORMW ・
+	IF RAND:2 == 0
+		PRINTFORML 什么也没发生
+		PRINTFORMW 果然谣言还是不可靠的
+	ELSE
+		PRINTFORML 
+		PRINTFORMW 领内的村落被土匪袭击
+		CALL BANDIT_LOOT_RAPE
+		PRINTFORML 土匪抢劫一空,扬长而去
+		CALL MODIFY_CITY_ECONOMY(都市, RAND(10000, 30000) * -1)
+		PRINTFORMW 
+	ENDIF
+	RETURN 1
+ELSE
+ENDIF
+PRINTFORML 虽说是谣言，但也不能置之不理
+PRINTFORMW 决定派出巡回部队
+MONEY -= 金額
+PRINTFORML ・
+PRINTFORML ・
+PRINTFORMW ・
+LOCAL:0 = RAND:3
+IF LOCAL:0 == 0
+	PRINTFORML 什么也没发生
+	PRINTFORMW 果然谣言还是不可靠的
+ELSEIF LOCAL:0 == 1
+	PRINTFORML 巡回部队遭遇土匪袭击村落的现场！
+	PRINTFORML 完美打倒了土匪，拯救了村子
+	PRINTFORMW 巡回部队在感谢领民的同时离开了村子
+	FOR LOCAL, 1, MAX_COUNTRY
+		SIF IS_COUNTRY(LOCAL)
+			CALL CHANGE_RELATION_C_TO_C(LOCAL, CFLAG:MASTER:所属, 50, -50)
+	NEXT
+	CALL COLOR_PRINT("因为干掉野盗的事名声大噪，其他国家的评价增加了", カラー_注意)
+	PRINTFORMW 
+ELSE
+	PRINTFORML 巡回部队遭遇土匪袭击村落的现场！
+	PRINTFORMW 可是土匪却比想象中强悍，部队遭到了反击
+	PRINTFORML 
+	PRINTFORMW 土匪们袭击了村民
+	CALL BANDIT_LOOT_RAPE
+	PRINTFORMW 土匪抢劫一空,扬长而去
+	LOCAL:1 = RAND(CITY_ECONOMY_LIMIT:(都市) / 100 * 100 / 10 , CITY_ECONOMY_LIMIT:(都市) / 100 * 100 / 10 + 1000)
+	CITY_ECONOMY:都市 -= LOCAL:1
+	CALL MODIFY_CITY_ECONOMY(都市, RAND(10000, 30000) * -1)
+	PRINTFORMW 
+ENDIF
+RETURN 1
+;---------------------------------------------
+;領民が犯される
+;--------------------------------------------
+@BANDIT_LOOT_RAPE
+
+PRINTFORML 
+SELECTCASE RAND:5
+	CASE 0
+		PRINTFORM 有雀斑的
+	CASE 1
+		PRINTFORM 童心未泯的
+	CASE 2
+		PRINTFORM 戴着眼镜
+	CASE 3
+		PRINTFORM 眼睛溜圆的
+	CASE 4
+		PRINTFORM 拥有清澈的肌肤
+ENDSELECT
+SELECTCASE RAND:5
+	CASE 0
+		PRINTFORM 三股辫儿的
+	CASE 1
+		PRINTFORM 长黑发的
+	CASE 2
+		PRINTFORM 栗色短发的
+	CASE 3
+		PRINTFORM 亮丽的金发的
+	CASE 4
+		PRINTFORM 双马尾的
+ENDSELECT
+PRINTFORML 少女被土匪凌辱
+SELECTCASE RAND:20
+	CASE 0
+		PRINTFORML 穿着四肢爬行的样子激烈地打着腰，她呻吟着
+		PRINTFORML 从结合部流出是纯血的证据拼命呼吁帮助,不过，响应那个的人谁都不在
+		PRINTFORMW 不久被土匪一边做阴道内射精她下腹部传来的热(度)半狂乱一边哭喊
+	CASE 1
+		PRINTFORML 她的双臂被绑起来的样子被抱住双脚插入肉棒
+		PRINTFORML 每当被粗暴地拿出肉棒的时候，她都会呻吟，流着泪请求原谅
+		PRINTFORMW 可是那个刺激土匪们的加虐心，更加激烈地被侵犯的
+	CASE 2
+		PRINTFORML 一个土匪顶撞着她，开动着猛烈的活塞
+		PRINTFORML 用全体重压悬挂的她由于疼痛一边呻吟一边吧嗒吧嗒地动手脚挣扎
+		PRINTFORMW 但是不可能逃跑，无情的种下了他好几次
+	CASE 3
+		PRINTFORML 她被后手绑住，嘴巴被塞在马背上被侵犯
+		PRINTFORML 每当马上的振动被肉棒挖到阴道肉时，她就会露出蜷缩在身上的呻吟
+		PRINTFORMW 到达他们的基地的时候从雌孔溢出的那样精液被出了
+	CASE 4
+		PRINTFORML 她跪在土匪脚下，用嘴叼着肉棒拼命地对待
+		PRINTFORML 脸上有被打的惨痛痕迹，她为了不再被打而竭尽全力
+		PRINTFORMW 在口的服务结束再次被男人推倒的话她一边害怕一边也不抵抗打开了身体
+	CASE 5
+		PRINTFORML 她深深地叼着巨根土匪的肉棒，一边痉挛一边喘息
+		PRINTFORML 把阴道肉紧紧地推开，稍微被摩擦在她的头中啪嗒啪嗒地火花散落
+		PRINTFORMW 作为玩具被玩的她解放了的时候，那个雌孔完全展开了
+	CASE 6
+		PRINTFORML 两个土匪抱起她前后侵犯
+		PRINTFORML 对从两孔传来的灼热的刺激，她说不出话来，眼珠一片漆黑
+		PRINTFORMW 二人同时被射精的话，她由于过分的冲击好多次跳身体绝顶一边丢失了气
+	CASE 7
+		PRINTFORML 战利品的她全裸被带到基地
+		PRINTFORML 那个身体好象已经好多次使用着，到处有牙型和痣从秘所精液垂下着
+		PRINTFORMW 被带到基地的她，立刻被无数的土匪们群集继续
+	CASE 8
+		PRINTFORML 她在躺着的土匪上摇着腰，双手和嘴巴被操纵着肉棒
+		PRINTFORML 被对她的拼命的服务满足了的男人们沐浴大量的精液，白浊变得粘糊了
+		PRINTFORMW 对隔了好久上等球兴奋的土匪们，她此后也不休息持续使用
+	CASE 9
+		PRINTFORML 她被土匪粗暴地侵犯，拼命地呼唤着母亲的名字
+		PRINTFORML 但是没有人回应那个声音，她只能因为绝望和痛苦而哭喊
+		PRINTFORMW 土匪们不可能饶恕那样的她，一边笑一边狠狠地侵犯少女
+	CASE 10
+		PRINTFORML 她被他们养的猎犬作为奖励而分头侵犯
+		PRINTFORML 被猛烈地打在腰上，她一边哭喊着用畜生的肉棒被侵犯的恐怖和痛苦
+		PRINTFORMW 不久，用半狂乱来抵抗的她身上，满满地注入了狗粘糊糊的精液
+	CASE 11
+		PRINTFORML 她被绑在柱子上用来代替土匪们的厕所
+		PRINTFORML 代着不断被替的土匪们侵犯，她的身体被无情的污秽，她的表情变得空虚
+		PRINTFORMW 她一边凝视着从股间滴下的大量精液，一边簌簌地流下了眼泪
+	CASE 12
+		PRINTFORML 她在他们的宴会上被无数的土匪们围观
+		PRINTFORML 被抱起身体在秘所里(上)肉棒出入的时候被曝光，她痛苦和羞耻呻吟
+		PRINTFORMW ，虽然很讨厌但还是被侵犯，痉挛的少女的痴态，土匪们的宴会气氛非常高涨
+	CASE 13
+		PRINTFORML 公关INTFORML土匪干部喜欢她将被饲养为他的专属性奴隶
+		PRINTFORML 每次抵抗的时候都会受到严重的伤害，渐渐地她变得顺从地为他服务
+		PRINTFORMW 现在又放出浓重的精液，一边想象着被憎恨的男孩孕育的事，绝望中绝顶了
+	CASE 14
+		PRINTFORML 知道是生女的东西的紧闭的裂缝土匪安上男人根的话她激烈地反抗了
+		PRINTFORML 可是土匪不可能就此阻止，冷酷无情的一物被扭进了她的体内
+		PRINTFORMW 土匪们压抑着因痛楚和恐怖而哭泣的她，尽情地侵犯了她的身体
+	CASE 15
+		PRINTFORML 被他们狠狠地侵犯了的她已经不反抗呆然地躺着
+		PRINTFORML 公关INTFORML那只雌穴至今仍被土匪侵犯，但她仍然像一个坏掉的玩具一样
+		PRINTFORMW 厌倦了无反应的土匪们被放置在那个场合的她
+	CASE 16
+		PRINTFORML 一剥的衣服便露出来了，土匪们兴奋地拥向她
+		PRINTFORML 被粗暴地责弄身体中的精液被吐出她的身体不久被破烂不堪
+		PRINTFORMW 可是凌辱没结束，被带回基地后作为性奴隶也陆续被侵犯
+	CASE 17
+		PRINTFORML 在被杀的家族旁边被土匪的肉棒扭伤的她一边流泪一边呻吟着
+		PRINTFORML 濒临死亡的雌性的本能疼痛，从下腹部快乐涌上来了她拼命反抗着
+		PRINTFORMW 可是他们的精液在胎内被放出了的话她禁不住提高娇声达到了不期望的绝顶
+	CASE 18
+		PRINTFORML 她坐在盘腿的土匪上，深深地拧着肉棒
+		PRINTFORML 为了被杀的恐怖一边忍耐下腹部的压迫感和热，被说的那样一边摇着腰
+		PRINTFORMW 被那个热情的服务中意的她好几次接受土匪的阴道内射精
+	CASE 19
+		PRINTFORML 拼命逃跑的她，却被土匪抓住，被粗暴地侵犯
+		PRINTFORML 她最好的蜜罐里，土匪着迷地敲着肉棒，她抽搐着呻吟着
+		PRINTFORMW 在狠狠地侵犯她后，土匪将她捆绑起来作为性奴隶带回巢穴
+ENDSELECT
+PRINTFORML 
+
+RETURN

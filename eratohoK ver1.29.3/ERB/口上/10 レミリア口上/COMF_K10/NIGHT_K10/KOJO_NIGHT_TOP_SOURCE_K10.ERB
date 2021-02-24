@@ -1,0 +1,640 @@
+﻿;─────────────────────────────────────── 
+;●閨_攻め_実行前_ソース参照　CALL TEASE_K10(レミリア_対象)
+;─────────────────────────────────────── 
+@TEASE_K10(レミリア_対象)
+#DIM レミリア
+#DIM レミリア_対象
+#DIM レミリア_今回部位値
+#DIM レミリア_最大部位値
+#DIM レミリア_表示フラグ
+#DIMS レミリア_今回部位
+#DIMS レミリア_最大部位
+#DIMS レミリア_今回部位称
+#DIMS レミリア_最大部位称
+
+IF !レミリア_対象
+	レミリア_対象 = MASTER
+ENDIF
+
+;初期化
+レミリア = NAME_TO_CHARA("レミリア")
+レミリア_今回部位値 = 0
+レミリア_最大部位値 = 0
+レミリア_表示フラグ = 0
+レミリア_今回部位 = ""
+レミリア_最大部位 = ""
+レミリア_今回部位称 = ""
+レミリア_最大部位称 = ""
+
+;─────────────────────────────────────── 
+;○レミリア_対象の快楽状態をチェック
+;─────────────────────────────────────── 
+;▼SOURCE
+;　前文の場合SOURCE・後文ならCUP・値は最大部位値との比較用なのでPALAMで保存
+;　最低1ないと刺激とみなさないPALAMには快Ｐがない
+IF SOURCE:レミリア_対象:快Ｖ >= 1 && SOURCE:レミリア_対象:快Ｖ >= SOURCE:レミリア_対象:快Ｐ && SOURCE:レミリア_対象:快Ｖ >= SOURCE:レミリア_対象:快Ｃ && SOURCE:レミリア_対象:快Ｖ >= SOURCE:レミリア_対象:快Ａ && SOURCE:レミリア_対象:快Ｖ >= SOURCE:レミリア_対象:快Ｂ
+	レミリア_今回部位値 = PALAM:レミリア_対象:快Ｖ
+	レミリア_今回部位 '= "Ｖ"
+	レミリア_今回部位称 '= CALL_DIRTY_K10("Ｖ")
+ELSEIF SOURCE:レミリア_対象:快Ａ >= 1 && SOURCE:レミリア_対象:快Ａ >= SOURCE:レミリア_対象:快Ｐ && SOURCE:レミリア_対象:快Ａ >= SOURCE:レミリア_対象:快Ｃ && SOURCE:レミリア_対象:快Ａ >= SOURCE:レミリア_対象:快Ｖ && SOURCE:レミリア_対象:快Ａ >= SOURCE:レミリア_対象:快Ｂ
+	レミリア_今回部位値 = PALAM:レミリア_対象:快Ａ
+	レミリア_今回部位 '= "Ａ"
+	レミリア_今回部位称 '= CALL_DIRTY_K10("Ａ")
+ELSEIF SOURCE:レミリア_対象:快Ｐ >= 1 && SOURCE:レミリア_対象:快Ｐ >= SOURCE:レミリア_対象:快Ｖ && SOURCE:レミリア_対象:快Ｐ >= SOURCE:レミリア_対象:快Ａ && SOURCE:レミリア_対象:快Ｐ >= SOURCE:レミリア_対象:快Ｃ && SOURCE:レミリア_対象:快Ｐ >= SOURCE:レミリア_対象:快Ｂ
+	レミリア_今回部位値 = PALAM:レミリア_対象:快Ｃ
+	レミリア_今回部位 '= "Ｐ"
+	レミリア_今回部位称 '= CALL_DIRTY_K10("Ｐ")
+ELSEIF SOURCE:レミリア_対象:快Ｃ >= 1 && SOURCE:レミリア_対象:快Ｃ >= SOURCE:レミリア_対象:快Ｐ && SOURCE:レミリア_対象:快Ｃ >= SOURCE:レミリア_対象:快Ｖ && SOURCE:レミリア_対象:快Ｃ >= SOURCE:レミリア_対象:快Ａ && SOURCE:レミリア_対象:快Ｃ >= SOURCE:レミリア_対象:快Ｂ
+	IF HAS_PENIS(レミリア_対象)
+		レミリア_今回部位値 = PALAM:レミリア_対象:快Ｃ
+		レミリア_今回部位 '= "Ｐ"
+		レミリア_今回部位称 '= CALL_DIRTY_K10("Ｐ")
+	ELSE
+		レミリア_今回部位値 = PALAM:レミリア_対象:快Ｃ
+		レミリア_今回部位 '= "Ｃ"
+		レミリア_今回部位称 '= CALL_DIRTY_K10("Ｃ")
+	ENDIF
+ELSEIF SOURCE:レミリア_対象:快Ｂ >= 1 && SOURCE:レミリア_対象:快Ｂ >= SOURCE:レミリア_対象:快Ｐ && SOURCE:レミリア_対象:快Ｂ >= SOURCE:レミリア_対象:快Ｃ && SOURCE:レミリア_対象:快Ｂ >= SOURCE:レミリア_対象:快Ｖ && SOURCE:レミリア_対象:快Ｂ >= SOURCE:レミリア_対象:快Ａ
+	レミリア_今回部位値 = PALAM:レミリア_対象:快Ｂ
+	レミリア_今回部位 '= "Ｂ"
+	レミリア_今回部位称 '= CALL_DIRTY_K10("Ｂ")
+ELSE
+	レミリア_今回部位値 = 0
+	レミリア_今回部位 '= ""
+	レミリア_今回部位称 '= ""
+ENDIF
+
+;▼PALAM
+;　PALAMは絶頂までの蓄積＆絶頂により落ち着く（LIMIT9999）
+;　最低10ないと刺激とみなさないPALAMには快Ｐがない
+IF PALAM:レミリア_対象:快Ｖ >= 10 && PALAM:レミリア_対象:快Ｖ >= PALAM:レミリア_対象:快Ｃ && PALAM:レミリア_対象:快Ｖ >= PALAM:レミリア_対象:快Ａ && PALAM:レミリア_対象:快Ｖ >= PALAM:レミリア_対象:快Ｂ
+	レミリア_最大部位値 = PALAM:レミリア_対象:快Ｖ
+	レミリア_最大部位 '= "Ｖ"
+	レミリア_最大部位称 '= CALL_DIRTY_K10("Ｖ")
+ELSEIF PALAM:レミリア_対象:快Ａ >= 10 && PALAM:レミリア_対象:快Ａ >= PALAM:レミリア_対象:快Ｃ && PALAM:レミリア_対象:快Ａ >= PALAM:レミリア_対象:快Ｖ && PALAM:レミリア_対象:快Ａ >= PALAM:レミリア_対象:快Ｂ
+	レミリア_最大部位値 = PALAM:レミリア_対象:快Ａ
+	レミリア_最大部位 '= "Ａ"
+	レミリア_最大部位称 '= CALL_DIRTY_K10("Ａ")
+ELSEIF PALAM:レミリア_対象:快Ｃ >= 10 && PALAM:レミリア_対象:快Ｃ >= PALAM:レミリア_対象:快Ｖ && PALAM:レミリア_対象:快Ｃ >= PALAM:レミリア_対象:快Ａ && PALAM:レミリア_対象:快Ｃ >= PALAM:レミリア_対象:快Ｂ
+	IF HAS_PENIS(レミリア)
+		レミリア_最大部位値 = PALAM:レミリア_対象:快Ｃ
+		レミリア_最大部位 '= "Ｐ"
+		レミリア_最大部位称 '= CALL_DIRTY_K10("Ｐ")
+	ELSE
+		レミリア_最大部位値 = PALAM:レミリア_対象:快Ｃ
+		レミリア_最大部位 '= "Ｃ"
+		レミリア_最大部位称 '= CALL_DIRTY_K10("Ｃ")
+	ENDIF
+ELSEIF PALAM:レミリア_対象:快Ｂ >= 10 && PALAM:レミリア_対象:快Ｂ >= PALAM:レミリア_対象:快Ｃ && PALAM:レミリア_対象:快Ｂ >= PALAM:レミリア_対象:快Ｖ && PALAM:レミリア_対象:快Ｂ >= PALAM:レミリア_対象:快Ａ
+	レミリア_最大部位値 = PALAM:レミリア_対象:快Ｂ
+	レミリア_最大部位 '= "Ｂ"
+	レミリア_最大部位称 '= CALL_DIRTY_K10("Ｂ")
+ELSE
+	レミリア_最大部位値 = 0
+	レミリア_最大部位 '= ""
+	レミリア_最大部位称 '= ""
+ENDIF
+
+;─────────────────────────────────────── 
+;○台詞１_失神・疲労
+;─────────────────────────────────────── 
+;▼失神
+IF TCVAR:レミリア_対象:52
+	PRINTFORM 「
+	PRINTDATA
+		DATAFORM 起床吧
+		;TranslatedMark %CALLNAME_K10(レミリア_対象)%、起きて
+		DATAFORM 你睡得太香了吗？喂
+		;TranslatedMark イキ過ぎて眠っちゃったの？　ねぇ
+		DATAFORM 还没有呢
+		;TranslatedMark %CALLNAME_K10(レミリア_対象)%、まだよ
+	ENDDATA
+	PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+
+;気力が1/3以下
+ELSEIF BASE:レミリア_対象:気力 <= (MAXBASE:レミリア_対象:気力 / 3)
+	PRINTFORM 「
+	PRINTFORM %SPLIT_R("たくさん：とっても：いっぱい：すごい")%
+	PRINTFORM %SPLIT_R("気持ちよくなっちゃった：イッちゃった：よろこんでくれた：感じちゃった")%
+	PRINTFORM %SPLIT_R("わね：のね：みたいね")%
+	PRINTFORM %BREAK_K10("中", レミリア_対象)%
+	IF IS_MALE(レミリア_対象)
+		PRINTDATA
+			DATAFORM 痛苦地抵抗着
+			;TranslatedMark 苦しそうにぜいぜいして
+			DATAFORM 肉太紧了
+			;TranslatedMark お肉が締まって
+			DATAFORM 身体的肌肉浮起
+			;TranslatedMark 体の筋が浮いて
+			DATAFORM 挨了一顿骂
+			;TranslatedMark くったりしちゃって
+			DATAFORM 战战兢兢地
+			;TranslatedMark ぶるぶるしちゃって
+			DATAFORM 嘶哑的声音
+			;TranslatedMark かすれた声して
+			DATAFORM 汗流浃背
+			;TranslatedMark 汗だくで
+			DATAFORM 皮肤染上了血的颜色
+			;TranslatedMark 肌が血の色に染まって
+		ENDDATA
+	ELSE
+		PRINTDATA
+			DATAFORM 痛苦地挣扎着
+			;TranslatedMark 苦しそうにはぁはぁして
+			DATAFORM 摇晃着胸口
+			;TranslatedMark 胸を揺らして
+			DATAFORM 身体的肌肉浮起
+			;TranslatedMark 体の筋が浮いて
+			DATAFORM 挨了一顿骂
+			;TranslatedMark くったりしちゃって
+			DATAFORM 扑哧扑哧地响
+			;TranslatedMark ぷるぷるしちゃって
+			DATAFORM 甜蜜的声音
+			;TranslatedMark 甘い声して
+			DATAFORM 汗流浃背
+			;TranslatedMark 汗ぐっしょりで
+			DATAFORM 皮肤染上了粉红色
+			;TranslatedMark 肌がピンク色に染まって
+		ENDDATA
+	ENDIF
+	PRINTDATA
+		DATAFORM 看起来很好吃
+		;TranslatedMark 美味しそう
+		DATAFORM 嗓子要响了
+		;TranslatedMark 喉が鳴っちゃう
+		DATAFORM 好想吃啊
+		;TranslatedMark 食べちゃいたいわ
+		DATAFORM 无论吃多少，肚子都饿了
+		;TranslatedMark いくら食べてもおなかが減っちゃう
+		DATAFORM 香味儿
+		;TranslatedMark いい匂い
+		DATAFORM 好像很好吃的味道
+		;TranslatedMark 美味しそうな匂い
+	ENDDATA
+	PRINTFORM %BREAK_K10("末", レミリア_対象)%
+	PRINTFORML 」
+ENDIF
+
+;▼疲労
+IF TCVAR:レミリア_対象:51 || BASE:レミリア_対象:体力 <= (MAXBASE:レミリア_対象:体力 / 3)
+	PRINTFORM 「
+	PRINTDATA
+		DATAFORM 痛苦？再努力一点
+		;TranslatedMark 苦し？　もう少し頑張りなさい
+		DATAFORM 已经累了吗？好啊。随便给你吃
+		;TranslatedMark もう疲れちゃったの？　いいわ。勝手に食べてあげる
+		DATAFORM 如果动不了的话，那样就可以了。容易吃
+		;TranslatedMark 動けないなら、それはそれでいいわ。食べやすいし
+		DATAFORM 已经不行了吗？还想吃呢
+		;TranslatedMark もうだめなの？　まだ食べたいわ
+	ENDDATA
+	PRINTFORM %BREAK_K10("末", レミリア_対象)%
+	PRINTFORML 」
+ENDIF
+
+;─────────────────────────────────────── 
+;○台詞２_ソースに関して
+;　覚書：解消は会話のみ・感応は猥談本屋のみ
+;─────────────────────────────────────── 
+レミリア_表示フラグ = 0
+IF SOURCE:レミリア_対象:苦痛 >= 10
+	レミリア_表示フラグ += 1
+	IF レミリア_表示フラグ == 1
+		PRINTFORM 「
+	ELSEIF レミリア_表示フラグ > 3
+		PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("中", レミリア_対象)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 疼吗？尽量不要留下伤口，把身体交给我吧
+		;TranslatedMark 痛いの？　なるべく傷は残さないから、私に身を委ねなさい
+		DATAFORM 我会注意不要受伤的，放心痛吧
+		;TranslatedMark ケガはしないように気を付けてあげるから、安心して痛がってていいわ
+		DATAFORM 疼的话很恐怖吧？你要是畏惧我就好了。让血变得美味的东西
+		;TranslatedMark 痛いと怖いでしょ？　私を畏れるといいわ。血が美味しくなるもの
+		DATAFORM 不好好心情变好的话，会很痛的
+		;TranslatedMark ちゃんと気持ち良くなろうとしないと、痛いわ
+	ENDDATA
+ENDIF
+
+;とりあえずレミリア_対象が主人公で陥落時のみ
+;NTRで心も奪われたい派に向けにはどう分岐させたらいいものか
+IF CHECK_K10("陥落", レミリア_対象)
+	IF SOURCE:レミリア_対象:愛情 >= 10 || SOURCE:レミリア_対象:歓喜 >= 10
+		レミリア_表示フラグ += 1
+		IF レミリア_表示フラグ == 1
+			PRINTFORM 「
+		ELSEIF レミリア_表示フラグ > 3
+			PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K10("中", レミリア_対象)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 我喜欢你
+			;TranslatedMark %CALLNAME_K9(レミリア_対象, "ぁ")%、すき
+			DATAFORM 犁
+			;TranslatedMark すき
+			DATAFORM 最喜欢
+			;TranslatedMark だいすき
+		ENDDATA
+		PRINTDATA
+			DATAFORM 哟
+			;TranslatedMark よ
+			DATAFORM 奈叶
+			;TranslatedMark なの
+			DATAFORM ❤嗯，中
+			;TranslatedMark ❤　ん、ちゅ
+			DATAFORM ❤嗯，嗯
+			;TranslatedMark ❤　んん、ん
+		ENDDATA
+		PRINTFORM %BREAK_K10("中", レミリア_対象)%
+		PRINTDATA
+			DATAFORM 请面向我
+			;TranslatedMark ちゃんと私のほうを向いていなさい
+			DATAFORM ……啊？喜欢，你怎么了
+			;TranslatedMark ……え？　すき、はどうしたの
+			DATAFORM 也喜欢你
+			;TranslatedMark %CALLNAME_K9(レミリア_対象)%もすきすきして
+			DATAFORM 我没听见。好好地把它给我
+			;TranslatedMark 聞こえなかったわ。ちゃんとすきって返して
+			DATAFORM %CALLNAME_K9(レミリア_対象, "ぁ")%
+		ENDDATA
+	ENDIF
+ENDIF
+
+;レミリア_対象が主人公で陥落時か、レミリア_対象が好意的東方キャラとして扱う紅魔館メンバーのときのみ
+IF CHECK_K10("陥落", レミリア_対象) || CHECK_K10("紅魔館", レミリア_対象)
+	IF SOURCE:レミリア_対象:優越 >= 10 || SOURCE:レミリア_対象:接触 >= 10 || SOURCE:レミリア_対象:奉仕 >= 10
+		レミリア_表示フラグ += 1
+		IF レミリア_表示フラグ == 1
+			PRINTFORM 「
+		ELSEIF レミリア_表示フラグ > 3
+			PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K10("中", レミリア_対象)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 一定会心情变好的
+			;TranslatedMark きっと気持ちよくなれるわ
+			DATAFORM 我的牙很好哦
+			;TranslatedMark 私の牙はとてもいいのよ
+			DATAFORM 变得讨厌
+			;TranslatedMark いやらしくなって
+			DATAFORM 让我听到你的声音
+			;TranslatedMark 声を聴かせて
+		ENDDATA
+	ENDIF
+ENDIF
+
+IF SOURCE:レミリア_対象:恐怖 >= 10 || SOURCE:レミリア_対象:不安 >= 10
+	レミリア_表示フラグ += 1
+	IF レミリア_表示フラグ == 1
+		PRINTFORM 「
+	ELSEIF レミリア_表示フラグ > 3
+		PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("中", レミリア_対象)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 畏惧着呢
+		;TranslatedMark 畏れているのね
+		DATAFORM 好像很好吃的味道啊。好恐怖啊
+		;TranslatedMark 美味しそうな匂いがするわ。怖いのね
+		DATAFORM 请那样畏惧。血会变好吃的
+		;TranslatedMark そのまま畏れていなさい。血が美味しくなるわ
+		DATAFORM 很不安呢。那样就可以了
+		;TranslatedMark 不安なのね。それでいいの
+	ENDDATA
+ENDIF
+
+IF SOURCE:レミリア_対象:反感 >= 10
+	レミリア_表示フラグ += 1
+	IF レミリア_表示フラグ == 1
+		PRINTFORM 「
+	ELSEIF レミリア_表示フラグ > 3
+		PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("中", レミリア_対象)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 生气了吗？你太坏了吧
+		;TranslatedMark 怒っちゃった？　いじわるしすぎたのね
+		DATAFORM 生气的脸也很有魅力哦
+		;TranslatedMark 怒った顔も魅力的よ
+		DATAFORM 你生气了吧。我会立刻开心起来的
+		;TranslatedMark 怒っちゃったのね。すぐ愉しくなるようにするわ
+	ENDDATA
+ENDIF
+
+;頻度が高い気がする・状況が多そうでバリエーション不足
+IF CHECK_K10("陥落", レミリア_対象) || CHECK_K10("紅魔館", レミリア_対象)
+	IF SOURCE:レミリア_対象:露出 >= 10 || SOURCE:レミリア_対象:逸脱 >= 10
+		レミリア_表示フラグ += 1
+		IF レミリア_表示フラグ == 1
+			PRINTFORM 「
+		ELSEIF レミリア_表示フラグ > 3
+			PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+			PRINTFORM 「
+		ELSE
+			PRINTFORM %BREAK_K10("中", レミリア_対象)%
+		ENDIF
+		PRINTDATA
+			DATAFORM 好好给我看一下
+			;TranslatedMark ちゃんと見せて
+			DATAFORM 好好给我看看
+			;TranslatedMark よく見せて
+			DATAFORM 全部暴露给我
+			;TranslatedMark 私に全てを曝け出すの
+			DATAFORM 我来揭穿你的%CALLNAME_K9(レミリア_対象)%
+			;TranslatedMark %CALLNAME_K9(レミリア_対象)%を暴いてあげる
+		ENDDATA
+	ENDIF
+ENDIF
+
+IF SOURCE:レミリア_対象:触手 >= 10
+	レミリア_表示フラグ += 1
+	IF レミリア_表示フラグ == 1
+		PRINTFORM 「
+	ELSEIF レミリア_表示フラグ > 3
+		PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("中", レミリア_対象)%
+	ENDIF
+	PRINTDATA
+		DATAFORM %SPLIT_R("怖くて：いぼいぼが：熱い体液が：蛇腹が：うねうね暴れて：太くて：繊細で")%可以吧
+		;TranslatedMark %SPLIT_R("怖くて：いぼいぼが：熱い体液が：蛇腹が：うねうね暴れて：太くて：繊細で")%いいでしょ
+		DATAFORM 好好给他玩。我一定会喜欢上你的
+		;TranslatedMark ちゃんと遊んであげて。%SPLIT_R("怖くて：いぼいぼが：熱い体液が：蛇腹が：うねうね暴れてくれるから：太くて：繊細だから")%きっと好きになるわ
+		DATAFORM 和触手一起享受吧
+		;TranslatedMark 触手と愉しんでいいのよ
+	ENDDATA
+ENDIF
+
+;レミリア_対象の奉仕
+IF SOURCE:レミリア_対象:不潔 >= 10
+	レミリア_表示フラグ += 1
+	IF レミリア_表示フラグ == 1
+		PRINTFORM 「
+	ELSEIF レミリア_表示フラグ > 3
+		PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+		PRINTFORM 「
+	ELSE
+		PRINTFORM %BREAK_K10("中", レミリア_対象)%
+	ENDIF
+	PRINTDATA
+		DATAFORM 没关系吗？嗯，嗯
+		;TranslatedMark だいじょうぶ？　んっ、ふぁ
+		DATAFORM 你不觉得脏吗……%CALLNAME_K10(レミリア_対象)%
+		;TranslatedMark 汚いって思わないかしら……%CALLNAME_K10(レミリア_対象)%
+		DATAFORM 嗯……嗯。好舒服啊。会弄脏的哦
+		;TranslatedMark うぅ……ん。気持ちいい、わ。汚しちゃうわね
+		DATAFORM 给你……嗯
+		;TranslatedMark あげるわ……ふあ
+	ENDDATA
+ENDIF
+
+IF レミリア_表示フラグ
+	PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+ENDIF
+
+;─────────────────────────────────────── 
+;○台詞３_レミリア_対象の感じ具合に関して
+;　攻め側は部位を発言することが多いので低快楽度でも分岐させる
+;─────────────────────────────────────── 
+;▽今回部位称か最大部位称がとれていないので部位表現をぼかす
+IF 	レミリア_今回部位称 == "" || レミリア_最大部位称 == ""
+	PRINTFORM 「
+	;▼～1500
+	IF レミリア_今回部位値 < 1500
+		PRINTDATA
+			DATAFORM 悄悄地告诉你
+			;TranslatedMark そっとしてあげる
+			DATAFORM 渐渐变得快乐起来
+			;TranslatedMark だんだん愉しくなるわ
+			DATAFORM 我不好吗？现在开始
+			;TranslatedMark 私、下手？　これからよ
+		ENDDATA
+
+	;▼1500～5000
+	ELSEIF レミリア_今回部位値 >= 1500 && レミリア_今回部位値 < 5000
+		PRINTDATA
+			DATAFORM 哎呀呀，心情不是好起来了吗
+			;TranslatedMark ほぉら、気持ちよくなってきたじゃない
+			DATAFORM 变得快乐起来了吧
+			;TranslatedMark 愉しくなってきたでしょう
+			DATAFORM 看起来很开心的样子
+			;TranslatedMark 嬉しそうになってきたわ
+		ENDDATA
+
+	;▼5000～9000
+	ELSEIF レミリア_今回部位値 >= 5000 && レミリア_今回部位値 < 9000
+		PRINTDATA
+			DATAFORM 有很好闻的味道呢
+			;TranslatedMark いい匂いがしてきたわね
+			DATAFORM 在颤抖吗？很近呢
+			;TranslatedMark 震えているの？　近いのね
+			DATAFORM 马上就要更快乐了
+			;TranslatedMark もうすぐもっと愉しくなるわ
+		ENDDATA
+
+	;▼9000～
+	ELSE
+		PRINTDATA
+			DATAFORM 好啊。我来哄你
+			;TranslatedMark いいわ。いかせてあげる
+			DATAFORM 原谅你。可以说哦
+			;TranslatedMark 許してあげる。いっていいのよ
+			DATAFORM 好好去的时候要说哦
+			;TranslatedMark ちゃんといくときは言いなさいね
+			DATAFORM 去吗？好啊
+			;TranslatedMark いくの？　いいわよ
+		ENDDATA
+	ENDIF
+	PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+
+;▽今回部位称と最大部位称がとれている
+ELSE
+	PRINTFORM 「
+	;▼～1500
+	IF レミリア_今回部位値 < 1500
+		PRINTDATA
+			DATAFORM 我会轻轻地。%レミリア_今回部位称%还没有想要呢
+			;TranslatedMark そっとしてあげる。%レミリア_今回部位称%はまだ欲しがってないのね
+			DATAFORM %レミリア_今回部位称%也渐渐变得愉快了
+			;TranslatedMark %レミリア_今回部位称%もだんだん愉しくなるわ
+			DATAFORM 我不好吗？现在开始
+			;TranslatedMark 私、下手？　これからよ
+		ENDDATA
+
+	;▼1500～5000
+	ELSEIF レミリア_今回部位値 >= 1500 && レミリア_今回部位値 < 5000
+		IF レミリア_最大部位 == レミリア_今回部位
+			PRINTDATA
+				DATAFORM 哎呀，%レミリア_今回部位称%心情变好了啊
+				;TranslatedMark ほぉら、%レミリア_今回部位称%気持ちよくなってきたじゃない
+				DATAFORM %レミリア_今回部位称%、变得愉快了吧
+				;TranslatedMark %レミリア_今回部位称%、愉しくなってきたでしょう
+				DATAFORM %レミリア_今回部位称%好像很开心的样子
+				;TranslatedMark %レミリア_今回部位称%が嬉しそうになってきたわ
+			ENDDATA
+		ELSE
+			PRINTDATA
+				DATAFORM 你想要%レミリア_今回部位称%的%レミリア_最大部位称%吗？不行
+				;TranslatedMark %レミリア_今回部位称%より%レミリア_最大部位称%にして欲しいの？　だめ
+				DATAFORM 按我想做的去做。%レミリア_最大部位称%还不行
+				;TranslatedMark 私のしたいようにしちゃうわ。%レミリア_最大部位称%はまだイッちゃだめ
+				DATAFORM %レミリア_今回部位称%也会变得心情舒畅
+				;TranslatedMark %レミリア_今回部位称%でも気持ちよくなるの
+				DATAFORM %レミリア_今回部位称%和%レミリア_最大部位称%，一起变好心情吧
+				;TranslatedMark %レミリア_今回部位称%と%レミリア_最大部位称%、一緒に気持ちよくなりなさい
+			ENDDATA
+		ENDIF
+	;▼5000～9000
+	ELSEIF レミリア_今回部位値 >= 5000 && レミリア_今回部位値 < 9000
+		IF レミリア_最大部位 == レミリア_今回部位
+			PRINTDATA
+				DATAFORM %レミリア_今回部位称%也差不多吧
+				;TranslatedMark もう%レミリア_今回部位称%も同じくらいいいわね
+				DATAFORM %レミリア_今回部位称%也有看起来很好吃的味道
+				;TranslatedMark %レミリア_今回部位称%も美味しそうな匂いがするわ
+				DATAFORM 已经不能选择想要哪个了吧
+				;TranslatedMark どっちに欲しいか選べなくなってきたでしょう
+			ENDDATA
+		ELSE
+			PRINTDATA
+				DATAFORM %レミリア_今回部位称%和%レミリア_最大部位称%都不错
+				;TranslatedMark %レミリア_今回部位称%と%レミリア_最大部位称%、どっちも良さそう
+				DATAFORM 变得想去了吗？　%レミリア_今回部位称%？　%レミリア_最大部位称%？还没呢
+				;TranslatedMark いきたくなってきた？　%レミリア_今回部位称%？　%レミリア_最大部位称%？　まだよ
+				DATAFORM %レミリア_今回部位称%好像也来了
+				;TranslatedMark %レミリア_今回部位称%もいきたそうになってきたわ
+				DATAFORM 不管是摸%レミリア_今回部位称%还是摸%レミリア_最大部位称%，都会吓得发抖呢
+				;TranslatedMark %レミリア_今回部位称%に触っても%レミリア_最大部位称%に触っても、びくんびくんってなるわね
+			ENDDATA
+		ENDIF
+	;▼9000～
+	ELSE
+		IF レミリア_最大部位 == レミリア_今回部位
+			PRINTDATA
+				DATAFORM 我来哄你。在%レミリア_今回部位称%
+				;TranslatedMark いかせてあげる。%レミリア_今回部位称%で
+				DATAFORM 用%レミリア_今回部位称%就行了
+				;TranslatedMark %レミリア_今回部位称%でいっちゃうといいわ
+				DATAFORM %レミリア_今回部位称%和%レミリア_最大部位称%，两个都去吧
+				;TranslatedMark %レミリア_今回部位称%と%レミリア_最大部位称%、どっちもいっちゃいなさい
+				DATAFORM 是吗？在%レミリア_最大部位称%
+				;TranslatedMark イきそう？　%レミリア_最大部位称%で
+			ENDDATA
+		ELSE
+			PRINTDATA
+				DATAFORM 感觉一个劲地呢。痉挛得厉害
+				;TranslatedMark 感じまくりね。すごい痙攣
+				DATAFORM %レミリア_今回部位称%和%レミリア_最大部位称%都很讨厌啊
+				;TranslatedMark %レミリア_今回部位称%も%レミリア_最大部位称%もいやらしいわ
+				DATAFORM 到处去都可以。让我喝好吃的
+				;TranslatedMark あちこちいっちゃっていいわ。美味しいのを飲まさせて
+				DATAFORM %レミリア_今回部位称%和%レミリア_最大部位称%哪个去？两个都说吧
+				;TranslatedMark %レミリア_今回部位称%と%レミリア_最大部位称%どっちでいくの？　どっちもいっちゃいなさい
+			ENDDATA
+		ENDIF
+	ENDIF
+	PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+ENDIF
+
+;─────────────────────────────────────── 
+;○台詞４_同一コマンド＆陥落済み＆レミリア_対象が主人公＆レミリア_対象が絶頂寸前の場合
+;　同一コマンド＆陥落済み＆レミリア_対象が主人公＆レミリア_対象が絶頂寸前の場合
+;　たまに蛇足的に煽ったりねだったり移入してハイになってる感じを出す
+;─────────────────────────────────────── 
+IF SELECTCOM == PREVCOM && CHECK_K10("陥落", レミリア_対象) && RAND:10 == 0
+	IF MAX(PALAM:レミリア_対象:快Ｃ, PALAM:レミリア_対象:快Ｖ, PALAM:レミリア_対象:快Ａ, PALAM:レミリア_対象:快Ｂ) >= 9000
+		;純攻め
+		IF IS_INITIATIVE(レミリア)
+			PRINTFORM 「
+			IF HAS_PENIS(レミリア_対象)
+				PRINTDATA
+					DATAFORM 还不行。全部挤出来
+					;TranslatedMark まだだめ。ぜんぶ搾り出しなさい
+					DATAFORM %SPLIT_R("ずっと：いつまででも：何度でも")%
+					;TranslatedMark %SPLIT_R("ずっと：いつまででも：何度でも")%いって
+					DATAFORM 直到干涸为止
+					;TranslatedMark 涸れるまで出して
+					DATAFORM 在我的臂弯中，我会永远快乐地哭泣
+					;TranslatedMark 私の腕のなかで、いつまでも悦びに咽び泣くの
+					DATAFORM 感受%SPLIT_R("狂うくらい：正気を失うくらい")%
+					;TranslatedMark %SPLIT_R("狂うくらい：正気を失うくらい")%感じて
+					DATAFORM 继续出%SPLIT_R("怖くなる：畏れる")%左右
+					;TranslatedMark %SPLIT_R("怖くなる：畏れる")%くらい出し続けて
+					DATAFORM 粘糊糊的白血，喜欢得想一直舔着
+					;TranslatedMark とろとろの白い血、ずっと舐めていたいくらい好きよ
+				ENDDATA
+			ELSE
+				PRINTDATA
+					DATAFORM 还不原谅。再三追逼
+					;TranslatedMark まだ許さない。何度も追い詰めてあげる
+					DATAFORM %SPLIT_R("ずっと：いつまででも：何度でも")%
+					;TranslatedMark %SPLIT_R("ずっと：いつまででも：何度でも")%いって
+					DATAFORM 睡觉的时候也疼爱你
+					;TranslatedMark 寝てる間も可愛がってあげる
+					DATAFORM 黎明还很遥远
+					;TranslatedMark 夜明けはまだ遠いわ
+					DATAFORM 感受%SPLIT_R("狂うくらい：正気を失うくらい")%
+					;TranslatedMark %SPLIT_R("狂うくらい：正気を失うくらい")%感じて
+					DATAFORM 粘糊糊的蜂蜜，喜欢到想一直舔着的程度
+					;TranslatedMark とろとろの蜂蜜、ずっと舐めていたいくらい好きよ
+					DATAFORM 继续达到%SPLIT_R("怖くなる：畏れる")%左右
+					;TranslatedMark %SPLIT_R("怖くなる：畏れる")%くらい達し続けて
+				ENDDATA
+			ENDIF
+			PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+		;奉仕攻め
+		ELSE
+			PRINTFORM 「
+			IF HAS_PENIS(レミリア_対象)
+				PRINTDATA
+					DATAFORM 希望%CALLNAME_K10(レミリア_対象)%变好
+					;TranslatedMark %CALLNAME_K10(レミリア_対象)%に良くなって欲しいの
+					DATAFORM %CALLNAME_K10(レミリア_対象)%，舒服吗？好啊
+					;TranslatedMark %CALLNAME_K10(レミリア_対象)%、気持ちいい？　いいのね
+					DATAFORM 希望多拿一点
+					;TranslatedMark いっぱい出して欲しいの
+					DATAFORM 想要你的身体
+					;TranslatedMark 体にかけて欲しいの
+					DATAFORM %ANAME(レミリア)%很舒服吧？喜欢上你
+					;TranslatedMark %ANAME(レミリア)%は気持ちいいでしょう？　好きになって
+					DATAFORM 粘糊糊的白血，喜欢得想一直舔着
+					;TranslatedMark とろとろの白い血、ずっと舐めていたいくらい好きよ
+				ENDDATA
+			ELSE
+				PRINTDATA
+					DATAFORM 希望%CALLNAME_K10(レミリア_対象)%变好
+					;TranslatedMark %CALLNAME_K10(レミリア_対象)%に良くなって欲しいの
+					DATAFORM %CALLNAME_K10(レミリア_対象)%，舒服吗？好啊
+					;TranslatedMark %CALLNAME_K10(レミリア_対象)%、気持ちいい？　いいのね
+					DATAFORM 希望多拿一点
+					;TranslatedMark いっぱい出して欲しいの
+					DATAFORM 想要你的身体
+					;TranslatedMark 体にかけて欲しいの
+					DATAFORM %ANAME(レミリア)%很舒服吧？喜欢上你
+					;TranslatedMark %ANAME(レミリア)%は気持ちいいでしょう？　好きになって
+					DATAFORM 粘糊糊的蜂蜜，喜欢到想一直舔着的程度
+					;TranslatedMark とろとろの蜂蜜、ずっと舐めていたいくらい好きよ
+				ENDDATA
+			ENDIF
+			PRINTFORML %BREAK_K10("末", レミリア_対象)%」
+		ENDIF
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;◆戻る
+;─────────────────────────────────────── 
+RETURN 0
+

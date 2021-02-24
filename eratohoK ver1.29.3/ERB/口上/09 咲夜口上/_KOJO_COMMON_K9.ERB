@@ -1,0 +1,171 @@
+﻿;─────────────────────────────────────── 
+;共通部分
+;─────────────────────────────────────── 
+;─────────────────────────────────────── 
+;●口上の存在判定
+;─────────────────────────────────────── 
+@KOJO_EXIST_K9
+;
+;以下エンディング・ネタバレ注意というほどのことは無いけれど一応下げ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;─────────────────────────────────────── 
+;●単体エンディング
+;─────────────────────────────────────── 
+@KOJO_SINGLE_ENDING_K9
+#DIM 咲夜
+#DIM 咲夜_対象
+
+咲夜 = NAME_TO_CHARA("咲夜")
+咲夜_対象 = MASTER
+
+;同陣営、レミリアがいる
+IF CFLAG:(咲夜):所属 == CFLAG:(咲夜_対象):所属 && CFLAG:(NAME_TO_CHARA("レミリア")):所属 == CFLAG:(咲夜_対象):所属
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「恭喜，%CALLNAME_K9(咲夜_対象)%」
+		;TranslatedMark 「おめでとうございます、%CALLNAME_K9(咲夜_対象)%」
+		PRINTFORML 「你能引导大小姐走向胜利……我对此非常感谢」
+		;TranslatedMark 「お嬢様を勝利に導いてくださったこと……感謝しております」
+		PRINTFORMW 「今晚准备了特别的酒。请一起品尝胜利的美酒」
+		;TranslatedMark 「今夜は特別なお酒を用意しました。どうぞ、勝利の美酒を召し上がってください」
+		PRINTL 
+		PRINTFORML 「那么，今后打算怎么样？」
+		;TranslatedMark 「それで、今後はいかがなさるおつもりです？」
+		PRINTFORML 「幻想乡的和平就像沙子上的巴别塔一样吧」
+		;TranslatedMark 「幻想郷の平和は砂上のバベルのようなものでしょう」
+		PRINTFORMW 「小姐和我还需要%CALLNAME_K9(咲夜_対象)%的指引」
+		;TranslatedMark 「お嬢様と私にはまだ%CALLNAME_K9(咲夜_対象)%のお導きが必要です」
+		PRINTL 
+		PRINTFORML 「今后需要身边有人照顾的话，请无论如何也要命令我」
+		;TranslatedMark 「これからも身の回りのお世話が必要なときは、なんなりとご命令ください」
+		RETURN 0
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「恭喜你，%CALLNAME_K9(咲夜_対象)%。今天晚上要庆祝哦」
+		;TranslatedMark 「おめでとう、%CALLNAME_K9(咲夜_対象)%。今夜はお祝いね」
+		PRINTFORML 「引导大小姐走向胜利……我很感谢你」
+		;TranslatedMark 「お嬢様を勝利に導いてくれたこと……感謝しているわ」
+		PRINTFORMW 「胜利的美酒？我准备了特别的酒哦」
+		;TranslatedMark 「勝利の美酒でしょう？　特別なお酒を用意したわよ」
+		PRINTL 
+		PRINTFORML 「那么，今后该怎么办呢」
+		;TranslatedMark 「それで、これからはどうするのかしら」
+		PRINTFORMW 「幻想乡的和平就像沙子上的巴别塔一样，%CALLNAME_K9(咲夜_対象)%已经暂时了结了」
+		;TranslatedMark 「幻想郷の平和は砂上のバベルのようなものだけど、%CALLNAME_K9(咲夜_対象)%はひとまず決着をつけたもの」
+		PRINTL 
+		PRINTFORML 「我们的故事才刚刚开始，不是吗？」
+		;TranslatedMark 「私達のことは、これからでしょう？」
+		RETURN 0
+	ENDIF
+;それ以外
+ELSE
+	IF IS_SLAVE(咲夜)
+		PRINTFORML 「恭喜，%CALLNAME_K9(咲夜_対象)%」
+		;TranslatedMark 「おめでとうございます、%CALLNAME_K9(咲夜_対象)%」
+		PRINTFORMW 「今晚准备了特别的酒。请一起品尝胜利的美酒」
+		;TranslatedMark 「今夜は特別なお酒を用意しました。どうぞ、勝利の美酒を召し上がってください」
+		PRINTL 
+		PRINTFORML 「那么，今后打算怎么样？」
+		;TranslatedMark 「それで、今後はいかがなさるおつもりです？」
+		PRINTFORML 「幻想乡的和平就像沙子上的巴别塔一样吧」
+		;TranslatedMark 「幻想郷の平和は砂上のバベルのようなものでしょう」
+		PRINTFORMW 「我还需要%CALLNAME_K9(咲夜_対象)%的指引」
+		;TranslatedMark 「私にはまだ%CALLNAME_K9(咲夜_対象)%のお導きが必要です」
+		PRINTL 
+		PRINTFORML 「今后需要身边有人照顾的话，请无论如何也要命令我」
+		;TranslatedMark 「これからも身の回りのお世話が必要なときは、なんなりとご命令ください」
+		RETURN 0
+	ELSEIF IS_LOVER(咲夜)
+		PRINTFORML 「恭喜你，%CALLNAME_K9(咲夜_対象)%。今天晚上要庆祝哦」
+		;TranslatedMark 「おめでとう、%CALLNAME_K9(咲夜_対象)%。今夜はお祝いね」
+		PRINTFORMW 「胜利的美酒？我准备了特别的酒哦」
+		;TranslatedMark 「勝利の美酒でしょう？　特別なお酒を用意したわよ」
+		PRINTL 
+		PRINTFORML 「那么，今后该怎么办呢」
+		;TranslatedMark 「それで、これからはどうするのかしら」
+		PRINTFORMW 「幻想乡的和平就像沙子上的巴别塔一样，但是%CALLNAME_K9(咲夜_対象)%暂且解决了」
+		;TranslatedMark 「幻想郷の平和は砂上のバベルのようなものだけど、%CALLNAME_K9(咲夜_対象)%はひとまず決着をつけたわ」
+		PRINTL 
+		PRINTFORML 「我们的故事才刚刚开始，不是吗？」
+		;TranslatedMark 「私達のことは、これからでしょう？」
+		RETURN 0
+	ENDIF
+ENDIF
+
+;─────────────────────────────────────── 
+;●斬首エンディング
+;─────────────────────────────────────── 
+@KOJO_DEAD_ENDING_K9
+#DIM 咲夜
+#DIM 咲夜_対象
+
+咲夜 = NAME_TO_CHARA("咲夜")
+咲夜_対象 = MASTER
+
+IF IS_SLAVE(咲夜)
+	PRINTFORML 「%CALLNAME_K9(咲夜_対象)% 我做完我的工作后就去找你」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%――お役目を果たした後、私もそちらへ参ります」
+	PRINTFORMW 「请稍等一下」
+	;TranslatedMark 「少しだけ待っていてください」
+ELSE
+	PRINTFORML 「当我完成了我的任务，我也可以去那里了」
+	;TranslatedMark 「%CALLNAME_K9(咲夜_対象)%――役目を終えたら、私もそっちに逝けるわ」
+	PRINTFORMW 「请稍等一下」
+	;TranslatedMark 「少しだけ待っていて」
+ENDIF
+RETURN 0
+

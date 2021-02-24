@@ -1,0 +1,331 @@
+﻿;---------------------
+;基本的な発生確率(1000分率 100で10%)
+;これにコンフィグ項目の発生頻度がかけられるので、必ずしもこの通りにはならない
+;---------------------
+@EVENT_DAILY_BANDIT_CORRUPTION_RATE()
+RETURN (DVAR:麻薬漬け_ターゲット > 0 ? 250 # 30)
+
+
+;---------------------
+;確率以外の発生判定
+;〇期以降になると発生するとか、デイリー側で利用している変数が-1だったら起こさない　みたいなはじき方をするときに使う
+;---------------------
+@EVENT_DAILY_BANDIT_CORRUPTION_DECISION()
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+
+SIF CFLAG:MASTER:所属 != 土匪
+	RETURN 0
+
+SIF ITEM:麻薬 <= 0
+	RETURN 0
+
+RETURN 1
+
+;---------------------
+;ジャンル
+;コンフィグ設定で使用
+;---------------------
+@EVENT_DAILY_BANDIT_CORRUPTION_GENRE()
+RETURN デイリー_ジャンル_特殊勢力
+
+;---------------------
+;本体
+;イベントが発生した場合は1、発生しなかった場合は0を返す
+;発生しなかったというのは例えば、特定条件を満たすキャラからランダムに一人選ぶデイリーで、そもそもその条件を満たすキャラが一人もいないみたいなとき
+;旧仕様で作ったことある人向けにいうと「旧仕様のデイリー本体冒頭で-1を返すような状況」
+;---------------------
+@EVENT_DAILY_BANDIT_CORRUPTION()
+#DIM 対象
+#DIM 実行者
+#DIM 土匪
+土匪 = GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:(特殊勢力_野盗))
+
+対象 = ID_TO_CHARA(DVAR:麻薬漬け_ターゲット)
+実行者 = ID_TO_CHARA(DVAR:麻薬漬け_工作員ID)
+
+IF DVAR:麻薬漬け_篭絡段階 > 0
+	;工作員が死亡、捕虜、他の勢力に移っている場合は最初からになる
+	IF 実行者 < 0 || CFLAG:実行者:所属 != CFLAG:MASTER:所属 || CFLAG:実行者:捕虜先 != 0
+		PRINTFORML 那个士官笼络计划因为担当的工作人员丢失了而受挫了
+		PRINTFORMW 有必要从最初重新开始作战吧
+		DVAR:麻薬漬け_ターゲット = 0
+		DVAR:麻薬漬け_工作員ID = 0
+		DVAR:麻薬漬け_篭絡段階 = 0
+	ENDIF
+
+	;ターゲットが死亡、捕虜になっている場合は最初からになる
+	IF 対象 < 0 || CFLAG:対象:捕虜先 != 0 || CFLAG:対象:特殊状態 == 特殊状態_死亡
+		PRINTFORML 以为例的士官笼络计划已经到了无法找到目标的状况不得不中断
+		PRINTFORMW 放弃寻找新的目标吧
+		DVAR:麻薬漬け_ターゲット = 0
+		DVAR:麻薬漬け_工作員ID = 0
+		DVAR:麻薬漬け_篭絡段階 = 0
+	ENDIF
+ENDIF
+;初回、ターゲットと工作員決定
+IF DVAR:麻薬漬け_篭絡段階 == 0
+	PRINTFORML 制定了笼络敌国女士官的计划
+	PRINTFORML 如果成功的话，将会成为强大的战力，比什么都好的性奴隶
+	PRINTFORMW 以谁为目标呢？
+	CALL SELECT_CHARA_LIST_ONLY_LOGIC_SLG("BANDIT_CORRUPTION_TARGET", "BANDIT_CORRUPTION_TARGET")
+	IF RESULT < 0
+		PRINTFORMW 还是算了
+		RETURN 1
+	ENDIF
+	対象 = RESULT
+	PRINTFORML 目标是%ANAME(対象)%
+	PRINTFORMW 交给谁呢？
+	CALL SELECT_CHARA_LIST_ONLY_LOGIC_SLG("BANDIT_CORRUPTION_SPY", "BANDIT_CORRUPTION_SPY")
+	IF RESULT < 0
+		PRINTFORMW 还是算了
+		RETURN 1
+	ENDIF
+	実行者 = RESULT
+	IF 実行者 == MASTER
+		PRINTFORML %ANAME(実行者)%自己决定实施计划
+		PRINTFORMW %ANAME(実行者)%一边笑着一边开始准备实施计划
+	ELSE
+		PRINTFORML 决定委托给%ANAME(実行者)%
+		PRINTFORMW 他笑嘻嘻地开始准备执行计划
+	ENDIF
+	DVAR:麻薬漬け_ターゲット = GET_ID(対象)
+	DVAR:麻薬漬け_工作員ID = GET_ID(実行者)
+;工作員とターゲットが健在の場合、籠絡作戦は続行される
+ELSE
+	対象 = ID_TO_CHARA(DVAR:麻薬漬け_ターゲット)
+	実行者 = ID_TO_CHARA(DVAR:麻薬漬け_工作員ID)
+	PRINTFORML 上次继续实行笼络%ANAME(対象)%的作战
+	PRINTFORMW %ANAME(実行者)%拿着特制药前往她的身边
+ENDIF
+
+PRINTFORML ・
+PRINTFORML ・
+PRINTFORMW ・
+IF DVAR:麻薬漬け_篭絡段階 == 0
+	PRINTFORML %ANAME(実行者)%成功地化身为商人，谒见%ANAME(対象)%
+	PRINTFORML 为了不让怪异，礼貌端正的行为，和%ANAME(対象)%打招呼
+	PRINTFORML 对谦逊的态度的%ANAME(実行者)%，采取稍微看起来了不起的态度的%ANAME(対象)%
+	PRINTFORMW %ANAME(実行者)%内心一边焦急，一边考虑今后怎样调教
+	PRINTFORML 在短暂的闲聊之后，%ANAME(実行者)%将外来产的高级点心作为奉献
+	PRINTFORML …当然不只是点心，里面含有大量特制的媚药和毒品。
+	PRINTFORML %ANAME(対象)%毫无疑问地高兴地接受的话，一个摘下看起来好吃地包含在嘴里
+	PRINTFORMW 看了那个%ANAME(実行者)%在心中一边微笑一边离开了房间
+	PRINTFORML 
+	PRINTFORML 深夜，%ANAME(対象)%在床上呻吟
+	PRINTFORML 那张脸被染成红色，一边喘着气一边扭扭捏捏地搓着内八字腿
+	PRINTFORML %ANAME(対象)%今天一整天，身体着火没办法
+	PRINTFORML 我想如果睡想办法变成,不过，到夜晚变得身体的疼痛只变得强
+	PRINTFORMW 但是%ANAME(対象)%不知道原因，在床上只顾闷闷不乐
+	PRINTFORML %ANAME(対象)%终于变得不能忍耐，慢慢地湿透的秘所伸出了手指
+	PRINTFORML 轻轻地描画着就像麻木一般的快乐奔跑着，她吐出了甜蜜的呼吸
+	PRINTFORML 听到在安静的卧室里回响的那个声音，%ANAME(対象)%是不是被谁听到了吓得发抖
+	PRINTFORML 可是不可能那样的，周围安静返回着，放心了的她再次安慰起自己
+	PRINTFORMW 潜藏着的气息，手指的活动也逐渐变得激烈起来，不久她的喘息声在房间中回响起来
+	LOCAL:0 = RAND:3 + 3
+	SETCOLOR カラー_オレンジ
+	CALL FUCK(対象, "Ｃ, Ｂ, 自慰, 欲望")
+	RESETCOLOR
+	PRINTFORML 
+	PRINTFORML 结果%ANAME(対象)%持续自慰到夜晚变白为止
+	PRINTFORMW 可是好多次达到了的她哪里露出不满的表情
+	CFLAG:対象:薬物依存 += RAND(20, 50)
+	ITEM:麻薬 -= 1
+	DVAR:麻薬漬け_篭絡段階 ++
+ELSEIF DVAR:麻薬漬け_篭絡段階 == 1
+	PRINTFORML %ANAME(実行者)%再次拜见%ANAME(対象)%
+	PRINTFORML 一边做着寒暄一边看她的脸的话，微微地脸红的情况
+	PRINTFORMW 好象上次交付了的"点心"的效果表现着，%ANAME(実行者)%对她不被看一样地微微地笑
+	PRINTFORML %ANAME(実行者)%这次也是作为上次的赠品与上次的点心一起传递香气…当有放松的效果时
+	PRINTFORML 没注意到他的意图%ANAME(対象)%高兴地接受了
+	PRINTFORMW %ANAME(実行者)%内心窃笑早早地离开了房间
+	PRINTFORML 
+	PRINTFORML 深夜，在被香味焚烧的漆黑的房间中影子蠢动，喘息声回响着
+	PRINTFORML %ANAME(対象)%穿着睡衣在桌子的角落上蹭着胯股，晃着腰
+	PRINTFORML 由于特制的香味而兴奋不已的表情很散漫，简直就像盛开的母狗一样
+	PRINTFORMW 最近的她光靠手指是不够的，像这样安慰自己成了每天的必修课
+	PRINTFORML 与以前不同，他已经沉浸在无声无息的瑜伽狂、自慰之中
+	PRINTFORML 其中脚一边使之颤抖，%ANAME(対象)%与娇声一起很大地背反转达到了顶峰
+	PRINTFORML 那张脸看上去恍惚不已，曾经的害羞已经被快乐所冲走
+	PRINTFORMW 暂时靠在桌子上沉浸在绝顶的余音后，%ANAME(対象)%再次开始摇腰
+	LOCAL:0 = RAND:3 + 3
+	SETCOLOR カラー_オレンジ
+	CALL FUCK(対象, "Ｃ, Ｂ, 自慰, 欲望")
+	RESETCOLOR
+	PRINTFORML 
+	PRINTFORML 结果，%ANAME(対象)%的淫乱行为，持续到接近凌晨
+	PRINTFORMW 筋疲力尽地倒在床上的她，以一副迷恋的表情颤抖着身体
+	CFLAG:対象:薬物依存 += RAND(20, 50)
+	ITEM:麻薬 -= 1
+	DVAR:麻薬漬け_篭絡段階 ++
+ELSEIF DVAR:麻薬漬け_篭絡段階 == 2
+	PRINTFORML %ANAME(実行者)%再次拜见%ANAME(対象)%
+	PRINTFORML 但是她在%ANAME(実行者)%的寒暄中也是高高在上的样子，扭曲着身体
+	PRINTFORML 据说身体不舒服，和%ANAME(実行者)%故意地担心她就递出了茶
+	PRINTFORML 听到他这么说，%ANAME(対象)%毫不怀疑地说出了这句话
+	PRINTFORMW 确认了那个的%ANAME(実行者)%暂且与她做其他没有爱的会话，等
+	PRINTFORML 不会放置距离时间，只会让%ANAME(対象)%的眼睛变得浑浊起来
+	PRINTFORML 不久，为了不让身体用力而靠在沙发上，痛苦地喘着气
+	PRINTFORML %ANAME(実行者)%判断合适的话，做护理她的样子接近支撑身体
+	PRINTFORML 并且若无其事地揉胸的话，%ANAME(対象)%露出甜的叹息使身体颤抖
+	PRINTFORMW %ANAME(実行者)%抱住无法很好地抵抗的她，带进了卧室
+	PRINTFORML 
+	PRINTFORML %ANAME(実行者)%让%ANAME(対象)%坐在床上，让其喝剩的茶
+	PRINTFORML 随着的到来，她的气息越来越粗暴，在蜂拥而至的快乐中颤抖着身体
+	PRINTFORML 无视即使如此也微微残留的理性抵抗的她，%ANAME(実行者)%把她推倒在床上使之粗暴地脱下衣服
+	PRINTFORML %ANAME(対象)%想方设法逃跑,不过，只是轻地被责弄性感带象麻痹一样的快乐跑身体痉挛了
+	PRINTFORMW 继续象描画他成为了torotoro的裂缝一样地手指使之趴下，她bikunbikun一边痉挛一边提高了娇声
+	PRINTFORML %ANAME(実行者)%露出迷恋的表情无力地躺着%ANAME(対象)%的双脚展开的话，取出肉棒
+	PRINTFORML 她轻轻地尖叫着，不由得被那健壮的肉棒钉住，咽下了一口唾沫
+	PRINTFORML %ANAME(実行者)%为了让她看到，在充满爱液的蜜罐里，慢慢地拧进了肉棒
+	PRINTFORML 对潜入下腹部的灼热的感觉，%ANAME(対象)%一边仰视全身，一边发出声音不成颤抖
+	IF TALENT:対象:処女 == 1
+		PRINTFORMW 那个阴道肉与处女那个想不到的那样蠢动，肉棒缠绕了
+	ELSE
+		PRINTFORMW 完全做好的阴道肉在肉棒上蠕动着
+	ENDIF
+	PRINTFORML 那个阴道肉与处女那个怎么想也想不到的那样蠢动，肉棒缠绕了
+	PRINTFORML %ANAME(対象)%全身痉挛流着泪，像坏掉的人偶一样反复发出粉红色的喘息声
+	PRINTFORML %ANAME(実行者)%像痉挛跳动一样地缠绕来的极好的阴道肉一样地拿出肉棒
+	PRINTFORML 每次被肉棒挖出由于药的效果完全变得敏感的阴道肉的时候，%ANAME(対象)%头变得雪白瑜伽疯狂
+	PRINTFORMW 在的片刻间，房间中响起了%ANAME(対象)%的娇声和可怜的蜜音
+	PRINTFORML 当以及%ANAME(対象)%的头完全快乐地完全融化了的时候，突然她的阴道深处被更加强烈的热度倾倒了
+	PRINTFORML 突然给小腹带来的冲击，使她瞬间失去了意识，达到了顶峰，大大的仰起身子娇声尖叫
+	PRINTFORML %ANAME(対象)%的阴道肉紧紧地勒紧肉棒，被子宫吐出精液的每次她连续达到了AQUAME
+	PRINTFORMW 此后也持续被%ANAME(実行者)%侵犯，%ANAME(対象)%自己挥动腰没花时间
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	PRINTFORML 
+	PRINTFORML 充分地被疼爱的%ANAME(対象)%是做梦感觉在床上躺着
+	PRINTFORMW 当%ANAME(実行者)%在她的耳边告诉再来的时候，%ANAME(対象)%突然浑身发抖
+	CFLAG:対象:薬物依存 += RAND(20, 50)
+	ITEM:麻薬 -= 1
+	DVAR:麻薬漬け_篭絡段階 ++
+ELSEIF DVAR:麻薬漬け_篭絡段階 == 3
+	PRINTFORML 当%ANAME(実行者)%来访时%ANAME(対象)%的身体颤抖
+	PRINTFORML %ANAME(実行者)%看到那个反应就笑眯眯的，已经隐藏不住笑了
+	PRINTFORML 想起了上次的事%ANAME(対象)%告知到%ANAME(実行者)%去
+	PRINTFORMW 但是看穿那个声音微微地颤抖混杂的%ANAME(実行者)%不介意走近她
+	PRINTFORML 随着%ANAME(実行者)%慢慢靠近，%ANAME(対象)%渐渐地喘不过气来，终于低下了头
+	PRINTFORML 即使%ANAME(実行者)%接近%ANAME(対象)%的腰，她也只是身体颤抖，不会抵抗
+	PRINTFORML 并且%ANAME(実行者)%在她的耳边和善地低声私语
+	PRINTFORML 被那句话吓了一跳，抬头看%ANAME(実行者)%的她的脸，已经完全被染成红色了
+	PRINTFORMW %ANAME(実行者)%一边凝视着她，一边从怀里取出药
+	PRINTFORML 仅仅是看到这个%ANAME(対象)%就会想起以前的行为，让身体颤抖，喝了口水
+	PRINTFORML %ANAME(対象)%尽管如此还是很小地打算说出拒绝的言词,不过，突然被他抚摸屁股发出可怜的声音
+	PRINTFORML 完全变得敏感成为快乐的俘虏的%ANAME(対象)%的身体只是那个疼痛，她露出了甜的叹息
+	PRINTFORMW %ANAME(実行者)%抱着抵抗变弱的%ANAME(対象)%的腰向卧室走去
+	PRINTFORML 
+	PRINTFORML 让%ANAME(対象)%躺在床上，全身湿润的爱抚
+	PRINTFORML 她眼睛♥一边做被%ANAME(実行者)%一边做只是喘息
+	PRINTFORML 于%ANAME(対象)%，刚才还残留着微弱的抵抗心也已经消失了
+	PRINTFORMW %ANAME(実行者)%轻轻地弹她的突起，她让身体跳跃简单地达到顶峰
+	PRINTFORML 可是对habusese做爱入迷了的现在的%ANAME(対象)%那满足
+	PRINTFORML 就像看透了她内心一般%ANAME(実行者)%拿出了药
+	PRINTFORML %ANAME(対象)%就像盛满的母狗一样散漫地垂下舌头，焦急地凝视着它
+	PRINTFORMW %ANAME(実行者)%要求她，如果她想要药物，就自己打开胯股索求
+	PRINTFORML 虽然对于的命令%ANAME(対象)%一瞬间犹豫不决，但还是无法抵抗身体的火光
+	PRINTFORML 她以服从的姿势向%ANAME(実行者)%劈开大腿，提心吊胆地说出想尽可能的索求的言词
+	PRINTFORMW %ANAME(実行者)%对此满足的话，就给%ANAME(対象)%喂药
+	PRINTFORML 马上%ANAME(対象)%的头快乐地融化，显出恍惚的表情身体颤动起来
+	PRINTFORML 在爱液溢出物欲的吧嗒吧嗒的母洞里，拧进肉棒的话，她发出喜悦的声音
+	PRINTFORMW 每当%ANAME(実行者)%一击时，%ANAME(対象)%就沉溺在令人难以置信的声音融化的肉欲中
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	PRINTFORML 
+	PRINTFORMW 日が暮れる頃には、%ANAME(実行者)%の腕の中で甘える様に抱かれている%ANAME(対象)%の姿があった
+	CFLAG:対象:薬物依存 += RAND(20, 50)
+	ITEM:麻薬 -= 1
+	DVAR:麻薬漬け_篭絡段階 ++
+;この段階は何パターンかランダムに出して、薬物中毒になったら次に進む様にしてもいいかも？
+ELSEIF DVAR:麻薬漬け_篭絡段階 == 4
+	PRINTFORML 在深夜的宫殿内，%ANAME(対象)%和%ANAME(実行者)%一起在深夜的宫殿内徘徊
+	PRINTFORML 但是由于%ANAME(実行者)%的命令，连内衣都没穿，露出了一丝不挂的裸体
+	PRINTFORML 她羞耻地红着脸，却被喂了药，遵从%ANAME(実行者)%的命令
+	PRINTFORML 虽说是深夜，但由于不知何时会遭遇谁的紧张感和违背道德感，%ANAME(対象)%的气喘使之颤抖
+	PRINTFORMW 本人也不经意间那个秘所湿透了，滴滴答答地在走廊里滴着爱液
+	PRINTFORML 在暂时满足她羞耻的样子后，%ANAME(実行者)%命令%ANAME(対象)%伸出屁股
+	PRINTFORML %ANAME(対象)%不愧是在这里抽筋，在喉咙发出极大的响声后，提心吊胆地将手伸向墙壁，伸出屁股
+	PRINTFORML 于由期待湿透了的雌孔，%ANAME(実行者)%突然到深处扎的话，她与bikun跳提高了娇声
+	PRINTFORMW 回响在寂静中的自己的声音%ANAME(対象)%可能会被谁听到，对此感到恐惧，赶紧用手捂住嘴
+	PRINTFORML 可是%ANAME(実行者)%那样的事也不介意地打到腰，咯吱咯吱地挖出她的粘糊糊的阴道肉
+	PRINTFORML %ANAME(対象)%颤动身体想办法咬紧牙齿打算忍耐,不过，从牙齿的间隙紧紧地喘息声泄漏着
+	PRINTFORML %ANAME(実行者)%期待她的反应，把脸靠近她的话，用口交使之吃期待的药
+	PRINTFORMW するとすぐに%ANAME(対象)%はトロンとした表情になり、膣がぎゅうっと肉棒を締めつけてきた
+	PRINTFORML %ANAME(実行者)%正孜孜不倦地轻轻地戳着子宫口，她大大地仰望着后背，发出甜蜜的喜悦之声
+	PRINTFORML 象品味蠢动的阴道肉一样地%ANAME(実行者)%激烈地摇动腰，pan，pan，pan和肉的碰撞的声音回响
+	PRINTFORML 全身都被怒涛般的快乐波浪卷走，%ANAME(対象)%已经忘记控制声音的事也快要疯狂了
+	PRINTFORML 然后像估算了和她的头快要融化的时候一样地，气势很好地放出%ANAME(実行者)%的精液
+	PRINTFORMW %ANAME(対象)%达到了翘首期盼的绝顶，发出了特别大的娇声
+	PRINTFORML 幸运的是，那娇声太过悦耳，变成了不成声的声音，没有在宫殿内回响
+	PRINTFORML 但是对于%ANAME(対象)%来说，已经没有头脑去担心这些事情了，完全沉迷的表情在那个场合崩溃了
+	PRINTFORMW %ANAME(実行者)%抱起她带回卧室，还让她吃药，足足犯了一夜
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	CFLAG:対象:薬物依存 += RAND(20, 50)
+	ITEM:麻薬 -= 1
+	DVAR:麻薬漬け_篭絡段階 ++
+ELSEIF DVAR:麻薬漬け_篭絡段階 == 5
+	PRINTFORML %ANAME(対象)%的自己的房间里回响着男女交错的声音
+	PRINTFORML 对在%ANAME(実行者)%上散漫地一边垂涎一边摇腰的她，以前的面貌已经没有
+	PRINTFORMW 完全被毒品和性交所带来的快乐俘虏
+	PRINTFORML %ANAME(実行者)%抓住腰推上去的话，%ANAME(対象)%发出喜悦的声音全身颤抖
+	PRINTFORMW 由于阴道肉的管束%ANAME(実行者)%无法忍受地在阴道内射精的话，她很大地一边也背一边违背绝顶了
+	PRINTFORML 下腹部蔓延的热度她与bikunbikun一边互相踢一边疯狂瑜伽，品味连续绝顶
+	PRINTFORML 不久被%ANAME(実行者)%充分阴道出了的%ANAME(対象)%完全没有力地倒下了
+	PRINTFORML 那个状态疼痛也止不住的她，%ANAME(実行者)%的头转动手弯腰开始寻求下面
+	PRINTFORMW 只拥有%ANAME(実行者)%不到%ANAME(対象)%，毫不留情地把她抛在地上
+	PRINTFORML 地板倒下的%ANAME(対象)%一边用颤抖的手臂支撑身体，一边也不知道发生了什么
+	PRINTFORML 总是这样的话，明明会被从这里多次失去意识的侵犯，却无意识地露出了想要物欲的表情
+	PRINTFORML %ANAME(実行者)%对那样的她的反应内心窃笑故意地叹气
+	PRINTFORMW 我宣告再也不能和你交往了，把毒品和性交都交给我吧
+	PRINTFORML 对那个言词%ANAME(対象)%显出世间的结束的那样的表情
+	PRINTFORML %ANAME(実行者)%慢慢地弯下身子%ANAME(対象)%对视的话，安静地在耳边低声私语
+	PRINTFORMW 无论如何都这么说的话，就来我们这里吧，这样我们就可以随心所欲地疼爱你了……和
+	PRINTFORML %ANAME(対象)%听到这句话后背发抖
+	PRINTFORML 现在迷恋的%ANAME(対象)%也能明白那是怎么回事
+	PRINTFORMW %ANAME(対象)%是象迷路的小孩一样地感到为难的表情，与%ANAME(実行者)%交替凝视着虚空小地颤抖着
+	PRINTFORML 
+	PRINTFORML 可是不久，她无力地点了点头
+	PRINTFORMW 
+	PRINTFORML 就在此时，%ANAME(実行者)%粗暴地将她推倒
+	PRINTFORML 以及%ANAME(対象)%发出悲鸣不久，肉棒深深地刺进了她的蜜罐的最深处
+	PRINTFORMW 由于突然的插入她受到穿过脑天的程度的强烈的冲击，达到顶峰很大地使之响起娇声
+	PRINTFORML %ANAME(実行者)%一边称赞她一边宣告奖励的标记，到子宫象蹂躏一样地粗暴地挥动腰
+	PRINTFORML %ANAME(対象)%虽然被粗暴地侵犯，但还是展现了对期望的快乐那般痴迷的表情
+	PRINTFORMW 对和%ANAME(実行者)%的言词一边感到喜悦，到刚才为止的不安也吹跑的那样压倒性的快乐委托了身体
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	CALL FUCK_RAPE(対象, GET_ID(実行者), @"%ANAME(実行者)%の\@RAND:2 ? 肉棒 # 唇\@", @"%ANAME(実行者)%")
+	PRINTFORML
+	PRINTFORML %ANAME(対象)%を籠絡することに成功しました
+	CALL COLOR_PRINT(@"%ANAME(対象)%成为了土匪的肉便器", カラー_警告)
+	PRINTFORMW 
+	CALL CHANGE_COUNTRY(対象, 土匪, 1)
+	SETBIT TALENT:対象:特殊勢力陥落系, 特殊勢力_野盗
+	CALL TALENT_LOSE_PRIDE(対象)
+	CFLAG:対象:薬物依存 += RAND(30, 60)
+	ITEM:麻薬 -= 1
+	DVAR:麻薬漬け_ターゲット = 0
+	DVAR:麻薬漬け_工作員ID = 0
+	DVAR:麻薬漬け_篭絡段階 = 0
+ENDIF
+
+RETURN 1
+
+
+@SELECT_CHARA_LIST_SHOW_LOGIC_BANDIT_CORRUPTION_TARGET(対象)
+#DIM 対象
+RETURN CFLAG:対象:行動不能状態 != 行動不能_子供 && !IS_ANIMAL(対象) && CFLAG:対象:所属 != CFLAG:MASTER:所属 && GET_COUNTRY_BOSS(CFLAG:対象:所属) != 対象 && IS_COUNTRY(CFLAG:対象:所属) && !IS_SP_CHARA(対象) && !IS_MALE(対象)
+
+@SELECT_CHARA_LIST_SELECT_LOGIC_BANDIT_CORRUPTION_TARGET(対象)
+#DIM 対象
+RETURN CFLAG:対象:捕虜先 == 0
+
+@SELECT_CHARA_LIST_SHOW_LOGIC_BANDIT_CORRUPTION_SPY(対象)
+#DIM 対象
+RETURN CFLAG:対象:行動不能状態 != 行動不能_子供 && !IS_ANIMAL(対象) && CFLAG:対象:所属 == CFLAG:MASTER:所属 && HAS_PENIS(対象)
+
+@SELECT_CHARA_LIST_SELECT_LOGIC_BANDIT_CORRUPTION_SPY(対象)
+#DIM 対象
+RETURN CFLAG:対象:捕虜先 == 0
+

@@ -1,0 +1,231 @@
+﻿;--------------------------------------
+;ターンエンド時の野盗の処理
+;--------------------------------------
+@TURNEND_BANDIT
+#DIM 土匪
+
+;-------------------------------------------------
+;野盗の追加
+;-------------------------------------------------
+@BANDIT_INIT(メッセージ = 0)
+#DIM メッセージ
+#DIM LCOUNT
+VARSET LOCAL
+
+SIF GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_野盗) != -1
+	RETURN 0
+
+SIF SP_COUNTRY_RANK:特殊勢力_野盗 == 0
+	RETURN 0
+
+SIF GET_NEW_COUNTRY() == -1
+	RETURN 0
+
+CALL CREATE_SP_COUNTRY(特殊勢力_野盗)
+LOCAL = RESULT
+CALL INIT_SP_COUNTRY(LOCAL)
+
+COUNTRY_IS_CLOSED:LOCAL = 1
+
+IF メッセージ
+	CALL SINGLE_DRAWLINE
+	SETCOLOR カラー_警告
+	PRINTFORMW 幻想鄉的治安悪化了、悪棍們開始聚集在一起……
+	RESETCOLOR
+	CALL SINGLE_DRAWLINE
+ENDIF
+
+RETURN LOCAL
+
+;-------------------------------------------------
+;DESC  :野盗所属時に閨・捕虜調教前にアイテムを追加する処理
+;-------------------------------------------------
+@START_TRAIN_COMMON_BANDIT()
+ITEM:A_振動棒 = 1
+ITEM:A_肛用振動棒 = 1
+ITEM:A_縄 = 1
+ITEM:A_鞭 = 1
+ITEM:A_針 = 1
+ITEM:A_鼻勾 = 1
+ITEM:A_口枷 = 1
+ITEM:A_媚薬 = 99
+ITEM:A_麻薬 = 99
+
+;--------------------------------------
+;野盗が捕虜を得たときに確率で発動するエロイベント
+;--------------------------------------
+@TREAT_PRISONER_BANDIT(対象)
+#DIM 対象
+#DIM 陥落済み
+SIF !(RAND:100 < 3 && IS_FEMALE(対象))
+	RETURN 0
+IF GETBIT(TALENT:対象:特殊勢力陥落系, 特殊勢力_野盗)
+	陥落済み = 1
+ELSE
+	陥落済み = 0
+ENDIF
+
+SETCOLOR カラー_ピンク
+PRINTFORML ……
+SELECTCASE RAND:4
+	CASE 0
+		IF 陥落済み
+			PRINTFORML %ANAME(対象)%被强盗自己抓住，委托给了他%STR_BODY("身体", 対象)%
+			;TranslatedMark %ANAME(対象)%は野盗に自ら捕らえられ、その%STR_BODY("身体", 対象)%をゆだねてみせる
+			PRINTFORML 在离开我们之下的时间里，土匪剥下她的衣服
+			PRINTFORML %ANAME(対象)%自己开胯引诱的话，兴奋了的土匪一二也没有那个胯扭进了自己的一物
+			PRINTFORML 对侵犯阴道内的东西的健壮，%ANAME(対象)%提高不得了的声音，想挥动腰
+			PRINTFORML 不久，在%ANAME(対象)%的两个洞里，种下了许多“主人”贵重的种子……
+		ELSE
+			PRINTFORML 抓住了%ANAME(対象)%的土匪，殴打闹腾的%ANAME(対象)%，扔在了地上
+			PRINTFORML 不能把不擅长对父母的女人拿出来，如果不尝一尝，就剥去衣服
+			PRINTFORML 并且硬要打开讨厌的%ANAME(対象)%的两脚的话，那个胯扭进了自己的肉棒
+			PRINTFORML 对于在阴道内乱腾腾的令人讨厌的东西，%ANAME(対象)%变成半狂乱并乱闹，土匪却很爽快地按住它，摆动着腰
+			;TranslatedMark %STR_BODY("陰唇：処女確認：修飾", 対象)%膣内を荒らし回るおぞましいモノに、%ANAME(対象)%は半狂乱になり暴れるが、土匪はそれをあっさりと押さえ、腰を振りたくる
+			PRINTFORML 不久，在%ANAME(対象)%的两个洞里，被粘满了土匪肮脏的种子……
+		ENDIF
+	CASE 1
+		IF 陥落済み
+			PRINTFORML 自己向土匪献身的%ANAME(対象)%，裸露出肌肤，安上枷锁，陪伴着他们的行军
+			PRINTFORML %ANAME(対象)%完全被当作他们的奖杯来对待，偶尔会被随意摸到%STR_BODY("尻", 対象)%和%STR_BODY("胸", 対象)%
+			;TranslatedMark %ANAME(対象)%はすっかり彼らのトロフィー扱いをされており、時折好き勝手に%STR_BODY("尻", 対象)%や%STR_BODY("胸", 対象)%に触れられる
+			PRINTFORML 不讲理的塞满，被贴上脸颊和屁股，被打的每次，%ANAME(対象)%发出象说希望讨厌的地方更加责弄一样的艳丽的声音
+			PRINTFORML 不久他们进入休息时，%ANAME(対象)%亲自报名，购买他们的慰安角色
+			PRINTFORML 结果，到(连)那个两孔不闭上，%ANAME(対象)%持续满足他们的欲望……
+		ELSE
+			PRINTFORML 土匪捉拿了的%ANAME(対象)%被裸体剥落，被带枷锁的状态，被他们的行军交往
+			PRINTFORML %ANAME(対象)%完全被当作他们的奖杯来对待，偶尔会被随意摸到%STR_BODY("尻", 対象)%和%STR_BODY("胸", 対象)%
+			;TranslatedMark %ANAME(対象)%はすっかり彼らのトロフィー扱いをされており、時折好き勝手に%STR_BODY("尻", 対象)%や%STR_BODY("胸", 対象)%に触れられる
+			PRINTFORML 如果稍微也打算从那个手逃跑，毫不留情地被逼，张开脸和屁股，被殴打
+			PRINTFORML 不久他们进入休息的时候，他们当然地聚集%ANAME(対象)%，开始侵犯她
+			PRINTFORML 最终，直到两孔没有关闭为止，%ANAME(対象)%不断被侵犯……
+		ENDIF
+	CASE 2
+		IF 陥落済み
+			PRINTFORML 被带入了土匪基地的%ANAME(対象)%，为了证明没有武器，请做了身体检查
+			PRINTFORML 虽说是检查，其实只是徒有虚名，但%ANAME(対象)%对他们任性的爱抚，献出了积极的自己的身体
+			PRINTFORML 只是检查还不够的话，男人们把肉棒拧进她的所有洞里，%ANAME(対象)%尖声尖叫绝顶
+			PRINTFORML %ANAME(対象)%一边快乐地SEX一边也淫乱地挥动腰，在自己的肉田一边接住他们的种子
+			PRINTFORML 终于“检查”结束后，%ANAME(対象)%自己进入牢房，一边安慰因性交余韵而兴奋的身体，一边等待着被叫到的时候……
+		ELSE
+			PRINTFORML 被带回了土匪的基地的%ANAME(対象)%，调查是不是隐藏持(有)着武器，被身体检查挂上(放上)了
+			PRINTFORML 虽说是检查，但也只是徒有虚名，男人们的手责弄着她的%STR_BODY("胸：修飾", 対象)%乳房、%STR_BODY("臀部", 対象)%、%STR_BODY("陰唇：処女確認：修飾", 対象)%秘部，强行引出快乐
+			;TranslatedMark 検査といっても名ばかりのもので、男達の手は彼女の%STR_BODY("胸：修飾", 対象)%乳房を、%STR_BODY("臀部", 対象)%を、%STR_BODY("陰唇：処女確認：修飾", 対象)%秘部を弄り、無理矢理に快楽を引き出していく
+			PRINTFORML 他们觉得光这样检查还不够充分，就把自己的一个东西塞进了%ANAME(対象)%的所有洞穴里
+			;TranslatedMark それだけではまだ検査が不十分だと、彼らは己の一物を、%ANAME(対象)%のあらゆる穴にねじ込んでいく
+			PRINTFORML 强行按住闹腾的%ANAME(対象)%的话，接二连三地种上种子
+			PRINTFORML 结果，%ANAME(対象)%被解放，被放入牢中的时候，她疲惫不堪，处于放心状态……
+		ENDIF
+	CASE 3
+		IF 陥落済み
+			PRINTFORML 向土匪献身的%ANAME(対象)%，被剥去衣服，用眼罩、枷锁和绳子被拘留了……即使没有那样的东西，也不会抵抗吧
+			PRINTFORML 他们抬起了%ANAME(対象)%，在流浪汉的堆积场上放置了她的身份
+			PRINTFORML 当然，%ANAME(対象)%很快就被流浪汉发现了。预测了今后被做什么的%ANAME(対象)%，期待弄湿胯股
+			PRINTFORML 一边嘲笑那样的她变态是淫乱，流浪汉们一边把肮脏的肉棒一个接一个地拧进%ANAME(対象)%里……
+			PRINTFORML 土匪等人将散漫的鸦片曝光后，被放置在垃圾场的%ANAME(対象)%全身是白浊，将他带回了垃圾场
+		ELSE
+			PRINTFORML 被土匪抓住的%ANAME(対象)%，被剥下衣服，为了不抵抗任何一件，用眼罩和枷锁和绳子紧紧地被拘束了
+			PRINTFORML 土匪们抬起%ANAME(対象)%，在流浪汉的堆积场上放置了她的身份
+			PRINTFORML 当然，%ANAME(対象)%很快就被流浪汉发现了。与土匪有联系的他们，当然没有救出%ANAME(対象)%的良心。
+			PRINTFORML 不仅仅是，干旱的流浪汉，一个接一个地向着%ANAME(対象)%扭进肮脏的肉棒……
+			PRINTFORML 土匪们一边掐着鼻子一边把浑身是白浊被放置在垃圾场的%ANAME(対象)%带回家
+		ENDIF
+ENDSELECT
+RESETCOLOR
+CALL FUCK_GANGBANG_SP(対象, GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 肉棒 # 唇\@", "土匪", GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_野盗))
+
+
+;-----------------------------------
+;野盗に捕らえられたときのイベント
+;-----------------------------------
+@MASTER_CAPTURED_BANDIT(ARG:0)
+PRINTFORMW 被捕获的%ANAME(MASTER)%被拖到土匪面前……
+IF IS_MALE(MASTER)
+	PRINTFORMW 貌似土匪看了%ANAME(MASTER)%才判断对士兵合适
+	PRINTFORMW 跟着俺们混吧、咋样？　大概是在表达这个意思
+	PRINTFORMW 虽然这样意味着成为奴隶、但是总比拒绝他们后的遭遇好很多……
+	PRINTFORMW 要接受吗？
+	CALL ASK_YN("接受", "拒絶")
+	IF RESULT == 0
+		PRINTFORMW 比起监狱更好吧。%ANAME(MASTER)%点头，土匪微微一笑
+		PRINTFORMW %ANAME(MASTER)%被笑的不明所以、哥布林们笑够了之后命令给%ANAME(MASTER)%打上奴隶的标志
+		PRINTFORMW %ANAME(MASTER)%嵌入了坚固的项圈……
+		SETCOLOR カラー_注意
+		PRINTFORMW %ANAME(MASTER)%是土匪的部下
+		RESETCOLOR
+	ELSE
+		PRINTFORMW 我是不会协助你们作恶的。%ANAME(MASTER)%坚毅地说到
+		PRINTFORMW 于是乎、兴致全无的哥布林们、把%ANAME(MASTER)%投进了牢狱……
+	ENDIF
+ELSEIF GETBIT(TALENT:MASTER:特殊勢力陥落系, 特殊勢力_野盗)
+	PRINTFORMW 肉便器回来了，他们包围%ANAME(MASTER)%
+	PRINTFORMW 眼前被推出肉棒，%ANAME(MASTER)%的身体，想起被他们刻入了的快乐淋湿了
+	PRINTFORMW %ANAME(MASTER)%的呻吟变得荡漾起来、是回来找俺们的吗？　哥布林们问道
+	PRINTFORMW 要接受吗？
+	CALL ASK_YN("接受", "拒絶")
+	IF RESULT == 0
+		PRINTFORMW 被他们调教出的雌性本能、让%ANAME(MASTER)%点了点头
+		PRINTFORMW 作为表示再次服从的意思，%ANAME(MASTER)%对突出的肉棒进行了热烈的接吻……
+		SETCOLOR カラー_注意
+		PRINTFORMW %ANAME(MASTER)%想起了自己不过是土匪性奴隶
+		RESETCOLOR
+	ELSE
+		PRINTFORMW 好象没考虑被拒绝这样的事，土匪们爆笑了
+		PRINTFORMW 的逞强要持续到什么时候，对%ANAME(MASTER)%吐出唾沫
+		PRINTFORMW 土匪们给%ANAME(MASTER)%套上手铐和脚镣，投入监狱……
+	ENDIF
+ELSE
+	PRINTFORMW 土匪用可恶的眼光看着%ANAME(MASTER)%的身体
+	PRINTFORMW 反正结果是一样的，开始说要做性奴隶
+	PRINTFORMW 虽然是屈辱性的提案，但是即使不接受，作为女性的%ANAME(MASTER)%也不会改变。
+	PRINTFORMW 要接受吗？
+	CALL ASK_YN("接受", "拒絶")
+	IF RESULT == 0
+		PRINTFORMW 即使不接受、被蹂躪的事實也不會有任何改変
+		PRINTFORMW 如果是的话，还是表现出顺从的姿态比较好，待遇应该还比较好……%ANAME(MASTER)%无力地点头
+		PRINTFORMW 土匪们哈哈大笑，说她居然真的接受了呢
+		PRINTFORMW 他们抓住%ANAME(MASTER)%在她的下腹，印上了性奴隶三个字的烙印
+		SETCOLOR カラー_注意
+		PRINTFORMW %ANAME(MASTER)%成为了土匪的性奴隷
+		RESETCOLOR
+	ELSE
+		PRINTFORMW 你能做到那种事吗？%ANAME(MASTER)%断然拒绝，土匪哈哈大笑
+		PRINTFORMW 的逞强要持续到什么时候，对%ANAME(MASTER)%吐出唾沫
+		PRINTFORMW 土匪们给%ANAME(MASTER)%套上手铐和脚镣，投入监狱……
+	ENDIF
+ENDIF
+IF RESULT == 0
+	CALL CHANGE_COUNTRY(MASTER, ARG:0, 1)
+	IF IS_FEMALE(MASTER)
+		SETBIT TALENT:MASTER:特殊勢力陥落系, 特殊勢力_野盗
+		CALL PLAYER_FALLEN_TO_SP_COUNTRY(ARG:0)
+	ENDIF
+	CALL BANDIT_FALLEN_LEAVE_MARK(MASTER)
+	RETURN 0
+ELSE
+	CALL CAPTURE(MASTER, ARG:0)
+	RETURN 2
+ENDIF
+
+;--------------------------------------
+;エンディング
+;--------------------------------------
+@BANDIT_ENDING
+PRINTFORML 瞬间扩展到幻想乡的土匪势力，
+PRINTFORMW 转眼间就覆盖了幻想乡全土
+PRINTFORML 在他们的据点逮捕了多少人，不，几十人的少女，成为他们的性欲的牺牲品
+PRINTFORMW ,不过，没有阻止他们的人。反抗他们的人全都被毁灭了……
+IF CFLAG:MASTER:所属 == GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_野盗) && IS_FEMALE(MASTER)
+	PRINTFORMW 
+	PRINTFORMW 庆祝幻想乡统一的酒宴上，也有%ANAME(MASTER)%的身影
+	PRINTFORMW 她是土匪势力扩张到这里的主角，在这支军队中，虽然是女人，但待遇却比较好
+	PRINTFORMW ……作为女人，有这样的但愿书
+	PRINTFORML 一个喝醉了的土匪，用意味深长的眼神示意
+	PRINTFORML %ANAME(MASTER)%脱掉衣服，发出声音开始倾听他的一物
+	PRINTFORMW 看到那样兴奋了的另外的男人，向%ANAME(MASTER)%的秘部扭进肉棒的话，%ANAME(MASTER)%发出不得了的声音，挥动腰
+	PRINTFORML ……身处土匪的中心，也是最深入地渗透了他们的思想。
+	PRINTFORMW 女人是男人的性奴隶。在%ANAME(MASTER)%的头脑中，它被刻入了心底……
+	CALL FUCK_SP(MASTER, "欲望, 性交, 奉仕, 精愛, 性技, Ｖ, Ｂ, Ｃ, Ａ, 口淫, 薬物依存, 輪姦, Ｖ性交, Ａ性交", "処女喪失, Ａ処女喪失, 接吻喪失, 膣内射精, 腸内射精, 口内射精", GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_野盗), GET_SPERM_ID("土匪"), @"土匪の\@ RAND:2 ? 唇 # 肉棒 \@", "土匪", "", "輪姦")
+ENDIF
+PRINTFORML 
+PRINTFORMW 已经到了没有救世主的地步，只是女性的娇声和男人的骂声在持续回响……
