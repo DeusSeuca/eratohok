@@ -62,7 +62,7 @@ SOURCE:(MPLY:0):性行動 = 150
 ;主導権に応じた優越・屈従のソース追加
 CALL ADD_SOURCE_INITIATIVE_U(MPLY:0, 150, 80)
 
-;侍奉経験値を得られるコマンドのフラグ
+;奉仕経験値を得られるコマンドのフラグ
 TCVAR:(MPLY:0):4 = 1
 
 ;●ターゲット側の処理
@@ -120,7 +120,7 @@ TFLAG:50 = 12
 ;レズ・ＢＬ経験基準値
 TFLAG:51 = 4
 
-CALL VIRGIN_COMMON(MTAR:0, @"%ANAME(MPLY:0)%的手腕", GET_SITUATION_BY_TRAIN_MODE())
+CALL VIRGIN_COMMON(MTAR:0, @"%ANAME(MPLY:0)%の腕", GET_SITUATION_BY_TRAIN_MODE())
 
 
 IF TALENT:(MTAR:0):処女
@@ -165,7 +165,7 @@ SOURCE:(LOCAL:2):嗜虐 += 450
 SOURCE:(LOCAL:2):逸脱 += 300
 SOURCE:(LOCAL:2):性行動 += 50
 
-;侍奉経験値を得られるコマンドのフラグ
+;奉仕経験値を得られるコマンドのフラグ
 TCVAR:(LOCAL:2):4 = 1
 
 ;倒錯度変化基準値
@@ -222,20 +222,21 @@ CALL SUM_SOURCE(LOCAL:3)
 ;継続中の表示
 ;-------------------------------------------------
 @EQUIP_MESSAGE87(ARG:0)
-RESULTS = %EQUIP_PLAYER_ANAME(ARG:0)%对%EQUIP_TARGET_ANAME(ARG:0)%にフィストファック中
+RESULTS = %EQUIP_PLAYER_ANAME(ARG:0)%对%EQUIP_TARGET_ANAME(ARG:0)%的小穴拳交中
+;TranslatedMark %EQUIP_PLAYER_ANAME(ARG:0)%が%EQUIP_TARGET_ANAME(ARG:0)%にフィストファック中
 
 ;-------------------------------------------------
 ;継続中の地の文(前文)
 ;-------------------------------------------------
 @COM_TEXT_BEFORE_EQUIP87(ARG:0)
-PRINTFORML %EQUIP_PLAYER_ANAME(ARG:0)%把拳头塞进%EQUIP_TARGET_ANAME(ARG:0)%的阴道…
-;TranslatedMark %EQUIP_PLAYER_ANAME(ARG:0)%对%EQUIP_TARGET_ANAME(ARG:0)%的小穴拳を押し込んでいる…
+PRINTFORML %EQUIP_PLAYER_ANAME(ARG:0)%仍把拳头塞在%EQUIP_TARGET_ANAME(ARG:0)%的阴道内抽送…
+;TranslatedMark %EQUIP_PLAYER_ANAME(ARG:0)%が%EQUIP_TARGET_ANAME(ARG:0)%の膣に拳を押し込んでいる…
 
 ;-------------------------------------------------
 ;継続を解除したときの地の文
 ;-------------------------------------------------
 @COM_TEXT_RELEASE_EQUIP87(ARG:0)
-PRINTFORMW %EQUIP_PLAYER_ANAME(ARG:0)%从%EQUIP_TARGET_ANAME(ARG:0)%的阴道内抽出了拳头…
+PRINTFORMW %EQUIP_PLAYER_ANAME(ARG:0)%从%EQUIP_TARGET_ANAME(ARG:0)%的阴道内拔出了拳头…
 ;TranslatedMark %EQUIP_PLAYER_ANAME(ARG:0)%は%EQUIP_TARGET_ANAME(ARG:0)%の膣内から拳を引き抜いた…
 
 ;-------------------------------------------------
@@ -249,7 +250,7 @@ TCVAR:(ARG:0):25 = 150
 CALL COM_ORDER(ARG:0)
 
 CALL COM_ORDER_ELEMENT(ARG:0, @"欲望Lv{ABL:(ARG:0):欲望}", ABL:(ARG:0):欲望 * 1)
-CALL COM_ORDER_ELEMENT(ARG:0, @"侍奉Lv{ABL:(ARG:0):奉仕}", ABL:(ARG:0):奉仕 * 4)
+CALL COM_ORDER_ELEMENT(ARG:0, @"奉仕Lv{ABL:(ARG:0):奉仕}", ABL:(ARG:0):奉仕 * 4)
 CALL COM_ORDER_ELEMENT(ARG:0, @"加虐Lv{ABL:(ARG:0):加虐}", ABL:(ARG:0):加虐 * 3)
 
 LOCAL:0 = GET_PALAMLV(PALAM:(ARG:0):欲情)
@@ -293,59 +294,59 @@ RETURN 1
 ;地の文(前文)
 ;-------------------------------------------------
 @COM_TEXT_BEFORE87
-LOCALS:1 = 無理やり
+LOCALS:1 = 强行地
 IF IS_PIERCED(MTAR:0, ピアス_ラビア)
 	LOCALS:0 = 上著環的
 ELSE
 	LOCALS:0 = 
 ENDIF
 IF TALENT:(MTAR:0):処女 == 1
-	LOCALS:0 = %LOCALS:0%まだ乙女の
+	LOCALS:0 = %LOCALS:0%仍是处女的
 ENDIF
 
 IF PALAM:(MTAR:0):潤滑 >= PALAMLV:7
-	LOCALS:0 = %LOCALS:0%濡れそぼった
+	LOCALS:0 = %LOCALS:0%充分润滑的
 ENDIF
 
 IF EXP:(MTAR:0):Ｖ拡張経験 >= 50
-	LOCALS:0 = %LOCALS:0%拡張されてすっかり広がりきった
+	LOCALS:0 = %LOCALS:0%扩张得很好以至于变得宽松的
 	LOCALS:1 = 
 ELSEIF EXP:(MTAR:0):Ｖ拡張経験 >= 20
-	LOCALS:0 = %LOCALS:0%拡張されて良く広がるようになった
+	LOCALS:0 = %LOCALS:0%扩张得不错已经有点松弛的
 	LOCALS:1 = 
 ENDIF
 
 IF TALENT:(MTAR:0):体格 == 体格_小柄
-	LOCALS:0 = %LOCALS:0%小さなワレメ
+	LOCALS:0 = %LOCALS:0%幼小的小穴
 ELSE
-	LOCALS:0 = %LOCALS:0%ワレメ
+	LOCALS:0 = %LOCALS:0%小穴
 ENDIF
 
 SELECTCASE GET_COM_INITIATIVE()
 	;プレイヤーに主導権
 	CASE 0
-		PRINTFORMW %ANAME(MPLY:0)%用拳头将%ANAME(MTAR:0)%的%LOCALS:0%推到%LOCALS:1%上，凌辱了%TARGET_STR("た", "てきた")%…
+		PRINTFORMW %ANAME(MPLY:0)%瞄准%ANAME(MTAR:0)%的%LOCALS:0% ，用拳头%LOCALS:1%%TARGET_STR("凌辱起来", "抽插起来")%…
 		;TranslatedMark %ANAME(MPLY:0)%は%ANAME(MTAR:0)%の%LOCALS:0%を、拳で%LOCALS:1%押し広げて陵辱し%TARGET_STR("た", "てきた")%…
 	;ターゲットに主導権
 	CASE 1
-		PRINTFORMW %ANAME(MTAR:0)%把%LOCALS:0%晒在%ANAME(MPLY:0)%面前，命令她把拳头插进去，然后侵犯她…
+		PRINTFORMW %ANAME(MTAR:0)%在%ANAME(MPLY:0)%面前露出%LOCALS:0%，命令她把拳头插进去侵犯她…
 		;TranslatedMark %ANAME(MTAR:0)%は%ANAME(MPLY:0)%の前に%LOCALS:0%を晒すと、中に拳を突き入れて犯すように命令した…
 		IF ABL:(MPLY:0):加虐 >= 3
-			PRINTFORMW %ANAME(MPLY:0)%就这样说着，一边在%ANAME(MTAR:0)%的阴道内推开%LOCALS:1%一边把拳头刺进去…
+			PRINTFORMW %ANAME(MPLY:0)%听到这样的要求，用力把拳头%LOCALS:1%刺进%ANAME(MTAR:0)%的阴道内再张开…
 			;TranslatedMark %ANAME(MPLY:0)%は言われるまま、%ANAME(MTAR:0)%の膣内を%LOCALS:1%押し広げながら拳を突き入れていった…
 		ELSE
-			PRINTFORMW %ANAME(MPLY:0)%虽然不知所措，但还是用力将拳头慢慢收进%LOCALS:1%%ANAME(MTAR:0)%的阴道内…
+			PRINTFORMW %ANAME(MPLY:0)%虽然不知所措，但还是慢慢用力把拳头%LOCALS:1%插进%ANAME(MTAR:0)%的阴道内…
 			;TranslatedMark %ANAME(MPLY:0)%は戸惑いながらも、力を込めてゆっくりと拳を%LOCALS:1%%ANAME(MTAR:0)%の膣内に収めていった…
 		ENDIF
 	;第三者に主導権
 	CASEELSE
-		PRINTFORML %ANAME(TFLAG:45)%命令%ANAME(MPLY:0)%用拳头侵犯%ANAME(MTAR:0)%的阴道
+		PRINTFORML %ANAME(TFLAG:45)%命令%ANAME(MPLY:0)%用拳头侵犯%ANAME(MTAR:0)%的阴道…
 		;TranslatedMark %ANAME(TFLAG:45)%は%ANAME(MPLY:0)%に、%ANAME(MTAR:0)%の膣を拳で犯すように命令した
 		IF ABL:(MPLY:0):加虐 >= 3
-			PRINTFORMW %ANAME(MPLY:0)%就这样说着，一边在%ANAME(MTAR:0)%的阴道内推开%LOCALS:1%一边把拳头刺进去…
+			PRINTFORMW %ANAME(MPLY:0)%听到这样的要求，%LOCALS:1%用拳头刺进%ANAME(MTAR:0)%的阴道内再张开…
 			;TranslatedMark %ANAME(MPLY:0)%は言われるまま、%ANAME(MTAR:0)%の膣内を%LOCALS:1%押し広げながら拳を突き入れていった…
 		ELSE
-			PRINTFORMW %ANAME(MPLY:0)%虽然不知所措，但还是用力将拳头慢慢收进%LOCALS:1%%ANAME(MTAR:0)%的阴道内…
+			PRINTFORMW %ANAME(MPLY:0)%虽然不知所措，但还是慢慢的用尽全力把拳头%LOCALS:1%插进%ANAME(MTAR:0)%的阴道内…
 			;TranslatedMark %ANAME(MPLY:0)%は戸惑いながらも、力を込めてゆっくりと拳を%LOCALS:1%%ANAME(MTAR:0)%の膣内に収めていった…
 		ENDIF
 ENDSELECT

@@ -126,9 +126,9 @@ ELSEIF RESULT == 2
 	DVAR:富豪_発生フラグ = -1
 	DVAR:富豪_誘拐カウンタ = 5
 	DVAR:富豪_誘拐対象 = GET_ID(対象)
-	CALL ICPRINT("金<100000>を手に入れた", "W", カラー_注意)
+	CALL ICPRINT("获得了金钱<100000>", "W", カラー_注意)
 	MONEY += 100000
-	CALL COLOR_PRINTW("……富豪の恨みを買った", カラー_警告)
+	CALL COLOR_PRINTW("……招致了富豪的怨恨", カラー_警告)
 	RETURN 1
 ELSEIF RESULT == 3
 	PRINTFORML 這個人為什麼這麼無禮的呀

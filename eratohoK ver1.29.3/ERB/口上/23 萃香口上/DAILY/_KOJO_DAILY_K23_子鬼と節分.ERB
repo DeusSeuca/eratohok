@@ -107,7 +107,7 @@ SELECTCASE RESULT
 		PRINTFORML
 		ITEM:日本酒 += 1
 		CFLAG:対象:好感度 += 100
-		CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が100上がった", 0x00FFFF)
+		CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了100", 0x00FFFF)
 	;全力で節分に挑む
 	CASE 1
 		PRINTFORMW 节分对于鬼来说是重要的节日活动。偷工减料的办事是不负责任的吧
@@ -159,7 +159,7 @@ SELECTCASE RESULT
 			CALL COLOR_PRINTW(@"金{カツアゲ料}を奪われました", カラー_注意)
 			MONEY -= カツアゲ料
 			CFLAG:対象:好感度 += 150
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が150上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了150", 0x00FFFF)
 			IF TALENT:対象:恋慕
 				PRINTFORMW 「啊，对了。这件事差点忘记呢」
 				;TranslatedMark 「あ、そうだ。まだ貰い忘れてたのがあったな」
@@ -172,7 +172,7 @@ SELECTCASE RESULT
 				EXP:対象:接吻経験 += 1
 				EXP:MASTER:接吻経験 += 1
 				CFLAG:対象:好感度 += 150
-				CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が150上がった", 0x00FFFF)
+				CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了150", 0x00FFFF)
 			ENDIF
 		;成功
 		ELSE
@@ -195,7 +195,7 @@ SELECTCASE RESULT
 			CALL COLOR_PRINTW("蒸留酒を3つ手に入れた", カラー_注意)
 			ITEM:蒸留酒 += 3
 			CFLAG:対象:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が200上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了200", 0x00FFFF)
 		ENDIF
 		PRINTFORML
 	;身体を労わる
@@ -220,7 +220,7 @@ SELECTCASE RESULT
 			PRINTFORMW 虽然和最初目的的结果不同，但是%ANAME(対象)%似乎也得到了幸福……
 			;TranslatedMark 当初の目的とは違ったが、%ANAME(対象)%は福を手にできたようだ……
 			CFLAG:対象:好感度 += 150
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が150上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了150", 0x00FFFF)
 		ELSE
 			PRINTFORMW 「啊，是吗？所以说没关系……」
 			;TranslatedMark 「えっ、ええ？　だから大丈夫だってのに……」
@@ -237,7 +237,7 @@ SELECTCASE RESULT
 			PRINTFORMW 虽然%ANAME(対象)%回去了，但恍惚间好像看到她的小脸儿上似乎爬满了红霞……
 			;TranslatedMark %ANAME(対象)%は帰っていったが、その頬は少しだけ、朱に染まっているように見えた……
 			CFLAG:対象:好感度 += 50
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が50上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了50", 0x00FFFF)
 		ENDIF
 		PRINTFORML
 ENDSELECT

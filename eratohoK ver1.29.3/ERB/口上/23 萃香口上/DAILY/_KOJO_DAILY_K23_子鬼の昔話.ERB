@@ -94,7 +94,7 @@ SELECTCASE KDVAR:対象:萃香_昔話
 			CALL TRAIN_AUTO_ABLUP(MASTER)
 			PRINTFORML
 			CFLAG:対象:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が200上がった", カラー_シアン)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了200", カラー_シアン)
 			KDVAR:対象:萃香_昔話 = 1
 		ENDIF
 	;KDVAR:対象:萃香_昔話 = が1でイベント発生
@@ -139,7 +139,7 @@ SELECTCASE KDVAR:対象:萃香_昔話
 			ITEM:清酒 -= 3
 			CALL COLOR_PRINTW("喝乾了三瓶清酒", カラー_注意)
 			CFLAG:対象:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が200上がった", カラー_シアン)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了200", カラー_シアン)
 			KDVAR:対象:萃香_昔話 = 2
 		ENDIF
 	;KDVAR:対象:萃香_昔話 = が2でイベント発生
@@ -186,7 +186,7 @@ SELECTCASE KDVAR:対象:萃香_昔話
 			ITEM:麦酒 -= 3
 			CALL COLOR_PRINTW("喝乾了三瓶麦酒", カラー_注意)
 			CFLAG:対象:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が200上がった", カラー_シアン)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了200", カラー_シアン)
 			KDVAR:対象:萃香_昔話 = 3
 		ENDIF
 	;KDVAR:対象:萃香_昔話 = が3でイベント発生
@@ -234,7 +234,7 @@ SELECTCASE KDVAR:対象:萃香_昔話
 			ITEM:日本酒 -= 3
 			CALL COLOR_PRINTW("喝乾了三瓶日本酒", カラー_注意)
 			CFLAG:対象:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が200上がった", カラー_シアン)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了200", カラー_シアン)
 			KDVAR:対象:萃香_昔話 = 4
 		ENDIF
 	;KDVAR:対象:萃香_昔話 = が4でイベント発生
@@ -323,7 +323,7 @@ SELECTCASE KDVAR:対象:萃香_昔話
 			ITEM:蒸留酒 -= 3
 			CALL COLOR_PRINTW("喝乾了三瓶蒸留酒", カラー_注意)
 			CFLAG:対象:好感度 += 500
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が500上がった", カラー_シアン)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了500", カラー_シアン)
 		ENDIF
 ENDSELECT
 

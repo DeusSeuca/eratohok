@@ -95,7 +95,7 @@ ELSE
 	PRINTFORMW 在%ANAME(MASTER)%的面前向辉夜姬求婚的自称贵族后裔的人来访了
 	PRINTFORMW 无论如何，为了消除祖先的遗憾想希望通过胜负来对话
 	PRINTFORMW 先把%ANAME(対象)%来称呼的话，他们开始对%ANAME(対象)%进行说明
-	CALL ICPRINT(@"自分たちが負ければ<{掛け金}>を支払う。ただし、勝てば%ANAME(対象)%に少しつきあって貰うとの事だ", "W", カラー_注意)
+	CALL ICPRINT(@"如果自己输了，就支付<{掛け金}>。不过，如果赢了，就请%ANAME(対象)%稍微陪陪我", "W", カラー_注意)
 	PRINTFORMW 以获胜而开始自满的%ANAME(対象)%为目标、%ANAME(MASTER)%考虑了
 	PRINTFORMW 虽然不能说是可疑的，但是可以理解如果输了的话就不会遇到正经的目光
 	PRINTFORMW 贵族的后裔们看到%ANAME(MASTER)%的情况，又说了不会要求会遇到危险的事情
@@ -139,8 +139,8 @@ ENDIF
 
 IF 勝敗値 == 1
 	PRINTFORMW 赢了！
-	CALL ICPRINT(@"%ANAME(対象)%は、賞金として<{掛け金}>を手に、ほくほくと帰って行った", "W", カラー_注意)
-	PRINTFORMW %ANAME(対象)%の後ろ姿を、貴族の末裔たちは恨めしげに眺めた……
+	CALL ICPRINT(@"%ANAME(対象)%拿走了赌金<{掛け金}>、乐呵呵地回去了", "W", カラー_注意)
+	PRINTFORMW 贵族的后裔们怨恨地望着%ANAME(対象)%的背影……
 	MONEY += 掛け金
 	KDVAR:対象:輝夜_貴族の末裔と勝負 = 1
 	RETURN 1

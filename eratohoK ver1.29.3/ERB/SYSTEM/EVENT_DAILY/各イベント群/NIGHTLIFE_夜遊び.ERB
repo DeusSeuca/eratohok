@@ -69,7 +69,7 @@ IF IS_LOVER(対象)
 	;TranslatedMark 仕事をしていると、%ANAME(対象)%が部屋に訪れてきた……
 	PRINTFORML 晚上偶尔一起去散散步吧，她这么说
 	;TranslatedMark たまには夜の散歩でもしないか、ということだそうだ
-	CALL ASK_YN("出歩いてみる", "いや仕事あるから……")
+	CALL ASK_YN("出去走走", "不，我还有工作……")
 	;お前マジそれはないわ
 	IF RESULT == 1
 		PRINTFORMW 不好意思，有工作……得到这样回答后，%ANAME(対象)%很遗憾地回去了
@@ -150,7 +150,7 @@ ELSEIF IS_SLAVE(対象)
 	;TranslatedMark 仕事をしていると、%ANAME(対象)%が部屋に訪れてきた……
 	PRINTFORML 我已经忍不住了，请在“夜游”中随意“使用”我吧……
 	;TranslatedMark 疼いて仕方ないので、自分を「夜遊び」に「使って」くれないかということだ……
-	CALL ASK_YN("使ってやる", "いや仕事あるから……")
+	CALL ASK_YN("使用你", "不，我还有工作……")
 	IF RESULT == 1
 		PRINTFORMW 不好意思，有工作……得到这样回答后，%ANAME(対象)%很遗憾地回去了
 		;TranslatedMark 悪いけど仕事がある……そう告げると、%ANAME(対象)%は残念そうに帰って行った

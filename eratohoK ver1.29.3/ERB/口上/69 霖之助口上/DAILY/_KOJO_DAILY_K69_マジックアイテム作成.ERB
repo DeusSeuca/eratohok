@@ -212,13 +212,13 @@ IF RESULT == 0
 		CALL COLOR_PRINTW(@"金{代金2}を支払いました", カラー_警告)
 		MONEY -= 代金2
 		CFLAG:対象:好感度 += 100
-		CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が100上がった", 0x00FFFF)
+		CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了100", 0x00FFFF)
 	;占領していない場合
 	ELSE
 		CALL COLOR_PRINTW(@"金{代金}を支払いました", カラー_警告)
 		MONEY -= 代金
 		CFLAG:対象:好感度 += 50
-		CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が50上がった", 0x00FFFF)
+		CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了50", 0x00FFFF)
 	ENDIF
 	PRINTFORML 
 	KDVAR:対象:霖之助_マジックアイテム作成 ++

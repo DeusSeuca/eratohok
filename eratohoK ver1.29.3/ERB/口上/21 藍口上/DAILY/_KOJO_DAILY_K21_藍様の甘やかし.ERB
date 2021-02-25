@@ -114,7 +114,7 @@ SELECTCASE KDVAR:対象:藍_甘やかし
 			PRINTFORMW 「今天就讓我陪著你睡覺吧。…以後也不用客氣、請盡情和我撒嬌…」
 			ABL:対象:主導度Ｎ += 150
 			CFLAG:対象:好感度 += 100
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が100上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了100", 0x00FFFF)
 			CALL PRINT_ADD_EXP(MASTER, "政治経験値", RAND(5, 10), 1)
 			CALL TRAIN_AUTO_ABLUP(MASTER)
 			KDVAR:対象:藍_甘やかし = 1
@@ -132,7 +132,7 @@ SELECTCASE KDVAR:対象:藍_甘やかし
 			PRINTFORMW ……第二天、可能是因為被%ANAME(対象)%治愈了的效果吧、身體已經沒有任何不適了、精神也徹底煥發了起來
 			ABL:対象:主導度Ｎ += 100
 			CFLAG:対象:好感度 += 150
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が150上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了150", 0x00FFFF)
 			KDVAR:対象:藍_甘やかし = 1
 			;クールタイムがあったら-1
 			SIF COOLTIME:MASTER:0 < 0
@@ -196,7 +196,7 @@ SELECTCASE KDVAR:対象:藍_甘やかし
 			PRINTFORMW …睡得很熟…。第二天早上、桌子上放著完成了的文件
 			ABL:対象:主導度Ｎ += 150
 			CFLAG:対象:好感度 += 150
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が150上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了150", 0x00FFFF)
 			;クールタイムがあったら-1
 			SIF COOLTIME:MASTER:0 < 0
 				CALL ADD_COOLTIME(MASTER, -1)
@@ -271,7 +271,7 @@ SELECTCASE KDVAR:対象:藍_甘やかし
 			CITY_GUARD:対象都市 += 20
 			CALL ICPRINT(@"%CITY_NAME:対象都市%的防御力上升了<20>點、變成了<{CITY_GUARD:対象都市}>", "W", カラー_注意)
 			PRINTFORML 
-			PRINTFORMW ―　第二天　―
+			PRINTFORMW ―　过了一天　―
 			PRINTFORML 
 			PRINTFORMW 「今天是征召士兵的項目嗎…啊、早上好%ANAME(MASTER)%」
 			PRINTFORML 當%ANAME(MASTER)%醒來、發現%ANAME(対象)%早已開始工作了
@@ -286,7 +286,7 @@ SELECTCASE KDVAR:対象:藍_甘やかし
 			COUNTRY_SOLDIER:(CFLAG:対象:所属) += 4000
 			CALL ICPRINT("兵力增加了<4000>", "L", カラー_注意)
 			PRINTFORML 
-			PRINTFORMW ―　第二天　―
+			PRINTFORMW ―　过了一天　―
 			PRINTFORML 
 			PRINTFORMW 「今天是投資周嗎。那麼就選這個吧…啊、早上好%ANAME(MASTER)%」
 			PRINTFORML 今天%ANAME(対象)%也早早地開始工作了。一大堆的文件都快處理得七七八八了
@@ -303,7 +303,7 @@ SELECTCASE KDVAR:対象:藍_甘やかし
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(対象)%的膣穴")
 			CALL MODIFY_CITY_ECONOMY(対象都市2, RAND(15000, 25000))
 			PRINTFORML 
-			PRINTFORMW ―　第二天　―
+			PRINTFORMW ―　过了一天　―
 			PRINTFORML 
 			PRINTFORMW 「好了、工作已經結束了…但是這麼快提交文件的話、可能又要被派去做其他工作了吧」
 			PRINTFORML …確實。因為本來以為要花兩個星期的時間來做的工作、結果三天左右就做完了…
@@ -328,7 +328,7 @@ SELECTCASE KDVAR:対象:藍_甘やかし
 			PRINTFORML 然後兩人的墮落糜爛的生活被知道了、%ANAME(MASTER)%和%ANAME(対象)%一起都被人責備了
 			PRINTFORMW 為了限制%ANAME(対象)%一段時間、頒布了『禁止過度溺愛令』……
 			CFLAG:対象:好感度 += 500
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が500上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了500", 0x00FFFF)
 			ABL:対象:主導度Ｎ += 300
 			ABL:対象:主導度Ｕ += 300
 			CALL COLOR_PRINTW(@"因為%ANAME(対象)%的溺愛、%ANAME(MASTER)%的身體變遲鈍了！", カラー_注意)

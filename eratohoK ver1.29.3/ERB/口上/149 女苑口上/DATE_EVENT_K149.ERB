@@ -525,7 +525,7 @@ ELSEIF CFLAG:女苑:好感度 >= 0
 			PRINTFORMW 看到%ANAME(MASTER)%巧妙地钓上来鱼的样子，%ANAME(女苑)%发出赞叹的声音
 			;TranslatedMark %ANAME(MASTER)%が手際よく魚を釣り上げる様を見て、%ANAME(女苑)%は感心したような声を上げた
 			CFLAG:女苑:好感度 += 10
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が10上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了10", 0x00FFFF)
 		CASE 1
 			PRINTFORML 「看来在这里也没有商店一类的东西。……没办法，去钓鱼吧」
 			;TranslatedMark 「ここじゃショッピングも出来そうにないわね。……仕方ないから釣りでもするわ」
@@ -547,7 +547,7 @@ ELSE
 			PRINTFORMW 看到%ANAME(MASTER)%巧妙地钓上来鱼的样子，%ANAME(女苑)%发出赞叹的声音
 			;TranslatedMark %ANAME(MASTER)%が手際よく魚を釣り上げる様を見て、%ANAME(女苑)%は感心したような声を上げた
 			CFLAG:女苑:好感度 += 10
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が10上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了10", 0x00FFFF)
 		CASE 1
 			PRINTFORML 「……什么都没有，这里……」
 			;TranslatedMark 「……何にも無いわ、ここ……」
@@ -833,7 +833,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			CALL FUCK_MAKELOVE(女苑, GET_ID(MASTER), @"%ANAME(MASTER)%の唇", ANAME(MASTER))
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(女苑)%の膣", "和姦")
 			CFLAG:女苑:好感度 += 1000
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が1000上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了1000", 0x00FFFF)
 		CASE 1
 			PRINTFORML 「啊…%ANAME(MASTER)%，这里是……♥」
 			;TranslatedMark 「あ…、%ANAME(MASTER)%、ここって……♥」
@@ -857,7 +857,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			CALL FUCK_MAKELOVE(女苑, GET_ID(MASTER), @"%ANAME(MASTER)%の唇", ANAME(MASTER))
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(女苑)%の膣", "和姦")
 			CFLAG:女苑:好感度 += 1000
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が1000上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了1000", 0x00FFFF)
 		CASE 2
 			PRINTFORML 「呼，来回走，肚子饿了。一起去吃点什么吧？」
 			;TranslatedMark 「ふう、歩き回ってお腹空いたね。一緒に何か食べて行かない？」
@@ -898,7 +898,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			PRINTFORMW %ANAME(MASTER)%心情也很好，因为能看到这样幸福的笑容，这已经算是便宜的了
 			;TranslatedMark こんな幸せそうな笑顔を見れるなら安い買い物だったな、と%ANAME(MASTER)%もいい気分だった
 			CFLAG:女苑:好感度 += 1500
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が1500上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了1500", 0x00FFFF)
 	ENDSELECT
 	
 ;好感度5000以上
@@ -955,7 +955,7 @@ ELSEIF CFLAG:女苑:好感度 >= 5000
 			PRINTFORMW 看到她发自内心开心的笑容，%ANAME(MASTER)%感觉不坏
 			;TranslatedMark 彼女の心底嬉しそうな笑顔を見れて、%ANAME(MASTER)%も悪い気はしなかった
 			CFLAG:女苑:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が200上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了200", 0x00FFFF)
 	ENDSELECT
 	
 ;好感度1500以上
@@ -1039,7 +1039,7 @@ ELSE
 			PRINTFORMW 对于%ANAME(MASTER)%买来的点心，%ANAME(女苑)%率直地流露出了感想
 			;TranslatedMark %ANAME(MASTER)%が買って来たお菓子に、%ANAME(女苑)%は率直な感想が漏れた
 			CFLAG:女苑:好感度 += 10
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が10上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了10", 0x00FFFF)
 		CASE 1
 			PRINTFORML 「…………哈」
 			;TranslatedMark 「…………はぁっ」
@@ -1071,7 +1071,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			PRINTFORMW 「嘿嘿…好开心啊…♥谢谢你，%ANAME(MASTER)%。这个王冠，我要收藏起来成为我的宝物♥」
 			;TranslatedMark 「えへへ…、嬉しいなぁ…♥　ありがとうね、%ANAME(MASTER)%。この冠、私の宝物にするわ♥」
 			CFLAG:女苑:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が200上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了200", 0x00FFFF)
 		CASE 1
 			PRINTFORML 「是的，嗯…♪呵呵，我做了很多便当，别客气了♥」
 			;TranslatedMark 「はい、あーん…♪　ふふ、いっぱいお弁当作ってきたから遠慮しないでね♥」
@@ -1112,7 +1112,7 @@ ELSEIF CFLAG:女苑:好感度 >= 5000
 				PRINTFORMW %ANAME(女苑)%的耳朵都红了，但还是腼腆地面对着%ANAME(MASTER)%
 				;TranslatedMark %ANAME(女苑)%は耳まで赤くしながらも、はにかむような笑顔を%ANAME(MASTER)%に向けた
 				CFLAG:女苑:好感度 += 100
-				CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が100上がった", 0x00FFFF)
+				CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了100", 0x00FFFF)
 			ELSE
 				PRINTFORMW …也许确实是那样…当%ANAME(MASTER)%这样嘟囔着的时候，%ANAME(女苑)%露骨地不高兴了
 				;TranslatedMark …確かにそうかも…　と%ANAME(MASTER)%が呟くと、 %ANAME(女苑)%は露骨に不機嫌になった
@@ -1227,7 +1227,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			CALL FUCK_MAKELOVE(女苑, GET_ID(MASTER), @"%ANAME(MASTER)%の唇", ANAME(MASTER))
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(女苑)%の膣", "和姦")
 			CFLAG:女苑:好感度 += 1000
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が1000上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了1000", 0x00FFFF)
 		CASE 1
 			PRINTFORML 「啊♥嗯，嗯♥%ANAME(MASTER)%…好哦♥」
 			;TranslatedMark 「あっ♥　んんっ♥　%ANAME(MASTER)%っ…いいよぉっ♥」
@@ -1240,7 +1240,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			CALL FUCK_MAKELOVE(女苑, GET_ID(MASTER), @"%ANAME(MASTER)%の唇", ANAME(MASTER))
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(女苑)%の膣", "和姦")
 			CFLAG:女苑:好感度 += 1000
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が1000上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了1000", 0x00FFFF)
 		CASE 2
 			PRINTFORML 「哈♥嗯♥中、…嗯♥」
 			;TranslatedMark 「はぁっ♥　んっ♥　ちゅ、…んん♥」
@@ -1255,7 +1255,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			CALL FUCK_MAKELOVE(女苑, GET_ID(MASTER), @"%ANAME(MASTER)%の唇", ANAME(MASTER))
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(女苑)%の膣", "和姦")
 			CFLAG:女苑:好感度 += 1000
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が1000上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了1000", 0x00FFFF)
 		CASE 3
 			PRINTFORML %ANAME(MASTER)%因为有事稍微离开座位的时候，%ANAME(女苑)%发现了被随意脱下扔掉的上衣
 			;TranslatedMark %ANAME(MASTER)%が所用で少し席を外している時、%ANAME(女苑)%は無造作に脱ぎ捨てられた上着を見つけた
@@ -1294,7 +1294,7 @@ IF CFLAG:女苑:好感度 >= 10000
 			CALL FUCK_MAKELOVE(女苑, GET_ID(MASTER), @"%ANAME(MASTER)%の唇", ANAME(MASTER))
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(女苑)%の膣", "和姦")
 			CFLAG:女苑:好感度 += 2000
-			CALL COLOR_PRINTL(@"%ANAME(女苑)%の好感度が2000上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(女苑)%的好感度上升了2000", 0x00FFFF)
 	ENDSELECT
 	
 ;好感度5000以上

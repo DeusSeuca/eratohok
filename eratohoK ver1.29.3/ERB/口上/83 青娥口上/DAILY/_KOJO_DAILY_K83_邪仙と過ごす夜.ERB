@@ -107,7 +107,7 @@ SELECTCASE RAND:3
 			PRINTFORMW 结果两个人都抱着枕头睡得很好……
 			;TranslatedMark 結局二人とも、互いを抱き枕にして仲良く眠りについた……
 			CFLAG:対象:好感度 += 300
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が300上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了300", 0x00FFFF)
 		ELSE
 			PRINTFORML
 			PRINTFORMW …像她这样的美女白头偕老的机会白白浪费了，这也是损失吧
@@ -240,7 +240,7 @@ SELECTCASE RAND:3
 			CFLAG:対象:好感度 += 700
 			CFLAG:対象:支配度 += 300
 			ABL:対象:主導度Ｕ += 500
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が500上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了500", 0x00FFFF)
 			CALL COLOR_PRINTL(@"%ANAME(対象)%の支配度が300上がった", 0x00FFFF)
 			PRINTFORML 
 		ENDIF
@@ -316,7 +316,7 @@ SELECTCASE RAND:3
 				PRINTFORMW 因醉酒而被邀请进入深度睡眠，两人都带着幸福的表情入睡……
 				;TranslatedMark 酔いによって深い眠りに誘われ、二人とも幸せそうな表情で眠りについた……
 				CFLAG:対象:好感度 += 500
-				CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が500上がった", 0x00FFFF)
+				CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了500", 0x00FFFF)
 				CALL PRINT_ADD_EXP(対象, "肝臓経験値", RAND(5, 10), 1)
 				CALL PRINT_ADD_EXP(MASTER, "肝臓経験値", RAND(5, 10), 1)
 				CALL TRAIN_AUTO_ABLUP(対象)
@@ -437,7 +437,7 @@ SELECTCASE RAND:3
 			CFLAG:対象:好感度 += 700
 			CFLAG:対象:依存度 += 500
 			ABL:対象:主導度Ｕ -= 300
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が700上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了700", 0x00FFFF)
 			CALL COLOR_PRINTL(@"%ANAME(対象)%の依存度が500上がった", 0x00FFFF)
 			PRINTFORML
 		ENDIF
@@ -503,7 +503,7 @@ SELECTCASE RAND:3
 		PRINTFORML
 		CFLAG:対象:好感度 += 400
 		CFLAG:対象:従属度 += 500
-		CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が400上がった", 0x00FFFF)
+		CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了400", 0x00FFFF)
 		CALL COLOR_PRINTL(@"%ANAME(対象)%の従属度が500上がった", 0x00FFFF)
 ENDSELECT
 

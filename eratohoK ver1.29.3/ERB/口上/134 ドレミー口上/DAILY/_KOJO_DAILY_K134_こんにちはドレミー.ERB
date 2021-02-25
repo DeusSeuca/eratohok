@@ -64,9 +64,9 @@ IF CFLAG:対象:所属 != CFLAG:MASTER:所属
 	;TranslatedMark 「大丈夫ですよ、普通にうっかり迷い込んじゃった人に対して害をなすほど、獏も暇じゃないんでね」
 	PRINTFORML 貘——听说是进入人的梦中，吃他们梦的妖怪
 	;TranslatedMark 獏――人の夢の中に入り込み、夢を食ってしまう妖怪だと聞く
-	PRINTFORMW “那么，这里是在梦里吗？”当%ANAME(MASTER)%来询问的时候，少女确实点了点头
+	PRINTFORMW “那么，这里是在梦里吗？”当%ANAME(MASTER)%询问的时候，少女肯定地点了点头
 	;TranslatedMark だとするとここは夢の中なのか。%ANAME(MASTER)%が訪ねると、しかりと少女は頷いた
-	PRINTFORML 「虽然是梦的世界的边境。你运气很好。平时睡觉的话，就不会来这种地方了」
+	PRINTFORML 「虽然是梦的世界的边境。你运气很好。平时睡觉的话，是不会来这种地方的」
 	;TranslatedMark 「夢の世界の、辺境ですけどね。あなた運がいいですよ。普通に寝てる分には、こんなところ来られませんから」
 	PRINTFORMW 「……嘛，一想到看到了即使不看也可以的东西，就不知道是运气好还是不好了」
 	;TranslatedMark 「……ま、見なくていいものを見てると考えたら、運がいいやら悪いやら分からないですけどね」
@@ -79,13 +79,13 @@ IF CFLAG:対象:所属 != CFLAG:MASTER:所属
 	;TranslatedMark 「……なんて、まぁ、覚えてられたらの話ですけど」
 	PRINTFORML ［还没迷糊到像这样"令人印象深刻"的相遇对象的名字和脸都忘记了的程度呢……］
 	;TranslatedMark こんな"印象的な"出会いをした相手の名前と顔を忘れるほど、もうろくしていない……
-	PRINTFORMW %ANAME(MASTER)%半开玩笑地回过神来，%ANAME(対象)%摇了摇头
+	PRINTFORMW %ANAME(MASTER)%开玩笑地回答，%ANAME(対象)%摇了摇头
 	;TranslatedMark %ANAME(MASTER)%が冗談めかして返すと、%ANAME(対象)%は首を振った
-	PRINTFORML 「不知道。这里是梦里哦」
+	PRINTFORML 「不一定呢。这里可是梦里哦」
 	;TranslatedMark 「分かってらっしゃらない。ここは夢の中ですよ」
 	PRINTFORML 「你还记得昨天做的梦的内容吗？不记得了吧？」
 	;TranslatedMark 「あなたは昨日見た夢の内容を覚えてますか？　覚えてないでしょう？」
-	PRINTFORMW 「就是这样……起床后忘得一干二净。然后那个时候，就快到那里了吧」
+	PRINTFORMW 「就是这样……起床后忘得一干二净。而且那个时候，马上就到了吧」
 	;TranslatedMark 「そういうものなんですよ……起きたら綺麗さっぱり忘れています。そしてその時は、もうすぐそこでしょうね」
 	PRINTFORML 我连问的时间都没有。周围变得明亮，渐渐变白
 	;TranslatedMark どういう意味か、問う暇もなかった。周囲が明るくなり、白く染まっていく
@@ -105,7 +105,7 @@ IF CFLAG:対象:所属 != CFLAG:MASTER:所属
 	PRINTFORMW ……话说回来，你做了什么梦来着？
 	;TranslatedMark ……それにしても、何の夢を見ていたっけ？
 	PRINTFORML
-	CALL COLOR_PRINTW(@"%NAME_FORMAL(対象)%の面識を得ました", カラー_注意)
+	CALL COLOR_PRINTW(@"认识了%NAME_FORMAL(対象)%", カラー_注意)
 	CFLAG:対象:好感度 += 200
 	CFLAG:対象:面識 = 1
 	
@@ -176,7 +176,7 @@ ELSEIF CFLAG:対象:所属 == CFLAG:MASTER:所属 && !CFLAG:対象:面識
 	PRINTFORMW ……话说回来，你做了什么梦来着？
 	;TranslatedMark ……それにしても、何の夢を見ていたっけ？
 	PRINTFORML
-	CALL COLOR_PRINTW(@"%NAME_FORMAL(対象)%の面識を得ました", カラー_注意)
+	CALL COLOR_PRINTW(@"认识了%NAME_FORMAL(対象)%", カラー_注意)
 	CFLAG:対象:好感度 += 200
 	CFLAG:対象:面識 = 1
 
@@ -310,7 +310,7 @@ ELSE
 	PRINTFORMW ……话说回来，你做了什么梦来着？
 	;TranslatedMark ……それにしても、何の夢を見ていたっけ？
 	PRINTFORML
-	CALL COLOR_PRINTW(@"%NAME_FORMAL(対象)%の面識を得ました", カラー_注意)
+	CALL COLOR_PRINTW(@"认识了%NAME_FORMAL(対象)%", カラー_注意)
 	CFLAG:対象:好感度 += 200
 ENDIF
 KDVAR:対象:ドレミー_こんにちはドレミー = 1

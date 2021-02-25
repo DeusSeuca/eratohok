@@ -121,7 +121,7 @@ ELSE
 ENDIF
 
 PRINTFORML 「好，那这家伙就是你对手」
-PRINTFORMW 相手名前は%相手名前%だ
+PRINTFORMW 对手的名字是%相手名前%
 PRINTFORML 「为了不死而努力吧，嘿嘿」
 PRINTFORMW %ANAME(対象)%穿过接待处，向着剑斗场走去
 
@@ -164,7 +164,7 @@ CALL ARENA_BATTLE(対象, 相手名前, 敵戦闘力)
 
 IF RESULT > 0
 	CALL ARENA_WIN(対象, 相手名前, 相手男, 対戦相手がキャラ ? OPPONENT_ID # -1)
-	CALL COLOR_PRINTW(@"賞金{ARENA_CALC_MONEY(対象, 敵戦闘力)}をもらった", カラー_注意)
+	CALL COLOR_PRINTW(@"得到了奖金{ARENA_CALC_MONEY(対象, 敵戦闘力)}", カラー_注意)
 	MONEY += ARENA_CALC_MONEY(対象, 敵戦闘力)
 
 	CALL ARENA_ADD_EXP(対象, 敵戦闘力, 1)

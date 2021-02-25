@@ -49,7 +49,7 @@ PRINTFORMW %ANAME(対象)%来了……
 PRINTFORMW 「好久不见了。那么，把借的钱还给我吧？」
 ;TranslatedMark 「久しぶりじゃな。さて、貸した金を返してもらおうか？」
 
-CALL ASK_MULTI_JUDGE("返す", MONEY >= KDVAR:対象:マミゾウ_金貸し_返済額, "返せない", 1)
+CALL ASK_MULTI_JUDGE("偿还", MONEY >= KDVAR:対象:マミゾウ_金貸し_返済額, "不还", 1)
 
 IF RESULT == 0
 	MONEY -= KDVAR:対象:マミゾウ_金貸し_返済額
@@ -70,7 +70,7 @@ PRINTFORMW %ANAME(対象)%露出吃惊的表情
 ;TranslatedMark %ANAME(対象)%は呆れた表情を浮かべる
 PRINTFORMW 「还不回来的话……？那为什么借了？」
 ;TranslatedMark 「返せないとな……？　ならなぜ借りた？」
-PRINTFORMW 「啊，没办法。因为说还不回来的东西也没办法。……但是，代替的东西要吃吗？」
+PRINTFORMW 「啊，没办法。因为说还不回来的东西也没办法。……但是，代替的东西要吗？」
 ;TranslatedMark 「まあ、仕方ない。返せんものを返せと言っても仕方がないからのう。……ただし、代わりのものはいただくぞい？」
 
 CALL DAILY_EVENT_RAND_CHARASELECT()

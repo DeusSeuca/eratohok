@@ -62,7 +62,7 @@ PRINTFORMW 「啊啦啊啦。你就是%ANAME(MASTER)%吗。我是%NAME_FORMAL(�
 ;TranslatedMark 「これはこれは。おぬしが%ANAME(MASTER)%か。儂は%NAME_FORMAL(対象)%。金貸しをしておる」
 PRINTFORMW 「既然是这样的时代，肯定是需要钱来做各种事情的吧？我来帮你吧」
 ;TranslatedMark 「こんな時代じゃから、何かと入り用じゃろ？　儂が助けてやろうじゃなぁないか」
-CALL ICPRINT(@"「そうじゃな、金<{融資額}>の融資で、期限は<{返済期限}>期、返済額は<{返済額}>でどうじゃ？」", "W", カラー_注意)
+CALL ICPRINT(@"「这样的话、金额<{融資額}>的融资、期限是<{返済期限}>期、返还额度为<{返済額}>怎么样？」", "W", カラー_注意)
 PRINTFORMW 兵役、训练、外交、任何事情都需要钱
 ;TranslatedMark 徴兵に訓練、外交、何事にも金は必要だ
 PRINTFORMW 虽然不太想借钱，但为了存活下去，只能不择手段
@@ -99,7 +99,7 @@ KDVAR:対象:マミゾウ_金貸し_返済期限 = 返済期限
 KDVAR:対象:マミゾウ_金貸し = 1
 PRINTFORMW 「那就成交了」
 ;TranslatedMark 「契約成立じゃな」
-CALL ICPRINT(@"期限は<{返済期限}>期、返済額は<{返済額}>じゃからな、くれぐれもよろしく頼むよ", "W", カラー_注意)
+CALL ICPRINT(@"期限是<{返済期限}>期、返回额度为<{返済額}>、还请多多关照了", "W", カラー_注意)
 PRINTFORMW %ANAME(対象)%离开了……
 ;TranslatedMark %ANAME(対象)%は立ち去った……
 

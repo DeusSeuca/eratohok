@@ -120,7 +120,7 @@ SELECTCASE RAND:3
 				;TranslatedMark お互いの体温と、仄かに聞こえる心音が子守唄となって二人とも幸せな気分で眠りについた……
 				PRINTFORML
 				CFLAG:対象:好感度 += 500
-				CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が500上がった", カラー_シアン)
+				CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了500", カラー_シアン)
 				RETURN
 			ENDIF
 			PRINTFORML
@@ -236,7 +236,7 @@ SELECTCASE RAND:3
 			CALL FUCK(MASTER, "Ｃ, 射精, Ｖ挿入", "童貞喪失", 0, "", "", @"%ANAME(対象)%の膣")
 			CFLAG:対象:好感度 += 600
 			CFLAG:対象:依存度 += 500
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が600上がった", カラー_シアン)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了600", カラー_シアン)
 			CALL COLOR_PRINTL(@"%ANAME(対象)%の依存度が500上がった", カラー_シアン)
 			PRINTFORML 
 		ENDIF
@@ -317,7 +317,7 @@ SELECTCASE RAND:3
 				PRINTFORMW 因为醉酒而带来的温暖和飘飘然的清香，两个人都带着幸福的心情睡着了……
 				;TranslatedMark 酔いによっての温もりと、ほんのり香る酒の匂いも手伝って、二人とも幸せな気分で眠りについた……
 				CFLAG:対象:好感度 += 500
-				CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が500上がった", カラー_シアン)
+				CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了500", カラー_シアン)
 				CALL PRINT_ADD_EXP(対象, "肝臓経験値", RAND(5, 10), 1)
 				CALL PRINT_ADD_EXP(MASTER, "肝臓経験値", RAND(5, 10), 1)
 				CALL TRAIN_AUTO_ABLUP(対象)
@@ -425,7 +425,7 @@ SELECTCASE RAND:3
 			CALL TRAIN_AUTO_ABLUP(対象)
 			CALL TRAIN_AUTO_ABLUP(MASTER)
 			CFLAG:対象:好感度 += 700
-			CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が700上がった", カラー_シアン)
+			CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了700", カラー_シアン)
 			ABL:対象:主導度Ｕ += 500
 			PRINTFORML
 		ENDIF
@@ -509,7 +509,7 @@ SELECTCASE RAND:3
 		PRINTFORML
 		CFLAG:対象:好感度 += 400
 		CFLAG:対象:従属度 += 500
-		CALL COLOR_PRINTL(@"%ANAME(対象)%の好感度が400上がった", カラー_シアン)
+		CALL COLOR_PRINTL(@"%ANAME(対象)%的好感度上升了400", カラー_シアン)
 		CALL COLOR_PRINTL(@"%ANAME(対象)%の従属度が500上がった", カラー_シアン)
 ENDSELECT
 

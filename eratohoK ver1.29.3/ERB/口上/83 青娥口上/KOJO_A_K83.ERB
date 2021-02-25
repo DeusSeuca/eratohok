@@ -289,7 +289,7 @@ ELSEIF CFLAG:200 < 8 && (TALENT:正妻 || TALENT:妾)
 		PRINTFORMW %ANAME(TARGET)%和%ANAME(MASTER)%交换了觉醒之吻，开始了今天的活动
 		;TranslatedMark %ANAME(TARGET)%は%ANAME(MASTER)%と目覚めのキスを交わして、今日の活動を開始した
 		CFLAG:TARGET:好感度 += 400
-		CALL COLOR_PRINTL(@"%ANAME(TARGET)%の好感度が400上がった", 0x00FFFF)
+		CALL COLOR_PRINTL(@"%ANAME(TARGET)%的好感度上升了400", 0x00FFFF)
 	ELSEIF TALENT:妾
 		PRINTFORMW 「……%ANAME(MASTER)%………呵呵♥」
 		;TranslatedMark 「……%ANAME(MASTER)%………ふふ♥」
@@ -307,7 +307,7 @@ ELSEIF CFLAG:200 < 8 && (TALENT:正妻 || TALENT:妾)
 		PRINTFORMW ……%ANAME(MASTER)%被%ANAME(TARGET)%充分治愈后，开始了今天的活动
 		;TranslatedMark ……%ANAME(MASTER)%は%ANAME(TARGET)%にたっぷり癒されてから、今日の活動を開始した
 		CFLAG:TARGET:好感度 += 200
-		CALL COLOR_PRINTL(@"%ANAME(TARGET)%の好感度が200上がった", 0x00FFFF)
+		CALL COLOR_PRINTL(@"%ANAME(TARGET)%的好感度上升了200", 0x00FFFF)
 		TFLAG:55 += 1;時間経過
 	ENDIF
 	PRINTFORML 
@@ -414,7 +414,7 @@ ELSEIF TALENT:正妻
 			PRINTFORMW ……%ANAME(MASTER)%被%ANAME(TARGET)%充分治愈后，开始了今天的活动
 			;TranslatedMark ……%ANAME(MASTER)%は%ANAME(TARGET)%にたっぷり癒されてから、今日の活動を開始した
 			CFLAG:TARGET:好感度 += 200
-			CALL COLOR_PRINTL(@"%ANAME(TARGET)%の好感度が200上がった", 0x00FFFF)
+			CALL COLOR_PRINTL(@"%ANAME(TARGET)%的好感度上升了200", 0x00FFFF)
 			TFLAG:55 += 1;時間経過
 		CASE 3
 			PRINTFORML 「……♥」

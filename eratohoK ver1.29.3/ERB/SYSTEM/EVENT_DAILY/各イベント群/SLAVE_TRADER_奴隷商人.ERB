@@ -105,7 +105,7 @@ ELSE
 	対象 = 捕虜番号:(RESULT)
 	PRINTFORMW 「可以卖%ANAME(対象)%吗？」
 	;TranslatedMark 「%ANAME(対象)%を売ってくださいますか？」
-	CALL ASK_YN(@"%ANAME(対象)%を売る", "考え直す")
+	CALL ASK_YN(@"%ANAME(対象)%卖出", "重新考虑")
 	IF RESULT == 1
 		PRINTFORML 「哎呀？真遗憾啊」
 		;TranslatedMark 「おや？残念ですね」
