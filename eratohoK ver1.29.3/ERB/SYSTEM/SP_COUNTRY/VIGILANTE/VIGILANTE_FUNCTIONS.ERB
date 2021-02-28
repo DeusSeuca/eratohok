@@ -10,10 +10,10 @@ IF DAY % 3 == 0
 	CALL SINGLE_DRAWLINE
 	LOCAL:0 = MAX(RAND:4000, 1000)
 	LOCAL:0 += RAND:500 * SP_COUNTRY_RANK:(特殊勢力_自警団)
-	PRINTFORML 自警团正在进行征兵……
-	;TranslatedMark 自警団正在进行徴兵……
-	PRINTFORML 自警团的兵力增加了{LOCAL:0}
-	;TranslatedMark 自警団的兵力增加了{LOCAL:0}
+	PRINTFORML 好像自警团在进行征兵……
+	;TranslatedMark 自警団が徴兵を行っているようです……
+	PRINTFORML 自警团的兵力增强了 増加了{LOCAL:0}
+	;TranslatedMark 自警団の兵力が{LOCAL:0}増加した
 	COUNTRY_SOLDIER:(自警団) += LOCAL:0
 ENDIF
 ;4ターンに1回、特別な徴兵
@@ -28,10 +28,10 @@ SETCOLOR カラー_注意
 PRINTFORML
 PRINTFORML
 PRINTFORML
-PRINTFORMW 遭遇了毁灭性破坏的自警团，已经无法继承继续活动了……
-;TranslatedMark 遭到了毀滅性破壞的自警団、已經無法繼續活動了……
-PRINTFORMW 我们解散了
-;TranslatedMark 他们解散了
+PRINTFORMW 遭受毁灭性损失的自警团似乎无法继续活动了……
+;TranslatedMark 壊滅的な被害を受けた自警団は、活動を継続することができなくなったようです……
+PRINTFORMW 他们已经解散了
+;TranslatedMark 彼らは解散してしまいました
 PRINTFORM
 PRINTFORML
 PRINTFORML
@@ -104,90 +104,90 @@ SELECTCASE RAND:3
 		;TranslatedMark 自警団は勧誘活動を行っている……
 		PRINTFORMW ……其中也有%ANAME(対象)%的身影
 		;TranslatedMark ……その中には、%ANAME(対象)%の姿もあった
-		PRINTFORML %ANAME(対象)%向好几个男性打招呼，用笑容和谈话邀请到据点
+		PRINTFORML %ANAME(対象)%和好几个男性打招呼，用笑容和谈话邀请他们去据点
 		;TranslatedMark %ANAME(対象)%は何人もの男性に声をかけては、笑顔とトークで拠点へと誘う
-		PRINTFORML 在带到据点的男人们面前，%ANAME(対象)%自己脱下衣服扔掉
+		PRINTFORML 在带到据点的男人们面前，%ANAME(対象)%自己脱下了衣服
 		;TranslatedMark 拠点に連れ込んだ男達の前で、%ANAME(対象)%は自ら衣服を脱ぎ捨てる
-		PRINTFORML 在惊天动地的男人面前，%ANAME(対象)%跪在他们面前，用嘴和手为肉棒服务
+		PRINTFORML 不顾惊讶的男人们，%ANAME(対象)%跪在他们面前，用嘴和手侍奉着肉棒
 		;TranslatedMark 仰天する男達をよそに、%ANAME(対象)%は彼らの前に跪き、口や手でもって肉棒に奉仕する
 		PRINTFORMW 对于%ANAME(対象)%来说，"劝诱"就是指这样的行为
 		;TranslatedMark %ANAME(対象)%にとって「勧誘」とは、つまりこういう行為のことだった
-		PRINTFORML 迷惑的男人们，不过，不能违抗咕嘟咕嘟的唾液的声音和股间的快乐
+		PRINTFORML 男人们虽然迷惑不解，但还是无法抗拒咕噜咕噜的口水声和两腿间的快感!
 		;TranslatedMark 戸惑う男達だったが、ぐぷぐぷという唾液の音と股間の快楽には逆らえない
-		PRINTFORML 一个人推倒了%ANAME(対象)%，穿过已经湿透的肉穴，然后一转眼就过去了
+		PRINTFORML 其中一个人推倒了%ANAME(対象)%，插入已经湿透的肉穴，接下来的事发生的很快
 		;TranslatedMark 一人が%ANAME(対象)%を押し倒し、既に濡れそぼっていた肉穴を貫くと、あとはあっという間だった
-		PRINTFORML 一个射精后又有另一个男人，他们一个接一个地在%ANAME(対象)%的身体里放着精
+		PRINTFORML 男人们一个接一个的陆续在%ANAME(対象)%的身体里喷洒着精液
 		;TranslatedMark 一人が射精してはまた別の男がと、彼らは次々%ANAME(対象)%の身体に精を放っていく
-		PRINTFORMW %ANAME(対象)%也很高兴，自己把两个洞献给了口、手和乳房
+		PRINTFORMW %ANAME(対象)%也很高兴，能用两穴手脚和红唇与香乳来侍奉男人们
 		;TranslatedMark %ANAME(対象)%も悦んで、自ら口や手、乳房に両穴を捧げてみせた
-		PRINTFORML 充分解放精灵，沉迷于%ANAME(対象)%肉体的男人们，用两个回答同意入团
+		PRINTFORML 沉迷于%ANAME(対象)%肉体的男人们，在射了个干干净净后，同意入团了
 		;TranslatedMark たっぷりと精を解き放ち、%ANAME(対象)%の肉体に夢中になった男達は、二つ返事で入団を了承する
-		PRINTFORML 满意的他们离开据点后，同期的团员带来了"再来一份"
+		PRINTFORML 满意的他们离开据点后，同行的团员又带来了"新的血液"
 		;TranslatedMark 満足した彼らが拠点を後にすると、同期の団員が「おかわり」を連れてくる
-		PRINTFORML 全身沾满精液的淫荡姿态，%ANAME(対象)%自己切开秘唇
+		PRINTFORML %ANAME(対象)%拨开自己的两片秘唇，展示着全身沾满精液的淫荡姿态。
 		;TranslatedMark 全身精液にまみれた淫らな姿で、%ANAME(対象)%が自ら秘唇を割り開く
-		PRINTFORMW 这次的男人们好像掌握了事情的原委，带着低微的笑容贯彻了%ANAME(対象)%……
+		PRINTFORMW 这一次，男人们好像掌握了事情的原委，带着鄙夷的淫笑插入了%ANAME(対象)%……
 		;TranslatedMark 今度の男達は事情を把握していたらしく、下卑た笑みを浮かべながら%ANAME(対象)%を貫いていった……
 		PRINTFORMW 由于%ANAME(対象)%的努力，希望入团的人似乎增加了很多……
 		;TranslatedMark %ANAME(対象)%の努力により、入団希望者はずいぶんと増えたようだ……
-		CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("偶遇的男人"), @"偶遇的男人的\@ RAND:2 ? 唇 # 肉棒 \@", "偶遇的男人", "", "輪姦")
+		CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, キス喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("行きずりの男"), @"行きずりの男の\@ RAND:2 ? 唇 # ペニス \@", "行きずりの男", "", "輪姦")
 	CASE 1
 		PRINTFORMW 自警团正在和当地的权威人士开会……
 		;TranslatedMark 自警団は地元の有力者と会合を開いている……
-		PRINTFORMW ……代表是%ANAME(対象)%
+		PRINTFORMW ……团内代表是%ANAME(対象)%
 		;TranslatedMark ……代表者は、%ANAME(対象)%だった
-		PRINTFORML 肥胖的男人和%ANAME(対象)%，在床上重叠着肌肤
+		PRINTFORML 肥胖油腻男和%ANAME(対象)%，在床上肌肤相贴，叠压在一起
 		;TranslatedMark 肥満体の男と%ANAME(対象)%は、ベッドの上で肌を重ねている
-		PRINTFORML 一边吸着勃起的阴茎发出的声音，一边将秘贝贴在他的脸上
+		PRINTFORML 一边咕噜噜地吸吮着男人勃起的阴茎，一边将自己的秘鲍紧紧贴在男人的脸上。
 		;TranslatedMark そり勃つペニスに音をたててしゃぶりつきながら、自ら秘貝を彼の顔面に押しつける
-		PRINTFORML 粘糊糊的舌头在阴核里咕噜咕噜转的话，%ANAME(対象)%就会发出甜美的声音
+		PRINTFORML 每当粘糊糊的舌头在阴核里咕叽叽咕叽叽地搅动，%ANAME(対象)%就会扭动着丰盈的臀部，发出甜美的喘息。
 		;TranslatedMark ねっとりとした舌が陰核をこねくり回すと、%ANAME(対象)%は甘い声をあげてよがってみせる
-		PRINTFORMW 男子忍不住发出精来，%ANAME(対象)%的瞳孔荡漾，发出声音喝下白浊
+		PRINTFORMW 男子终于忍不住开始喷射，%ANAME(対象)%双眼迷离，发出呜咽的声音咽下白浊
 		;TranslatedMark 男が耐えきれず精を放つと、%ANAME(対象)%は瞳を蕩かせ、音を立てて白濁を飲み下していく
-		PRINTFORML 在调整呼吸的他面前，%ANAME(対象)%拿起淫具，自己表演手淫表演
+		PRINTFORML 在男人深沉喘息着，%ANAME(対象)%拿起自慰道具，亲自开始了香艳的展示
 		;TranslatedMark 呼吸を整える彼の前で、%ANAME(対象)%は淫具を手に取り、自らオナニーショーを披露する
-		PRINTFORML 像是嘴里发出淫荡的声音，用振动来回搅乱秘裂一样，男人也马上恢复了精神
+		PRINTFORML 振动棒在蜜缝搔弄搅动着，口中重重叠叠的浪叫，似乎让男人又一次快速迎来了性致
 		;TranslatedMark ぐちゅぐちゅと淫らな音を立ててバイブで秘裂を掻き回す様に、男もすぐに元気を取り戻したようだ
-		PRINTFORML 在想要给他更好的东西的男人面前，%ANAME(対象)%用手遮住了自己的秘贝
+		PRINTFORML 在急切渴求想要进入的男人面前，%ANAME(対象)%用手遮住了自己的秘鲍
 		;TranslatedMark もっといい物をあげようとのしかかってくる男を前に、%ANAME(対象)%は自らの秘貝を手で隠した
-		PRINTFORML 如果想做更好的事情的话，请协助我们
+		PRINTFORML 想做更舒服的事情的话，就要答应我们的要求哦
 		;TranslatedMark もっといいことがしたいなら、私たちに協力してください
-		PRINTFORML %ANAME(対象)%这样要求的话，焦急的男人会立刻答应
+		PRINTFORML 当%ANAME(対象)%提出这样的条件时，焦急的男人三言两语就答应了。
 		;TranslatedMark %ANAME(対象)%がそのように要求すると、焦れた男は二つ返事で了承する
-		PRINTFORMW 在火辣的母穴里插入一个勃起的东西，%ANAME(対象)%发出了不得了的声音
+		PRINTFORMW 每当勃起的肉棒在炽热的雌穴里插入时，%ANAME(対象)%就会发出销魂的声音
 		;TranslatedMark ヒクつく雌穴に勃起した一物が挿入されると、%ANAME(対象)%はたまらないという声をあげてよがった
-		PRINTFORMW %ANAME(対象)%在那之后也花了整整一夜，用他的身体从男人那里得到了一切支援的约定……
+		PRINTFORMW %ANAME(対象)%在那之后花了整整一夜，用身体从男人们那里得到了各种支援的承诺……
 		;TranslatedMark %ANAME(対象)%はその後も、丸々一夜をかけ、その身体でもって男からあらゆる支援の約束を取り付けた……
-		CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交, 売春", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("富豪"), @"富豪の\@ RAND:2 ? 唇 # 肉棒 \@", "富豪", "", "売春")
+		CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交, 売春", "膣内射精, 処女喪失, Ａ処女喪失, キス喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("富豪"), @"富豪の\@ RAND:2 ? 唇 # ペニス \@", "富豪", "", "売春")
 	CASE 2
 		PRINTFORMW 自警团正在和当地的流氓们开会……
 		;TranslatedMark 自警団は地元のごろつき達と会合を開いている……
 		PRINTFORMW ……代表是%ANAME(対象)%
 		;TranslatedMark ……代表者は、%ANAME(対象)%だ
-		PRINTFORMW %ANAME(対象)%对他们说，不要做坏事，加入自警团
+		PRINTFORMW %ANAME(対象)%要求道，停止作恶并加入自警团
 		;TranslatedMark 悪事をやめ、自警団に参加するよう、%ANAME(対象)%は彼らに説いている
-		PRINTFORMW 当然不止这些。%ANAME(対象)%自己搭配的套装
+		PRINTFORMW 当然这些还远远不够。%ANAME(対象)%自身也是条件的一部分
 		;TranslatedMark もちろんそれだけではない。%ANAME(対象)%自身がセットでついていた
-		PRINTFORMW 被流氓头子命令，%ANAME(対象)%自己脱下衣服扔掉
+		PRINTFORMW 在流氓头子命令下，%ANAME(対象)%脱下扔开了自己的衣服
 		;TranslatedMark ごろつきの頭に命じられ、%ANAME(対象)%は自ら衣服を脱ぎ捨てる
-		PRINTFORMW 用嘴挪开他的下衣，露出肉棒，用艳丽的嘴唇迎入
+		PRINTFORMW 用嘴拨开内裤，露出肉棒，艳丽的红唇迎入肉棒
 		;TranslatedMark 彼の下衣を口でずらし、肉棒を露出させると、艶やかな唇で迎え入れる
-		PRINTFORMW 发出声音将其吞噬，发出声音吞下白色浑浊的样子，极其淫荡
+		PRINTFORMW 呜咽着用舌根套弄着肉棒，咕叽咕叽吞下白浊液的样子，真是淫荡极了
 		;TranslatedMark 音をたてて扱き下ろし、音をたてて白濁を嚥下する様は、極めて淫らだった
-		PRINTFORMW 之后，%ANAME(対象)%自己跨上嫉妒的男人，用%STR_BODY("膣：欲情：感度", 対象)%开始让阴茎感到愉悦
+		PRINTFORMW 之后，%ANAME(対象)%自行跨上平躺的男人，用%STR_BODY("膣：欲情：感度", 対象)%刺激取悦着肉棒
 		;TranslatedMark その後、%ANAME(対象)%はねそべる男に自らまたがり、%STR_BODY("膣：欲情：感度", 対象)%でもってペニスを悦ばせ始める
-		PRINTFORMW 男子释放出精灵后，一边发出喜悦的声音，一边用子宫接住粘稠的浊液
+		PRINTFORMW 一边浪叫着，一边用子宫接住男人射出的粘稠的精液
 		;TranslatedMark 男が精を解き放つと、悦びの声をあげながら、粘つく濁液を子宮で受け止めて見せた
-		PRINTFORMW 当然，这并不是终点
+		PRINTFORMW 当然，这一切还没有结束
 		;TranslatedMark もちろんそれで終わりではない
-		PRINTFORMW 头目用下巴打嗝%ANAME(対象)%，命令周围的部下们也去服务
+		PRINTFORMW 流氓头子动了动下巴，示意着%ANAME(対象)%，去为周围的部下服务。
 		;TranslatedMark 頭目が%ANAME(対象)%を顎でしゃくり、周囲を取り囲む部下達にも奉仕するように命じる
-		PRINTFORMW %ANAME(対象)%荡着眼睛，嘴巴、手、乳房两个洞，花了整整一天时间接受了好几个男人的欲望……
+		PRINTFORMW %ANAME(対象)%眼神荡漾，用嘴、手、乳房和两穴，花了整整一天时间来满足好几个男人的欲望……
 		;TranslatedMark %ANAME(対象)%は瞳を蕩かせ、口や手、乳房に両穴でもって、丸一日かけて何人もの男達の欲望を受け止めていった……
-		CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("地痞"), @"地痞的\@ RAND:2 ? 唇 # 肉棒 \@", "地痞", "", "輪姦")
+		CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, キス喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("ごろつき"), @"ごろつきの\@ RAND:2 ? 唇 # ペニス \@", "ごろつき", "", "輪姦")
 ENDSELECT
 PRINTFORML 
-PRINTFORMW 自警团的兵力达到{LOCAL}増加した
+PRINTFORMW 自警团的士兵数增加了{LOCAL}
 ;TranslatedMark 自警団の兵数が{LOCAL}増加した
 
 RESETCOLOR
@@ -226,22 +226,22 @@ CALL SINGLE_DRAWLINE()
 SETCOLOR カラー_ピンク
 PRINTFORML 突然，%ANAME(対象)%被不明身份的男人们包围了！
 ;TranslatedMark 突然、%ANAME(対象)%は得体の知れない男達に取り囲まれた！
-PRINTFORML 嘴被堵住了，被带进了附近的建筑物里
+PRINTFORML 堵住嘴, 被直接帶進了附近的樓裏
 ;TranslatedMark 口を塞がれ、すぐ近くの建物に連れ込まれた
 PRINTFORMW ……那里是自警团的据点
 ;TranslatedMark ……そこは自警団の拠点だった
-PRINTFORML 你看起来很有前途，为了作为我们的一员进行教育，眼神异常闪亮的男人们说
+PRINTFORML 你看起来很有前途，我们会把你当做我们中的一员来教育的，男人的眼睛里闪烁着诡异的暗光道。
 ;TranslatedMark 君は見込みがありそうだ、我々の一員として教育してあげようと、異様に瞳をキラキラさせた男達は言う
-PRINTFORMW 然后剥下%ANAME(対象)%的衣服，和思想教育一起开始陵辱……
+PRINTFORMW 紧接着剥下%ANAME(対象)%的衣服，开始系统化的洗脑和凌辱......。
 ;TranslatedMark そして%ANAME(対象)%の服を剥ぎ取ると、思想教育とセットで陵辱しはじめた……
 PRINTFORML 
 PRINTFORML 
 PRINTFORML 
-CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+CALL FUCK_SP(対象, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, キス喪失, 腸内射精, 口内射精", 自警団, GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # ペニス \@", "自警団員", "", "輪姦")
 
-PRINTFORMW 由于激烈的陵辱，%ANAME(対象)%完全耗尽了体力
+PRINTFORMW 凌辱实在是太激烈了，%ANAME(対象)%已经完全耗尽了体力
 ;TranslatedMark 激しい陵辱で、%ANAME(対象)%はすっかり体力を使い果たしてしまった
-PRINTFORMW 今天就到此为止吧，从明天开始研修也会继续，为了做好准备，男人们把%ANAME(対象)%关在了室内……
+PRINTFORMW 今天就到此为止吧，为了明天也会照常进行研修活动，男人们把%ANAME(対象)%关在了室内……
 ;TranslatedMark 今日はこれくらいにしておこう、明日からも研修は続くから準備しておくようにと、男達は%ANAME(対象)%を室内に閉じ込めた……
 
 CALL COLOR_PRINTW(@"%ANAME(対象)%が自警団に囚われました", カラー_警告)
@@ -261,65 +261,65 @@ RETURN IS_APPEAR(対象) && CFLAG:対象:行動不能状態 != 行動不能_子�
 PRINTFORMW 被抓住的%ANAME(MASTER)%被拖到了自警团员面前…
 ;TranslatedMark 捕らえられた%ANAME(MASTER)%は自警団員の前に引きずり出された…
 IF GETBIT(TALENT:MASTER:特殊勢力陥落系, 特殊勢力_自警団)
-	PRINTFORML 你不是脱离团队的%ANAME(MASTER)%吗
+	PRINTFORML 你就是那个想要退团的小崽子%ANAME(MASTER)%吧？
 	;TranslatedMark 君は団を抜けた%ANAME(MASTER)%じゃないか
-	PRINTFORMW 本来退团者是不会再回来的规则，但是你很特别，所以允许他回来吧
+	PRINTFORMW 按照规定，退团的人是不能再回来的，但你不一样，这次就破例好了，嘿嘿。
 	;TranslatedMark 本来退団者は二度と戻れない規則だが、君は特別だから出戻りを認めよう
-	PRINTFORMW 团员理所当然地要在%ANAME(MASTER)%身上穿上团体的服装……
+	PRINTFORMW 团员理所当然地要%ANAME(MASTER)%在身上穿上自警团的服装……
 	;TranslatedMark 団員は当然のように、%ANAME(MASTER)%に団の衣装を着せようとしてくるが……
-	CALL ASK_YN("接受", "拒絶")
+	CALL ASK_YN("受け入れる", "拒否する")
 	IF RESULT == 0
-		PRINTFORMW 加上这个，又可以作为团员为大家服务了
+		PRINTFORMW 这样一来，又可以作为团员为大家服务了
 		;TranslatedMark これをつければ、また団員として皆様に尽くすことができる
-		PRINTFORMW %ANAME(MASTER)%的身体疼痛，自己将袖子穿过制服
+		PRINTFORMW 手刚一穿过团员制服的袖子，%ANAME(MASTER)%就感到身体火辣辣的。
 		;TranslatedMark %ANAME(MASTER)%の身体は疼き、自ら制服に袖を通す
-		PRINTFORMW 穿上制服的话，一体感、连带感就会充满内心
+		PRINTFORMW 穿上制服的话，心中充满了团结一致的使命感
 		;TranslatedMark ユニフォームを着ることで、一体感・連帯感といったものが心を満たしていく
-		PRINTFORMW 那么，在回归之前，团员必须要好好接受一次"研修"，带着%ANAME(MASTER)%同行
+		PRINTFORMW 那么，在归队前，%ANAME(MASTER)%必须要带着团员好好接受一次"研修"
 		;TranslatedMark では復帰するまえに、一度しっかり「研修」を受けないとなと、団員は%ANAME(MASTER)%を連行する
-		PRINTFORMW %ANAME(MASTER)%再一次，在自警团的思想下行动，变成了忠实的道具……
+		PRINTFORMW %ANAME(MASTER)%又一次，在自警团的思想指挥下，变成了忠心的玩物……
 		;TranslatedMark %ANAME(MASTER)%は再び、自警団の思想の下動く、忠実な道具に成り下がった……
 		SETCOLOR カラー_注意
 		PRINTFORMW %ANAME(MASTER)%再次成为了自警团人
 		;TranslatedMark %ANAME(MASTER)%は再び、自警団人となりました
 		RESETCOLOR
 	ELSE
-		PRINTFORMW 谁会是那样的东西。将%ANAME(MASTER)%踢开
+		PRINTFORMW 才不要变成那种东西。%ANAME(MASTER)%挣扎抗拒着
 		;TranslatedMark 誰がそんなもの。%ANAME(MASTER)%ははねのける
-		PRINTFORMW 于是团员们就激昂起来了
+		PRINTFORMW 这让团员们恼羞成怒
 		;TranslatedMark すると団員達は激高した
-		PRINTFORMW 本来对不被允许的退团者如此宽容的对待，到底是什么态度呢
+		PRINTFORMW 对忤逆的退团者以如此宽容态度的对待却被冷落，真是给脸不要脸
 		;TranslatedMark 本来許されない退団者にこれほど寛大に接しているというのに、一体なんだその態度は
-		PRINTFORMW 把这扭曲的本性重新振作起来，团员们抓住了%ANAME(MASTER)%，带走了……
+		PRINTFORMW 为了改造这"扭曲"的性格，团员们抓住%ANAME(MASTER)%，带走了……
 		;TranslatedMark そのゆがんだ性根をたたき直してやると、団員達は%ANAME(MASTER)%を取り押さえ、連行した……
 	ENDIF
 ELSE
-	PRINTFORML 团员用异样闪亮的眼睛和笑容迎接%ANAME(MASTER)%
+	PRINTFORML 团员用狡黠猥亵的眼神和淫笑面对着%ANAME(MASTER)%
 	;TranslatedMark 団員は異様にきらきらとした瞳と笑顔で%ANAME(MASTER)%を迎え、
-	PRINTFORMW 你不也作为自警团的一员工作吗？开始说
+	PRINTFORMW 说起来，你不也曾作为自警团的一员而工作吗？
 	;TranslatedMark 君も自警団の一員として働かないか？　と言い始めた
-	PRINTFORMW 如果成为我们的一员就在这里决定的话，虽然说可以省一些"教育"的程序……
+	PRINTFORMW 如果在这里决定成为我们的一员，那么多少可以省去一些"教育"步骤……
 	;TranslatedMark 我々の一員になるとここで決めるなら、「教育」の手順はいくらか省けると言っているが……
-	PRINTFORMW 要接吗？
-	;TranslatedMark 要接受吗？
-	CALL ASK_YN("接受", "拒絶")
+	PRINTFORMW 答不答应？
+	;TranslatedMark 受け入れますか？
+	CALL ASK_YN("受け入れる", "拒否する")
 	IF RESULT == 0
-		PRINTFORMW 比被下狱要好吧。%ANAME(MASTER)%点了点头，他们满足地点了点头
+		PRINTFORMW 总比被关起来好。%ANAME(MASTER)%点了点头，他们满足地点了点头
 		;TranslatedMark 投獄されるよりはマシだろう。%ANAME(MASTER)%が頷くと、彼らは満足げに頷いた
 		PRINTFORMW 那么赶快穿上这个吧，拿出了制服
 		;TranslatedMark では早速これを着てくれと、ユニフォームを差し出してきた
-		PRINTFORMW %ANAME(MASTER)%虽然没有兴趣，但还是穿上了伸出的衣服……
+		PRINTFORMW %ANAME(MASTER)%虽然意兴阑珊，但还是穿上了递过来衣服……
 		;TranslatedMark %ANAME(MASTER)%は気が進まないながら、差し出された衣装に袖を通した……
 		SETCOLOR カラー_注意
 		PRINTFORMW %ANAME(MASTER)%成为了自警团员
 		;TranslatedMark %ANAME(MASTER)%は自警団員となりました
 		RESETCOLOR
 	ELSE
-		PRINTFORMW 我是不会帮助你们的。%ANAME(MASTER)%坚毅地说
-		;TranslatedMark 我是不会协助你们作恶的。%ANAME(MASTER)%坚毅地说到
-		PRINTFORMW 我们好不容易劝诱了他，团员们却激昂起来，开始辱骂%ANAME(MASTER)%
+		PRINTFORMW 我不会背叛的。%ANAME(MASTER)%毅然决然地说
+		;TranslatedMark お前達になど手を貸すか。%ANAME(MASTER)%は毅然として言い放つ
+		PRINTFORMW 团员们勃然大怒，感觉受到了冒犯，开始粗暴地辱骂%ANAME(MASTER)%
 		;TranslatedMark 我々がせっかく勧誘してやったのにと団員達は激高し、%ANAME(MASTER)%を口汚く罵り始めた
-		PRINTFORMW 把这扭曲的本性重新振作起来，团员们抓住了%ANAME(MASTER)%，带走了……
+		PRINTFORMW 为了改造这"扭曲"的性格，团员们抓住%ANAME(MASTER)%，带走了……
 		;TranslatedMark そのゆがんだ性根をたたき直してやると、団員達は%ANAME(MASTER)%を取り押さえ、連行した……
 	ENDIF
 ENDIF
@@ -341,31 +341,31 @@ ENDIF
 ;--------------------------------------
 @VIGILANTE_ENDING
 
-PRINTFORML 自警团的活动一天比一天大
+PRINTFORML 自警团的活动规模日渐扩大
 ;TranslatedMark 自警団の活動は、日に日に大きくなっていった
-PRINTFORML 乱和者被驱逐，被他们抓住，接受"教育"
+PRINTFORML 扰乱和睦的人被驱逐，被他们抓住，接受"教育"
 ;TranslatedMark 和を乱すものは駆逐され、彼らに捕らえられ、「教育」を受けることとなった
-PRINTFORMW ……然后，他们终于迎来了席卷幻想乡的日子
+PRINTFORMW ……之后，由自警团接管幻想乡的那一天终于到来了!
 ;TranslatedMark ……そしてとうとう、彼らが幻想郷を席巻する日が訪れた
-PRINTFORMW 一开始对自警团没有兴趣的少女们，通过热心的"教育"，不知不觉中也获得了作为团员的志向
+PRINTFORMW 一开始对自警团没有兴趣的少女们，在接受热心的"教育"后，不知不觉中开始向往着成为自警团员了
 ;TranslatedMark 最初は自警団に興味のなかった少女たちも、熱心な「教育」によって、いつしか団員としての志を得るようになっていた
-PRINTFORMW 现在她们对于用自己的肉体来劝诱团员一事，什么疑问都不记得了……
+PRINTFORMW 现在，这些母狗毫无顾忌地用身体招募着团员....
 ;TranslatedMark 今や彼女らは、その肉体で団員を勧誘することに、何らの疑問も覚えていない……
 IF CFLAG:MASTER:所属 == GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_自警団) && IS_FEMALE(MASTER)
 	PRINTFORMW 
 	PRINTFORML ……在团员中，也有%ANAME(MASTER)%的身影
 	;TranslatedMark ……団員の中に、%ANAME(MASTER)%の姿もあった
-	PRINTFORMW 称之为劝诱活动，被无数男人包围，为其服务
+	PRINTFORMW 在称之为劝诱活动里，被无数男人包围，为其服务
 	;TranslatedMark 勧誘活動と称して、無数の男に取り囲まれ、奉仕している
-	PRINTFORMW 两个洞都很受欢迎的%PRONOUN(MASTER)%，在团员之间也评价很好
+	PRINTFORMW 两穴都很受欢迎的%PRONOUN(MASTER)%，在团员之间的评价也很高
 	;TranslatedMark 両穴ともに評判である%PRONOUN(MASTER)%は、勧誘上手だと団員の間でも高評価だった
-	PRINTFORML 把肉棒衔进所有洞里的%PRONOUN(MASTER)%，简直就像性奴隶一样
+	PRINTFORML 把鸡巴急不可耐地塞进所有洞里的%PRONOUN(MASTER)%，展现着性奴隶一样的痴态
 	;TranslatedMark あらゆる穴に肉棒を咥え込む%PRONOUN(MASTER)%の様は、まるで性奴隷のようだ
-	PRINTFORMW 然而，%ANAME(MASTER)%却完全不认为自己是悲惨的
+	PRINTFORMW 然而，%ANAME(MASTER)%却完全不认为自己是境遇悲惨的可怜虫
 	;TranslatedMark けれども%ANAME(MASTER)%は、自らを惨めだなどとは一切考えていない
-	PRINTFORMW 倒不如说，能够献身于崇高的自警团的理念，甚至觉得光荣……
+	PRINTFORMW 倒不如说，能够献身于崇高的自警团的理念，是一种荣幸……
 	;TranslatedMark むしろ、崇高なる自警団の理念に身を捧げることができて、光栄だとすら考えている……
-	CALL FUCK_SP(MASTER, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, 接吻喪失, 腸内射精, 口内射精", GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_自警団), GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # 肉棒 \@", "自警団員", "", "輪姦")
+	CALL FUCK_SP(MASTER, "欲望, 精愛, 性交, Ａ, Ｖ, Ｂ, Ｃ, Ｍ, 苦痛快楽, 緊縛, 輪姦, 口淫, Ｖ性交, Ａ性交", "膣内射精, 処女喪失, Ａ処女喪失, キス喪失, 腸内射精, 口内射精", GET_COUNTRY_FROM_ID(SP_COUNTRY_ID:特殊勢力_自警団), GET_SPERM_ID("自警団員"), @"自警団員の\@ RAND:2 ? 唇 # ペニス \@", "自警団員", "", "輪姦")
 ENDIF
 PRINTFORML 
 PRINTFORMW 幻想乡今后也会在自警团的名义下继续保持和平吧……

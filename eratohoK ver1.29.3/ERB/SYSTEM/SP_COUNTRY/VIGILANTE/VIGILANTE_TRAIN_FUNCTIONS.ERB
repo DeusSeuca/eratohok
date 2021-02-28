@@ -16,8 +16,8 @@ IF !GETBIT(TALENT:対象:特殊勢力陥落系, 特殊勢力_自警団)
 	PRINTFORMW 现在，%ANAME(対象)%已经作为忠实的团员被改造到了思考的最底层……
 	;TranslatedMark 今や%ANAME(対象)%は思考の根底まで、忠実な団員として作り替えられていた……
 	IF TALENT:対象:烙印
-		PRINTFORML 在%ANAME(対象)%身上表明%ANAME(MASTER)%专用身份的烙印之上
-		;TranslatedMark 在%ANAME(対象)%身上表明%ANAME(MASTER)%専用身份的烙印之上、
+		PRINTFORML 从表示%ANAME(対象)%是%ANAME(MASTER)%专用的烙印上
+		;TranslatedMark %ANAME(対象)%が%ANAME(MASTER)%専用であることを示す烙印の上から、
 		PRINTFORMW 刻上了自警团员的证明
 		;TranslatedMark 自警団員の証である焼き印が施された
 		TALENT:対象:烙印 = 0
